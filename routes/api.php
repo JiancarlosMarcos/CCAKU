@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +17,3 @@ use App\Http\Controllers\ClienteController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/usuarios', [UserController::class, 'ObtenerUsuarios']);
-Route::get('/clientes', [ClienteController::class, 'Obtenerclientes']);
-Route::get('/ubicaciones', [ClienteController::class, 'Obtenerubicaciones']);
-Route::get('/transportistas', [ClienteController::class, 'Obtenertransportistas']);

@@ -1,7 +1,10 @@
+
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <h1>Bienvenido</h1>
+            <figure class="avatar" style="padding: 0">
+                <img style="width: 130px; height:124px; background:#7f7f7f39; border-color:#d9d9d9;border-width:3px;border-style:solid" src="{{url("/image/logo-cuadrado.jpg") }}">
+            </figure>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
@@ -39,9 +42,10 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4" >
+                <x-jet-button class="ml-4" style="background:#F4A71D; color:#000">
                     {{ __('Log in') }}
                 </x-jet-button>
+
             </div>
         </form>
     </x-jet-authentication-card>
