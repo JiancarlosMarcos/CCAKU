@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Livewire\Clientes;
+use App\Http\Livewire\Transportistas;
+use App\Http\Livewire\Cargas;
+use App\Http\Livewire\Vehiculos;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +25,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
+    // Route::get('/clientes', Clientes::class)->name('clientes');
+    // Route::get('/transportistas', Transportistas::class)->name('transportistas');
+    // Route::get('/cargas', Cargas::class)->name('cargas');
+    // Route::get('/vehiculos', Vehiculos::class)->name('vehiculos');
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
