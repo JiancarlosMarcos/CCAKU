@@ -188,7 +188,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -239,7 +239,7 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Buscar',
         ],
         [
             'text' => 'blog',
@@ -249,28 +249,30 @@ return [
         [
             'text'        => 'Buscador',
             'url'         => 'admin/buscador',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'icon'        => 'fas fa-solid fa-globe',
+
+            // 'label'       => 4,
+            // 'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        // ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
+            'text' => 'Usuarios',
+            'url'  => 'admin/usuarios',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Mapa',
+            'url'  => 'dashboard',
+            'icon' => 'fas fa-solid fa-map',
         ],
         [
             'text'    => 'Clientes/Trasportistas',
-            'icon'    => 'fas fa-fw fa-share',
+            'icon'    => 'fas fa-solid fa-truck',
             'submenu' => [
                 [
                     'text' => 'Clientes',
                     'url'  => 'admin/clientes',
+
 
                 ],
                 // [
@@ -299,32 +301,40 @@ return [
                 // ],
                 [
                     'text' => 'Transportistas',
-                    'url'  => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Vehiculos',
-                            'url'  => '#',
-                        ],
-                    ],
+                    'url'  => 'admin/transportistas',
+
                 ],
             ],
         ],
-        ['header' => 'labels'],
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
+            'text' => 'Requerimientos',
+            'url'  => 'admin/requerimientos',
+            'icon' => 'fas fa-solid fa-clipboard-list',
+
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
+            'text' => 'Cotizaciones',
+            'url'  => 'admin/cotizaciones',
+            'icon' => 'fas fa-solid fa-dollar-sign',
+
+
         ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+        // ['header' => 'labels'],
+        // [
+        //     'text'       => 'important',
+        //     'icon_color' => 'red',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'warning',
+        //     'icon_color' => 'yellow',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'information',
+        //     'icon_color' => 'cyan',
+        //     'url'        => '#',
+        // ],
     ],
 
     /*
