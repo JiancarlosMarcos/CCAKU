@@ -111,13 +111,14 @@ Cargando...
           <table class="table table-bordered display" id="sampleTable">
             <thead>
               <tr>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="cargo_contacto" data-column="0" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="0" /></td>
              <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre_contacto" data-column="1" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="celular" data-column="2" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="correo_contacto" data-column="3" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="empresa" data-column="4" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="5" /></td>
-             <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha" data-column="6" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="cargo" data-column="2" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="celuar" data-column="3" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="correo" data-column="4" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="empresa" data-column="5" /></td>
+             <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_creacion" data-column="6" /></td>
+             <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_modificacion" data-column="7" /></td>
              <td></td>
             </tr>
               <tr style="background:#00000099;color:#fff;border:3px solid #fff">
@@ -200,14 +201,14 @@ Cargando...
 function LimpiarFiltros(){
   var table = $('#sampleTable').DataTable();
   table.search( '' ).columns().search( '' ).draw();
-  document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
+  document.getElementById("dni_ruc").options.item(0).selected = 'selected';
   document.getElementById("nombre_contacto").value = ' ';
-  document.getElementById("correo_contacto").value = ' ';
+  document.getElementById("cargo").value = ' ';
   document.getElementById("celular").value = ' ';
+  document.getElementById("correo").value = ' ';
   document.getElementById("empresa").value = ' ';
-  document.getElementById("dni_ruc").value = ' ';
-  document.getElementById("fecha").value = ' ';
-
+  document.getElementById("fecha_creacion").value = ' ';
+  document.getElementById("fecha_modificacion").value = ' ';
 }
 
 </script>
@@ -294,36 +295,7 @@ function Eliminar(){
     </script>
 
 
-
      <script type="text/javascript" src="{{asset('js2/plugins/sweetalert.min.js')}}"></script>
 
-    <script>
-   
 
-        //SweetAlert2 Para eliminar
-        $(function(){
-          $(document).on('click','#delete',function(e){
-          e.preventDefault();
-          var link = $(this).attr("href");
-            swal({
-              title: "Estas Seguro?",
-              text: "Una vez eliminado, no podrás recuperarlo",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonText: "Sí, Eliminarlo",
-              cancelButtonText: "No, Cancelarlo",
-              closeOnConfirm: false,
-              closeOnCancel: false
-            }, function(isConfirm) {
-              if (isConfirm) {
-                window.location.href = link
-              
-              } else {
-                swal("Cancelado","", "error");
-              }
-            });
-          });
-        });
-         
-    </script>
 @stop

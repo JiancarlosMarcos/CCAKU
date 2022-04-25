@@ -107,31 +107,32 @@
           <table class="table table-bordered display" id="tablaClientes">
             <thead>
               <tr>
-              <td>
-              <select data-column="0"  class="form-control filter-select" id="select_tipo_empresa">
-              <option value=" " selected ></option>
-               <option value="Empresa">Empresa</option>
-               <option value="Persona Natural">Persona Natural</option>
-              </select>
-              </td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre" data-column="0" /></td>
               <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre" data-column="2" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="clasificacion" data-column="3" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="via_ingreso" data-column="4" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web" data-column="5" /></td>
-              <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_reacion" data-column="5" /></td>
+              <td>
+                <select data-column="2"  class="form-control filter-select" id="select_tipo_empresa">
+                  <option value=" " selected ></option>
+                  <option value="Empresa">Empresa</option>
+                  <option value="Persona Natural">Persona Natural</option>
+                </select>
+              </td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="direccion" data-column="3" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web" data-column="4" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_creacion" data-column="5" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_modificacion" data-column="6" /></td>
 
               <td></td>
 
             </tr>
               <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                <th >ID</th>
+
                 <th>Nombre</th>
                 <th>DNI/RUC</th>
-                <th>Id Tipo</th>
+                <th>Tipo de<br>Cliente</th>
                 <th>Direccion</th>
                 <th>Pagina Web</th>
                 <th>Fecha de<br>Creacion</th>
+                <th>Fecha de<br>Modificacion</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -155,13 +156,13 @@
       serverSider: true,
        ajax: '{{ route('lista_clientes') }}',
       columns: [
-        {data: 'id'},
         {data: 'nombre'},
         {data: 'dni_ruc'},
-        {data: 'id_tipo'},
+        {data: 'tipo_cliente'},
         {data: 'direccion'},
         {data: 'pagina_web'},
         {data: 'created_at'},
+        {data: 'updated_at'},
         {data: 'btn_clientes'},
 
       ],
@@ -199,15 +200,13 @@
 function LimpiarFiltros(){
   var table = $('#tablaClientes').DataTable();
   table.search( '' ).columns().search( '' ).draw();
-  document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-  document.getElementById("pagina_web").value = ' ';
-  document.getElementById("responsable_registro").value = ' ';
-  document.getElementById("fecha_creacion").value = ' ';
-  document.getElementById("via_ingreso").value = ' ';
-  document.getElementById("clasificacion").value = ' ';
   document.getElementById("nombre").value = ' ';
   document.getElementById("dni_ruc").value = ' ';
-
+  document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
+  document.getElementById("direccion").value = ' ';
+  document.getElementById("pagina_web").value = ' ';
+  document.getElementById("fecha_creacion").value = ' ';
+  document.getElementById("fecha_creacion").value = ' ';
 }
 
 </script>

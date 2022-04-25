@@ -54,9 +54,7 @@
                           '<select name="id_empresa" id="empresa'+id+'" class="form-control buscador-empresa" style="width:420px">'+
                            '<option value="" selected disabled>Seleccionar Empresa</option>'+
                             @foreach($empresas as $empresa)
-                            @if($empresa->id_indicador=='1' || $empresa->id_indicador=='3')
                             '<option value="{{$empresa->id}}">{{$empresa->nombre}}</option>'+
-                            @endif
                              @endforeach
                             '</select>'+
                           @error('nombre')
@@ -82,5 +80,39 @@
                      }             
          
  </script>
+
+<!-- Essential javascripts for application to work-->
+<!--<script src="{{asset('backend/js/jquery-3.3.1.min.js')}}"></script>-->
+<script src="{{asset('js2/popper.min.js')}}"></script>
+<script src="{{asset('js2/bootstrap.min.js')}}"></script>
+<script src="{{asset('js2/main.js')}}"></script>
+
+<script src="{{asset('js2/product.js')}}"></script>
+
+<script type="text/javascript" src="{{asset('js2/plugins/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js2/plugins/dataTables.bootstrap.min.js')}}"></script>
+
+
+
+
+
+<script src="https://kit.fontawesome.com/102c277d5c.js" crossorigin="anonymous"></script>
+<!-- extension responsive -->
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script> 
+
+<!-- The javascript plugin to display page loading on top-->
+<script src="{{asset('js2/plugins/pace.min.js')}}"></script>
+<!-- Page specific javascripts-->
+<script type="text/javascript" src="{{asset('js2/plugins/chart.js')}}"></script>
+<script type="text/javascript">
+
+</script>
+
+
+
+<script type="text/javascript" src="{{asset('js2/plugins/sweetalert.min.js')}}"></script>
+
+
 
  

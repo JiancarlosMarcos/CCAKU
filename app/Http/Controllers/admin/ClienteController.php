@@ -20,17 +20,8 @@ class ClienteController extends Controller
 
     public function vista_clientes(Request $request)
     {
-
-        return DataTables::of(Cliente::select(
-            'id',
-            'nombre',
-            'dni_ruc',
-            'id_tipo',
-            'direccion',
-            'pagina_web',
-            'created_at',
-
-        ))
+        $clientes = Cliente::all();
+        return DataTables::of($clientes)
             // ->editColumn('created_at', function (Cliente $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
             // })
@@ -66,7 +57,7 @@ class ClienteController extends Controller
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
         // $empresa->responsable_registro = $request->usuario;
-        $empresa->id_tipo = $tipo_empresa;
+        $empresa->tipo_cliente = $tipo_empresa;
         $empresa->save();
         $nombre_empresa = $request->razon_social;
 
@@ -126,7 +117,7 @@ class ClienteController extends Controller
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
         // $empresa->responsable_registro = $request->usuario;
-        $empresa->id_tipo = $tipo_empresa;
+        $empresa->tipo_cliente = $tipo_empresa;
         $empresa->save();
 
         $contador = $request->contador;

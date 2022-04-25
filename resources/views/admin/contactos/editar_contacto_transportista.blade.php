@@ -54,9 +54,7 @@
                           '<select name="id_empresa" id="empresa'+id+'" class="form-control buscador-empresa" style="width:420px">'+
                            '<option value="" selected disabled>Seleccionar Empresa</option>'+
                             @foreach($empresas as $empresa)
-                            @if($empresa->id_indicador=='1' || $empresa->id_indicador=='3')
                             '<option value="{{$empresa->id}}">{{$empresa->nombre}}</option>'+
-                            @endif
                              @endforeach
                             '</select>'+
                           @error('nombre')

@@ -262,7 +262,7 @@ return [
         ],
         [
             'text' => 'Mapa',
-            'url'  => 'dashboard',
+            'url'  => 'admin/mapa',
             'icon' => 'fas fa-solid fa-map',
         ],
         [

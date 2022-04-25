@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ContactoTransportista;
 use Illuminate\Http\Request;
 use App\Models\Transportista;
-
+use App\Models\VistaTransportista;
+use App\Models\Vehiculo;
+use App\Models\Ubicacion;
 use Yajra\DataTables\DataTables;
 
 class TransportistaController extends Controller
@@ -19,17 +21,8 @@ class TransportistaController extends Controller
 
     public function vista_transportistas(Request $request)
     {
-
-        return DataTables::of(Transportista::select(
-            'id',
-            'nombre',
-            'dni_ruc',
-            'id_tipo',
-            'direccion',
-            'pagina_web',
-            'created_at',
-
-        ))
+        $transportistas = VistaTransportista::all();
+        return DataTables::of($transportistas)
             // ->editColumn('created_at', function (Transportista $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
             // })
@@ -39,7 +32,8 @@ class TransportistaController extends Controller
     }
     public function form_agregar_transportista()
     {
-        return view('admin.agregar_transportista');
+        $ubicaciones = Ubicacion::all();
+        return view('admin.agregar_transportista', compact('ubicaciones'));
     }
 
     public function agregar_transportista(Request $request)
@@ -49,29 +43,26 @@ class TransportistaController extends Controller
             []
         );
         $dni_ruc = $request->dni_ruc;
-
         if (strlen($dni_ruc) == '11') {
             $tipo_empresa = '1';
         } else {
             $tipo_empresa = '2';
         }
-
         $empresa = new Transportista;
         $empresa->dni_ruc = $request->dni_ruc;
         $empresa->nombre = $request->razon_social;
         $empresa->direccion = $request->direccion;
         $empresa->pagina_web = $request->pagina_web;
-        // $empresa->id_clasificacion = $request->id_clasificacion;
-        // $empresa->id_via_ingreso = $request->id_via_ingreso;
-        // $empresa->id_indicador = $request->id_indicador;
-        // $empresa->responsable_registro = $request->usuario;
+        $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
         $nombre_empresa = $request->razon_social;
 
+
         $id = $empresa->id;
         $contador = $request->contador;
-        // $usuario = $request->usuario;
+        $contador_t = $request->contador_t;
+        $usuario = $request->usuario;
 
         for ($i = 0; $i < $contador; $i++) {
             $contacto = new ContactoTransportista;
@@ -81,8 +72,22 @@ class TransportistaController extends Controller
             $contacto->correo = $request->correo[$i];
             $contacto->id_transportista = $id;
             $contacto->dni = $request->dni[$i];
-            // $contacto->responsable_registro = $usuario;
+            $contacto->responsable_registro = $usuario;
             $contacto->save();
+        }
+
+        for ($j = 0; $j < $contador_t; $j++) {
+            $equipos = new Vehiculo;
+            $equipos->tipo = $request->tipo_t[$j];
+            $equipos->marca = $request->marca_t[$j];
+            $equipos->placa = $request->placa_t[$j];
+            $equipos->capacidad = $request->capacidad_t[$j];
+            $equipos->estado = $request->estado_t[$j];
+            $equipos->id_transportista = $id;
+            $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
+            $equipos->modelo = $request->modelo_t[$j];
+            $equipos->cantidad_ejes = $request->cantidad_ejes_t[$j];
+            $equipos->save();
         }
         $notification = array(
             'mensaje' => 'Transportista ' . $nombre_empresa . ' registrado correctamente!',
@@ -124,12 +129,12 @@ class TransportistaController extends Controller
         $empresa->pagina_web = $request->pagina_web;
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
-        // $empresa->responsable_registro = $request->usuario;
+        $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
 
         $contador = $request->contador;
-        // $usuario = $request->usuario;
+        $usuario = $request->usuario;
 
         //Elimina todos los contactos de determinada empresa
         //Contacto::where('id',$id)->delete();
@@ -158,7 +163,7 @@ class TransportistaController extends Controller
                 $contacto->cargo = $request->cargo[$i];
                 $contacto->correo = $request->correo[$i];
                 $contacto->id_transportista = $id;
-                // $contacto->responsable_registro = $usuario;
+                $contacto->responsable_registro = $usuario;
                 $contacto->save();
             } else {
                 $contacto_nuevo = new ContactoTransportista;
@@ -168,7 +173,7 @@ class TransportistaController extends Controller
                 $contacto_nuevo->cargo = $request->cargo[$i];
                 $contacto_nuevo->correo = $request->correo[$i];
                 $contacto_nuevo->id_transportista = $id;
-                // $contacto_nuevo->responsable_registro = $usuario;
+                $contacto_nuevo->responsable_registro = $usuario;
                 $contacto_nuevo->save();
             }
         }

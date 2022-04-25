@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('adminlte::page')
+@section('title', 'Mapa')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MDN-PT | Mapa</title>
+@section('content_header')
+
+@stop
+
+@section('content')
+    <div class="botones">
+        <a class="boton" href="{{ route('mapa_todos_transportes_admin') }}">Transportes</a>
+        <a class="boton" href="{{ route('mapa_todos_equipos_admin') }}">Cargas</a>
+        <a class="boton" href="{{ route('mapa_todos_admin') }}">Todos</a>
+    </div>
+    <div class="encontrados">
+        @if ($transportes != null)
+            <ul class="lista-encontrados">
+                @foreach ($transportes as $transporte)
+                    <a class="encontrado" href="">{{ $transporte->tipo }} {{ $transporte->marca }}
+                        {{ $transporte->modelo }}</a><br>
+                @endforeach
+            </ul>
+        @endif
+    </div>
+    <div id='map'></div>
+
+
+@stop
+
+@section('css')
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
@@ -20,12 +41,47 @@
             padding: 0;
         }
 
+        .botones {
+            position: absolute;
+            margin-top: 20px;
+            z-index: 200;
+            margin-top: 30px;
+            margin-left: 20px;
+        }
+
+        .boton {
+            text-decoration: none;
+            padding: 10px;
+            width: 100px;
+            background-color: rgb(55, 55, 55);
+            border-radius: 20px;
+            color: rgb(252, 252, 252);
+        }
+
+        .encontrados {
+            position: absolute;
+            margin-top: 100px;
+            z-index: 200;
+            margin-bottom: 30px;
+            margin-left: 20px;
+
+        }
+
+        .lista-encontrados {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            color: white
+        }
+
+        .encontrado {
+            color: white
+        }
+
     </style>
-</head>
+@stop
 
-<body>
-    <div id='map'></div>
-
+@section('js')
     <script>
         var bounds = [
 
@@ -299,103 +355,5 @@
             });
 
         })
-
-
-        // const geojson = {
-        //     "type": "FeatureCollection",
-        //     "features_t": [
-        @if ($transportes != null)
-            // @foreach ($transportes as $transporte)
-                // {
-                // "type": "Feature",
-                // "geometry": {
-                // "type": "Point",
-                // "coordinates": [
-                // {{ $transporte->longitud }},
-                // {{ $transporte->latitud }}
-                // ]
-                // },
-                // "properties": {
-                // "title": "{{ $transporte->tipo }}",
-                // "description": "{{ $transporte->empresa }}",
-                // 'iconMarker': '{{ $transporte->tipo }}',
-                // }
-                // },
-                //
-            @endforeach
-            // @endif
-        //     ],
-        //     "features_c": [
-        @if ($cargas != null)
-            // @foreach ($cargas as $carga)
-                // {
-                // "type": "Feature",
-                // "geometry": {
-                // "type": "Point",
-                // "coordinates": [
-                // {{ $carga->longitud }},
-                // {{ $carga->latitud }}
-                // ]
-                // },
-                // "properties": {
-                // "title": "{{ $carga->tipo }}",
-                // "description": "{{ $carga->empresa }}",
-        
-                // }
-                // },
-                //
-            @endforeach
-            // @endif
-        //     ]
-
-        // };
-
-        // // add markers to map
-        @if ($transportes != null)
-            // for (const feature_t of geojson.features_t) {
-            // // create a HTML element for each feature
-            // const veh = document.createElement('div');
-        
-            // veh.className = `marker tracto`;
-        
-            // // make a marker for each feature and add it to the map
-            // new mapboxgl.Marker(veh)
-            // .setLngLat(feature_t.geometry.coordinates)
-            // .setPopup(
-            // new mapboxgl.Popup({
-            // offset: 25
-            // }) // add popups
-            // .setHTML(
-            // `<h3>${feature_t.properties.title}</h3>
-            // <p>${feature_t.properties.description}</p>`
-            // )
-            // )
-            // .addTo(map);
-            // }
-            //
-        @endif
-        @if ($cargas != null)
-            // // add markers to map
-            // for (const feature_c of geojson.features_c) {
-            // // create a HTML element for each feature
-            // const car = document.createElement('div');
-        
-            // car.className = 'marker-car';
-            // // make a marker for each feature and add it to the map
-            // new mapboxgl.Marker(car)
-            // .setLngLat(feature_c.geometry.coordinates)
-            // .setPopup(
-            // new mapboxgl.Popup({
-            // offset: 25
-            // }) // add popups
-            // .setHTML(
-            // `<h3>${feature_c.properties.title}</h3>
-            // <p>${feature_c.properties.description}</p>`)
-            // ).addTo(map);
-            // }
-            //
-        @endif
     </script>
-</body>
-
-</html>
+@stop

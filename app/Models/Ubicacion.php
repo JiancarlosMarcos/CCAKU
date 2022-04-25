@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class Ubicacion extends Model
 {
-    protected $table = "vista_clientes";
+    protected $table = "ubicacion";
     use HasFactory;
 }

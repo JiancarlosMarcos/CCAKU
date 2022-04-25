@@ -90,7 +90,7 @@ class ContactoController extends Controller
         $empresa = $request->id_empresa;
         if ($empresa == "") {
         } else {
-            $contacto->id_empresa = $request->id_empresa;
+            $contacto->id_cliente = $request->id_empresa;
         }
         $contacto->save();
 
@@ -134,7 +134,7 @@ class ContactoController extends Controller
         $empresa = $request->id_empresa;
         if ($empresa == "") {
         } else {
-            $contacto->id_empresa = $request->id_empresa;
+            $contacto->id_transportista = $request->id_empresa;
         }
         $contacto->save();
 

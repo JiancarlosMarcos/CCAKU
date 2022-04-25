@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Vista_Cargas_Clientes;
+use App\Models\VistaCarga;
 use Yajra\DataTables\DataTables;
 
 class CargasController extends Controller
@@ -19,7 +19,7 @@ class CargasController extends Controller
     public function vista_cargas(Request $request)
     {
 
-        return DataTables::of(Vista_Cargas_Clientes::select(
+        return DataTables::of(VistaCarga::select(
             'id',
             'empresa',
             'tipo',

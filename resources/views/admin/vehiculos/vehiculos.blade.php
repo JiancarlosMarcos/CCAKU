@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
-@section("titulo", "Transportistas")
+@section("titulo", "Clientes")
 <style>
 @import  url(https://fonts.googleapis.com/css?family=Montserrat);
 
@@ -61,9 +61,9 @@
 <div class="app-title">
   <div>
     <h1>
-      <a href="{{route('transportistas')}}" class="btn btn-primary" style="background:#777;border-color:#777">Transportistas</a>
+      <a href="{{route('transportistas')}}" class="btn btn-primary" style="color:#777;background:#fff;border-color:#777">Transportistas</a>
       <a href="{{route('transportistas.contactos.mostrar')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a> 
-      <a href="{{route('vehiculos')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Transportes</a> 
+      <a href="{{route('vehiculos')}}" class="btn btn-primary " style="background:#777;border-color:#777">Transportes</a> 
 
     </h1>
  
@@ -72,7 +72,7 @@
 
   <ul class="app-breadcrumb breadcrumb">
     <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-    <li class="breadcrumb-item"><a href=""></a>Transportistas</li>
+    <li class="breadcrumb-item"><a href=""></a>Vehiculos</li>
   </ul>
 </div>
 @include("notificacion") 
@@ -104,36 +104,51 @@
      </div><br>  
       <div class="tile-body">
         <div class="table-responsive">
-          <table class="table table-bordered display" id="tablaTransportistas">
+          <table class="table table-bordered display" id="tablaClientes">
             <thead>
               <tr>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre" data-column="0" /></td>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
-                <td>
-                  <select data-column="2"  class="form-control filter-select" id="select_tipo_empresa">
-                    <option value=" " selected ></option>
-                    <option value="Empresa">Empresa</option>
-                    <option value="Persona Natural">Persona Natural</option>
-                  </select>
-                </td>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="direccion" data-column="3" /></td>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web" data-column="4" /></td>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="responsable_registro" data-column="5" /></td>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_creacion" data-column="6" /></td>
-                <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_modificacion" data-column="7" /></td>
 
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="empresa" data-column="0" /></td>
+              <td>
+                <select data-column="1"  class="form-control filter-select" id="select_tipo_empresa">
+                <option value=" " selected ></option>
+                 <option value="Tracto">Tracto</option>
+                 <option value="Camabaja">Camabaja</option>
+                 <option value="Camion Plataforma">Camion Plataforma</option>
+                </select>
+                </td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre" data-column="2" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="clasificacion" data-column="3" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="via_ingreso" data-column="4" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web" data-column="5" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha_reacion" data-column="5" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
+              <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc" data-column="1" /></td>
               <td></td>
 
             </tr>
               <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                <th>Nombre</th>
-                <th>DNI/RUC</th>
-                <th>Tipo de<br>Transportista</th>
-                <th>Direccion</th>
-                <th>Pagina Web</th>
-                <th>Responsable<br>de Registro</th>
-                <th>Fecha de<br>Creacion</th>
-                <th>Fecha de<br>Modificacion</th>
+                <th>Empresa</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Ubicacion</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Placa</th>
+                <th>Volumen</th>
+                <th>Largo</th>
+                <th>Ancho</th>
+                <th>Altura</th>
+                <th>Capacidad</th>
+                <th>Cantidad<br>de ejes</th>
+                <th>anio</th>
+                <th>Guia de<br>Remision</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -152,19 +167,26 @@
 
 <script>
   $(document).ready(function(){
-    var table = $('#tablaTransportistas').DataTable({
+    var table = $('#tablaClientes').DataTable({
   
       serverSider: true,
-       ajax: '{{ route('lista_transportistas') }}',
+       ajax: '{{ route('lista_vehiculos') }}',
       columns: [
-        {data: 'nombre'},
-        {data: 'dni_ruc'},
-        {data: 'tipo_transportista'},
-        {data: 'direccion'},
-        {data: 'pagina_web'},
-        {data: 'responsable_registro'},
-        {data: 'created_at'},
-        {data: 'updated_at'},
+        {data: 'empresa'},
+        {data: 'tipo'},
+        {data: 'estado'},
+        {data: 'departamento'},
+        {data: 'marca'},
+        {data: 'modelo'},
+        {data: 'placa'},
+        {data: 'volumen'},
+        {data: 'largo'},
+        {data: 'ancho'},
+        {data: 'altura'},
+        {data: 'capacidad'},
+        {data: 'cantidad_ejes'},
+        {data: 'anio'},
+        {data: 'guia_remision'},
         {data: 'btn_transportistas'},
 
       ],
@@ -200,16 +222,16 @@
 
 <script>
 function LimpiarFiltros(){
-  var table = $('#tablaTransportistas').DataTable();
+  var table = $('#tablaClientes').DataTable();
   table.search( '' ).columns().search( '' ).draw();
-  document.getElementById("nombre").value = ' ';
-  document.getElementById("dni_ruc").value = ' ';
   document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-  document.getElementById("direccion").value = ' ';
   document.getElementById("pagina_web").value = ' ';
   document.getElementById("responsable_registro").value = ' ';
   document.getElementById("fecha_creacion").value = ' ';
-  document.getElementById("fecha_creacion").value = ' ';
+  document.getElementById("via_ingreso").value = ' ';
+  document.getElementById("clasificacion").value = ' ';
+  document.getElementById("nombre").value = ' ';
+  document.getElementById("dni_ruc").value = ' ';
 
 }
 
@@ -326,7 +348,7 @@ function Eliminar(){
             });
           });
         });
-         
+
     </script>
 @stop
 

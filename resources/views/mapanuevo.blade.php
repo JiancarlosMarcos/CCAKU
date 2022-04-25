@@ -20,6 +20,42 @@
             padding: 0;
         }
 
+        /*
+        .camabaja {
+            background-image: url('{{ url('/image/camabaja.webp') }}');
+        }
+
+        .tracto {
+            background-image: url('{{ url('/image/tracto.jpg') }}');
+        }
+
+        .marker {
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .marker-car {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/62/62065.png?w=360');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+
+        }
+
+        .mapboxgl-popup-content {
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        } */
+
     </style>
 </head>
 
@@ -49,42 +85,34 @@
         });
 
         map.loadImage(
-            '{{ url('/image/camabaja-modified.png') }}',
+            '{{ url('/iconos/11.png') }}',
             function(error, image1) {
                 if (error) throw error;
-                map.addImage('custom-marker Camabaja', image1);
+                map.addImage('custom-markerCamabaja', image1);
 
             });
 
         map.loadImage(
-            '{{ url('/image/tracto-modified.png') }}',
+            '{{ url('/iconos/22.png') }}',
             function(error, image2) {
                 if (error) throw error;
-                map.addImage('custom-marker Tracto', image2);
+                map.addImage('custom-markerTracto', image2);
 
             });
 
         map.loadImage(
-            '{{ url('/image/camacuna-modified.png') }}',
+            '{{ url('/iconos/33.png') }}',
             function(error, image3) {
                 if (error) throw error;
-                map.addImage('custom-marker Camacuna', image3);
-
-            });
-
-        map.loadImage(
-            '{{ url('/image/plataforma-modified.png') }}',
-            function(error, image4) {
-                if (error) throw error;
-                map.addImage('custom-marker Camion Plataforma', image4);
+                map.addImage('custom-markerCamacuna', image3);
 
             });
 
         map.loadImage(
             '{{ url('/iconos/44.png') }}',
-            function(error, image5) {
+            function(error, image4) {
                 if (error) throw error;
-                map.addImage('custom-marker Carga', image5);
+                map.addImage('custom-markerCamion Plataforma', image4);
 
             });
 
@@ -99,52 +127,23 @@
                 data: {
                     'type': 'FeatureCollection',
                     'features': [
-                        @if ($transportes != null)
-                            @foreach ($transportes as $transporte)
-                                {
-                                'type': 'Feature',
-                                'properties': {
-                                'message': 'Foo',
-                                'nombre': '{{ $transporte->tipo . ' ' . $transporte->marca . ' ' . $transporte->modelo }}',
-                                'empresa': '{{ $transporte->empresa }}',
-                                'id': '{{ $transporte->id }}',
-                                'anio': '{{ $transporte->anio }}',
-                                'estado': '{{ $transporte->estado }}',
-                                'peso': '',
-                                'ejes': '{{ $transporte->cantidad_ejes }}',
-                                'capacidad': '{{ $transporte->capacidad }}',
-                                'iconMarker': '{{ $transporte->tipo }}',
-                                },
-                                'geometry': {
-                                'type': 'Point',
-                                'coordinates': ['{{ $transporte->longitud }}', '{{ $transporte->latitud }}'],
-                                }
-                                },
-                            @endforeach
-                        @endif
-                        @if ($cargas != null)
-                            @foreach ($cargas as $carga)
-                                {
-                                'type': 'Feature',
-                                'properties': {
-                                'message': 'Foo',
-                                'nombre': '{{ $carga->tipo . ' ' . $carga->marca . ' ' . $carga->modelo }}',
-                                'empresa': '{{ $carga->empresa }}',
-                                'id': '{{ $carga->id }}',
-                                'anio': '',
-                                'estado': '',
-                                'peso': '{{ $carga->peso }}',
-                                'ejes': '',
-                                'capacidad': '',
-                                'iconMarker': 'Carga',
-                                },
-                                'geometry': {
-                                'type': 'Point',
-                                'coordinates': ['{{ $carga->longitud }}', '{{ $carga->latitud }}'],
-                                }
-                                },
-                            @endforeach
-                        @endif
+                        @foreach ($transportes as $transporte)
+                            {
+                            'type': 'Feature',
+                            'properties': {
+                            'message': 'Foo',
+                            'nombre': '{{ $transporte->tipo . ' ' . $transporte->marca . ' ' . $transporte->modelo }}',
+                            'empresa': '{{ $transporte->empresa }}',
+                            'iconMarker': '{{ $transporte->tipo }}',
+                            },
+                            'geometry': {
+                            'type': 'Point',
+                            'coordinates': ['{{ $transporte->longitud }}', '{{ $transporte->latitud }}'],
+                            }
+                            },
+                        @endforeach
+
+
                     ]
                 },
                 cluster: true,
@@ -200,7 +199,7 @@
                 type: 'symbol',
                 layout: {
 
-                    'icon-image': 'custom-marker' + ' ' + '{iconMarker}',
+                    'icon-image': 'custom-marker' + '{iconMarker}',
                     //'icon-image': 'custom-markercamabaja',
                     'icon-size': 1,
                     // get the title name from the source's "title" property
@@ -224,48 +223,22 @@
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var empresa = e.features[0].properties.empresa;
                 var nombre = e.features[0].properties.nombre;
-                var id = e.features[0].properties.id;
-                var anio = e.features[0].properties.anio;
-                var estado = e.features[0].properties.estado;
-                var peso = e.features[0].properties.peso;
-                var ejes = e.features[0].properties.ejes;
-                var capacidad = e.features[0].properties.capacidad;
 
                 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
                 //Creamos el POPUP para los marcadores
-                if (anio == "" && capacidad == "" && estado == "") {
-                    new mapboxgl.Popup({
-                            offset: 15,
-                            closeOnClick: true
-                        })
-                        .setLngLat(coordinates)
-                        .setHTML(
+                new mapboxgl.Popup({
+                        offset: 15,
+                        closeOnClick: true
+                    })
+                    .setLngLat(coordinates)
+                    .setHTML(
+                        ' - <b>' + nombre +
 
-                            ' <b>' + nombre +
-                            '</b><br>Empresa: ' + empresa +
-                            '<br>Peso: ' + peso +
-                            "<br><a href='requerimientos/agregar/" + id + "'>Solicitar Equipo</a>"
-                        )
-                        .addTo(map);
-                } else {
-                    new mapboxgl.Popup({
-                            offset: 15,
-                            closeOnClick: true
-                        })
-                        .setLngLat(coordinates)
-                        .setHTML(
-                            ' <b>' + nombre +
-                            '</b><br>Año: ' + anio +
-                            '<br>Empresa: ' + empresa +
-                            '<br>Estado: ' + estado +
-                            '<br>Cantidad de ejes: ' + ejes +
-                            '<br>Capacidad: ' + capacidad +
-                            "<br><a href='requerimientos/agregar/" + id + "'>Solicitar Equipo</a>"
-                        )
-                        .addTo(map);
-                }
+                        '</b><br>Empresa: ' + empresa + "'>Solicitar Equipo</a>"
+                    )
+                    .addTo(map);
             });
             map.on('click', 'clusters', function(e) {
                 var features = map.queryRenderedFeatures(e.point, {
@@ -283,19 +256,6 @@
                         });
                     }
                 );
-            });
-            map.on('mouseenter', 'unclustered-point', function() {
-                map.getCanvas().style.cursor = 'pointer';
-            });
-            map.on('mouseleave', 'unclustered-point', function() {
-                map.getCanvas().style.cursor = '';
-            });
-
-            map.on('mouseenter', 'clusters', function() {
-                map.getCanvas().style.cursor = 'pointer';
-            });
-            map.on('mouseleave', 'clusters', function() {
-                map.getCanvas().style.cursor = '';
             });
 
         })

@@ -7,9 +7,25 @@ use App\Http\Controllers\admin\TransportistaController;
 use App\Http\Controllers\admin\UsuarioController;
 use App\Http\Controllers\admin\ContactoController;
 use App\Http\Controllers\admin\CargasController;
+use App\Http\Controllers\admin\VehiculosController;
+use App\Http\Controllers\BuscadorController;
+use App\Http\Controllers\admin\MapaAdminController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
-Route::get('/buscador', [HomeController::class, 'buscador'])->name('buscador');
+//BUSCADOR
+Route::get('/buscador', [BuscadorController::class, 'mostrar_buscador_admin'])->name('buscador.mostrar');
+
+
+//RUTAS DE MAPA DE TRANSPORTES
+Route::get('/mapa', [MapaAdminController::class, 'ubicacion_todos_admin'])->name('mapa_todos_admin');
+Route::get('/mapa/transportes/{transportes}', [MapaAdminController::class, 'ubicacion_transportes_admin'])->name('mapa_transportes_admin');
+Route::get('/mapa/transportes', [MapaAdminController::class, 'ubicacion_todos_transportes_admin'])->name('mapa_todos_transportes_admin');
+Route::post('mapa/vehiculo/', [MapaAdminController::class, 'ubicacion_vehiculo_admin'])->name('mapa_vehiculo_admin');
+
+//RUTAS DE MAPA DE EQUIPOS
+Route::get('/mapa/cargas/{equipos}', [MapaAdminController::class, 'ubicacion_equipos_admin'])->name('mapa_equipos_admin');
+Route::get('/mapa/cargas', [MapaAdminController::class, 'ubicacion_todos_equipos_admin'])->name('mapa_todos_equipos_admin');
+
 
 
 //MOSTRAR CLIENTES
@@ -69,3 +85,14 @@ Route::get('/transportistas/contactos/eliminar/{id}', [ContactoController::class
 //MOSTRAR CARGAS
 Route::get('/cargas', [CargasController::class, 'cargas'])->name('cargas');
 Route::get('/lista_cargas', [CargasController::class, 'vista_cargas'])->name('lista_cargas');
+
+
+
+//MOSTRAR VEHICULOS
+Route::get('/vehiculos', [VehiculosController::class, 'vehiculos'])->name('vehiculos');
+Route::get('/lista_vehiculos', [VehiculosController::class, 'vista_vehiculos'])->name('lista_vehiculos');
+//AGREGAR VEHICULOS
+Route::get('/vehiculos/agregar', [VehiculosController::class, 'form_agregar_vehiculo'])->name('vehiculos.formulario.agregar');
+Route::post('/vehiculos/agregar', [VehiculosController::class, 'agregar_vehiculo'])->name('agregar_vehiculo');
+
+// Route::get('/mapa', [VehiculosController::class, 'ubicaciones_vehiculos'])->name('ubicaciones_vehiculos');
