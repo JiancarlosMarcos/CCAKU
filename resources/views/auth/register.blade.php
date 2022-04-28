@@ -1,26 +1,7 @@
-<style>
-    .title{
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #212529;
-    }
-    .subtitle{
-        text-align: center;
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #212529;
-    }
-</style>
 <x-guest-layout>
-
     <x-jet-authentication-card>
-        <h3 class="title" style="color:#7f7f7f">Bienvenido </h3>
-        <p class="subtitle" style="color:#7f7f7f"><b>Registrarse al Sistema</b></p>
         <x-slot name="logo">
-            <figure class="avatar" style="padding: 0">
-                <img style="width: 130px; height:124px; background:#7f7f7f39; border-color:#d9d9d9;border-width:3px;border-style:solid" src="{{url("/image/logo-cuadrado.jpg") }}">
-            </figure>
+            <x-jet-authentication-card-logo />
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />

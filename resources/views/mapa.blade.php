@@ -49,7 +49,7 @@
         });
 
         map.loadImage(
-            '{{ url('/image/camabaja-modified.png') }}',
+            '{{ url('/image/camabaja.png') }}',
             function(error, image1) {
                 if (error) throw error;
                 map.addImage('custom-marker Camabaja', image1);
@@ -57,7 +57,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/tracto-modified.png') }}',
+            '{{ url('/image/tracto.png') }}',
             function(error, image2) {
                 if (error) throw error;
                 map.addImage('custom-marker Tracto', image2);
@@ -65,7 +65,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/camacuna-modified.png') }}',
+            '{{ url('/image/camacuna.png') }}',
             function(error, image3) {
                 if (error) throw error;
                 map.addImage('custom-marker Camacuna', image3);
@@ -73,7 +73,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/plataforma-modified.png') }}',
+            '{{ url('/image/camion plataforma.png') }}',
             function(error, image4) {
                 if (error) throw error;
                 map.addImage('custom-marker Camion Plataforma', image4);

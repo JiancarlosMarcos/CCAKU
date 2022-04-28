@@ -23,9 +23,9 @@ Route::get('/', function () {
 });
 Route::get('/buscador', [BuscadorController::class, 'mostrar_buscador'])->name('buscador.mostrar');
 
-// Route::get('/welcome', function () {
-//     return view('welcome');
-// });
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 
 //RUTAS DE MAPA DE TRANSPORTES
 Route::get('/mapa', [MapaController::class, 'ubicacion_todos'])->name('mapa_todos');

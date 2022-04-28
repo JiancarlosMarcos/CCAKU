@@ -20,6 +20,14 @@
                 @endforeach
             </ul>
         @endif
+        @if ($cargas != null)
+            <ul class="lista-encontrados">
+                @foreach ($cargas as $carga)
+                    <a class="encontrado" href="">{{ $carga->tipo }} {{ $carga->marca }}
+                        {{ $carga->modelo }}</a><br>
+                @endforeach
+            </ul>
+        @endif
     </div>
     <div id='map'></div>
 
@@ -64,7 +72,6 @@
             z-index: 200;
             margin-bottom: 30px;
             margin-left: 20px;
-
         }
 
         .lista-encontrados {
@@ -75,7 +82,11 @@
         }
 
         .encontrado {
-            color: white
+            background-color: rgb(53, 53, 53);
+            margin: 5px;
+            padding: 0 5px;
+            border-radius: 5px;
+            color: rgb(240, 192, 35)
         }
 
     </style>
@@ -105,7 +116,7 @@
         });
 
         map.loadImage(
-            '{{ url('/image/camabaja-modified.png') }}',
+            '{{ url('/image/camabaja.png') }}',
             function(error, image1) {
                 if (error) throw error;
                 map.addImage('custom-marker Camabaja', image1);
@@ -113,7 +124,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/tracto-modified.png') }}',
+            '{{ url('/image/tracto.png') }}',
             function(error, image2) {
                 if (error) throw error;
                 map.addImage('custom-marker Tracto', image2);
@@ -121,7 +132,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/camacuna-modified.png') }}',
+            '{{ url('/image/camacuna.png') }}',
             function(error, image3) {
                 if (error) throw error;
                 map.addImage('custom-marker Camacuna', image3);
@@ -129,7 +140,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/plataforma-modified.png') }}',
+            '{{ url('/image/camion plataforma.png') }}',
             function(error, image4) {
                 if (error) throw error;
                 map.addImage('custom-marker Camion Plataforma', image4);

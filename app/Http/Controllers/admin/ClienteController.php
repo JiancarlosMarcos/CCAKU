@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Models\ContactoCliente;
-
+use App\Models\VistaCliente;
 use Yajra\DataTables\DataTables;
 
 class ClienteController extends Controller
@@ -20,7 +20,7 @@ class ClienteController extends Controller
 
     public function vista_clientes(Request $request)
     {
-        $clientes = Cliente::all();
+        $clientes = VistaCliente::all();
         return DataTables::of($clientes)
             // ->editColumn('created_at', function (Cliente $prueba) {
             //     return $prueba->created_at->format('d/m/Y');

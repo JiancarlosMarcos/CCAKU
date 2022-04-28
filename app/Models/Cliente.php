@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    protected $table = "vista_clientes";
+    protected $table = "cliente";
     use HasFactory;
 }

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-gray-800 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,32 +6,14 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <figure class="avatar" style="padding: 0">
-                            <img style="width: 100px; height:100px;margin-top:50px;background:#7f7f7f39; border-color:rgb(31 41 55);border-width:5px;border-style:solid;border-radius:20px " src="{{url("/image/logo-cuadrado.jpg") }}">
-                        </figure>
+                        <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" style="color: white">
-                        {{ __('Buscador') }}
-                    </x-jet-nav-link>
-
-                    <x-jet-nav-link href="{{ route('clientes') }}" :active="request()->routeIs('clientes')" style="color: white">
-                        {{ __('Clientes') }}
-                    </x-jet-nav-link>
-
-                    <x-jet-nav-link href="{{ route('transportistas') }}" :active="request()->routeIs('transportistas')" style="color: white">
-                        {{ __('Transportistas') }}
-                    </x-jet-nav-link>
-
-                    <x-jet-nav-link href="{{ route('cargas') }}" :active="request()->routeIs('cargas')" style="color: white">
-                        {{ __('Cargas') }}
-                    </x-jet-nav-link>
-
-                    <x-jet-nav-link href="{{ route('vehiculos') }}" :active="request()->routeIs('vehiculos')" style="color: white">
-                        {{ __('Vehiculos') }}
+                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
             </div>

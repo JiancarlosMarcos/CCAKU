@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\CargasController;
 use App\Http\Controllers\admin\VehiculosController;
 use App\Http\Controllers\BuscadorController;
 use App\Http\Controllers\admin\MapaAdminController;
+use App\Http\Controllers\admin\RequerimientoController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
 //BUSCADOR
@@ -94,5 +95,25 @@ Route::get('/lista_vehiculos', [VehiculosController::class, 'vista_vehiculos'])-
 //AGREGAR VEHICULOS
 Route::get('/vehiculos/agregar', [VehiculosController::class, 'form_agregar_vehiculo'])->name('vehiculos.formulario.agregar');
 Route::post('/vehiculos/agregar', [VehiculosController::class, 'agregar_vehiculo'])->name('agregar_vehiculo');
+
+
+//REQUERIMIENTOS
+Route::get('/lista_requerimientos', [RequerimientoController::class, 'vista_requerimientos'])->name('lista_requerimientos');
+///MOSTRAR////////////
+Route::get('/requerimientos', [RequerimientoController::class, 'mostrar_requerimientos'])->name('requerimientos.mostrar');
+///AGREGAR///////////
+Route::get('/requerimientos/agregar', [RequerimientoController::class, 'form_agregar_requerimiento'])->name('requerimientos.formulario.agregar');
+Route::post('/requerimientos/agregar', [RequerimientoController::class, 'agregar_requerimiento'])->name('agregar_requerimiento');
+//EDITAR
+Route::post('/requerimientos/editar/', [RequerimientoController::class, 'editar_requerimiento'])->name('actualizar_requerimiento');
+//ELIMINAR 
+Route::get('/requerimientos/eliminar/{id}', [RequerimientoController::class, 'eliminar_requerimiento'])->name('eliminar_requerimiento');
+
+
+
+//CONSULTA DE CONTACTOS DE CLIENTES
+Route::get('/consulta_contactos', [RequerimientoController::class, 'consulta_clientes_contactos_nuevo']);
+
+
 
 // Route::get('/mapa', [VehiculosController::class, 'ubicaciones_vehiculos'])->name('ubicaciones_vehiculos');
