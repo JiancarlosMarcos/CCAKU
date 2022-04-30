@@ -56,7 +56,7 @@
                         style="color:#B61A1A">(*)</b>:</label>
                 <select id="origen" name="origen" class="form-control buscador_origen form_nuevo estilo_campo "
                     style="width:100%">
-                    <option value="" selected disabled> ✔ Seleccionar</option>
+                    <option value="" selected disabled> ⬆ Seleccionar</option>
                     @foreach ($departamentos as $departamento)
                         <option value="{{ $departamento->departamento }}"
                             {{ old('origen') == "$departamento->id" ? 'selected' : '' }}>
@@ -71,7 +71,7 @@
                         style="color:#B61A1A">(*)</b>:</label>
                 <select id="destino" name="destino" class="form-control buscador_destino form_nuevo estilo_campo "
                     style="width:100%">
-                    <option value="" selected disabled> ✔ Seleccionar</option>
+                    <option value="" selected disabled> ⬇ Seleccionar</option>
                     @foreach ($departamentos as $departamento)
                         <option value="{{ $departamento->departamento }}"
                             {{ old('destino') == "$departamento->id" ? 'selected' : '' }}>
@@ -84,8 +84,10 @@
 
     {{-- @include('07-Requerimientos/agregar_servicio') --}}
     @include('admin/requerimientos/agregar_cliente')
-    @include('admin/requerimientos/agregar_proyecto')
-    @include('admin/requerimientos/agregar_transportes')
+    {{-- @include('admin/requerimientos/agregar_proyecto') --}}
+    {{-- @include('admin/requerimientos/agregar_transportes') --}}
+    <br>
+    <br>
     <h5>Lista de Transportes Requeridos:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
     <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="0" autocomplete="off" />
     <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
@@ -152,7 +154,7 @@
                 '<tr id="row' + i + '" class="transportes">' +
 
                 '<td>' +
-                '<select class="form-control" style="background:#77777710" name="tipo[]" required>' +
+                '<select class="form-control" style="background:#77777710" name="tipo_transporte[]" required>' +
                 '<option value="" disabled selected>Seleccionar</option>' +
                 '<option value="Camabaja" >Camabaja</option>' +
                 '<option value="Camacuna">Camacuna</option>' +
@@ -430,63 +432,10 @@
     $(document).ready(function() {
         $('.buscador_clientes').select2();
         $('.buscador_contactos').select2();
+        $('.buscardor_cargas').select2();
     });
 </script>
-<script>
-    function mostrar_contactos_clientes() {
-        $('#buscador_contacto').empty();
-        $('#buscador_contacto').append("<option value='' selected disabled> ⌛ Cargando Lista...</option>");
-        var id_cliente = document.getElementById("buscador_cliente").value;
 
-        //console.log(fecha_hoy);
-
-        if ($.trim(id_cliente) != '') {
-            $.get('../consulta_contactos', {
-                id_cliente: id_cliente
-            }, function(datos) {
-                var nombres = datos["nombre"];
-                var celular = datos["celular"];
-                var cargo = datos["cargo"];
-                var correo = datos["correo"];
-                var id_contacto = datos["id"];
-
-                $('#buscador_contacto').empty();
-                $('#buscador_contacto').append(
-                    "<option value='' selected disabled> ✔ Seleccionar un Contacto</option>");
-                var z = 0;
-                $.each(datos["nombre"], function(index, value) {
-                    $('#buscador_contacto').append("<option value=" + id_contacto[z] + "> 📌 " +
-                        nombres[z] + " || 📱 " + celular[z] + " || &#x2709; " + correo[z] +
-                        " || 💼 " + cargo[z] + " " + "</option>");
-                    z++;
-
-                })
-
-                $('#buscador_contacto').append(
-                    "<option value='nuevo_contacto'>++ Agregar Nuevo Contacto </option>");
-
-            }).fail(function() {
-
-
-            }).then(function(data) {
-
-            });
-        }
-    }
-</script>
-<script>
-    function valida_nuevo_contacto() {
-        var data_buscador_contacto = document.getElementById("buscador_contacto").value;
-
-        if (data_buscador_contacto == "nuevo_contacto") {
-            $(".nuevo_contacto").removeClass("hidden");
-            $(".required_contacto_nuevo").prop("required", true);
-        } else {
-            $(".nuevo_contacto").addClass("hidden");
-            $(".required_contacto_nuevo").prop("required", false);
-        }
-    }
-</script>
 
 <script>
     function validar_cliente() {
@@ -521,25 +470,50 @@
 
 
 
+
 <script>
-    $(document).ready(function() {
-        $('.buscador_clientes').select2();
-        $('.buscador_contactos').select2();
-    });
+    function valida_nuevo_contacto() {
+        var data_buscador_contacto = document.getElementById("buscador_contacto").value;
+
+        if (data_buscador_contacto == "nuevo_contacto") {
+            $(".nuevo_contacto").removeClass("hidden");
+            $(".required_contacto_nuevo").prop("required", true);
+        } else {
+            $(".nuevo_contacto").addClass("hidden");
+            $(".required_contacto_nuevo").prop("required", false);
+        }
+    }
+</script>
+<script>
+    function valida_nueva_carga() {
+        var data_buscador_carga = document.getElementById("buscador_carga").value;
+
+        if (data_buscador_carga == "nueva_carga") {
+            $(".nueva_carga").removeClass("hidden");
+            $(".required_carga_nueva").prop("required", true);
+        } else {
+            $(".nueva_carga").addClass("hidden");
+            $(".required_carga_nueva").prop("required", false);
+        }
+    }
 </script>
 <script>
     function mostrar_contactos_clientes() {
         $('#buscador_contacto').empty();
-        $('#buscador_contacto').append("<option value='' selected disabled> ⌛ Cargando Lista...</option>");
+        $('#buscador_contacto').append(
+            "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
+        $('#buscador_carga').empty();
+        $('#buscador_carga').append(
+            "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
         var id_cliente = document.getElementById("buscador_cliente").value;
 
-        //console.log(fecha_hoy);
 
         if ($.trim(id_cliente) != '') {
             $.get('../consulta_contactos', {
                 id_cliente: id_cliente
             }, function(datos) {
                 var nombres = datos["nombre"];
+                var dni = datos["dni"];
                 var celular = datos["celular"];
                 var cargo = datos["cargo"];
                 var correo = datos["correo"];
@@ -561,24 +535,50 @@
                     "<option value='nuevo_contacto'>++ Agregar Nuevo Contacto </option>");
 
             }).fail(function() {
-
-
+                $('#buscador_contacto').empty();
+                $('#buscador_contacto').append(
+                    "<option value='' selected disabled> ❌ El cliente no tiene contactos</option>");
+                $('#buscador_contacto').append(
+                    "<option value='nuevo_contacto'>++ Agregar Nuevo Contacto </option>");
             }).then(function(data) {
 
             });
         }
-    }
-</script>
-<script>
-    function valida_nuevo_contacto() {
-        var data_buscador_contacto = document.getElementById("buscador_contacto").value;
+        if ($.trim(id_cliente) != '') {
+            $.get('../consulta_cargas', {
+                id_cliente: id_cliente
+            }, function(datos) {
+                var id_carga = datos["id"];
+                var tipo = datos["tipo"];
+                var marca = datos["marca"];
+                var modelo = datos["modelo"];
+                var placa = datos["placa"];
+                var peso = datos["peso"];
 
-        if (data_buscador_contacto == "nuevo_contacto") {
-            $(".nuevo_contacto").removeClass("hidden");
-            $(".required_contacto_nuevo").prop("required", true);
-        } else {
-            $(".nuevo_contacto").addClass("hidden");
-            $(".required_contacto_nuevo").prop("required", false);
+                $('#buscador_carga').empty();
+                $('#buscador_carga').append(
+                    "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
+                var z = 0;
+                $.each(datos["tipo"], function(index, value) {
+                    $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
+                        tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
+                        " || PLACA: " + placa[z] + " || PESO: " + peso[z] + "</option>");
+                    z++;
+
+                })
+
+                $('#buscador_carga').append(
+                    "<option value='nueva_carga'>++ Agregar Nueva Carga</option>");
+
+            }).fail(function() {
+                $('#buscador_carga').empty();
+                $('#buscador_carga').append(
+                    "<option value='' selected disabled> ❌ El cliente no tiene cargas registradas</option>");
+                $('#buscador_carga').append(
+                    "<option value='nueva_carga'>++ Agregar Nueva Carga </option>");
+            }).then(function(data) {
+
+            });
         }
     }
 </script>

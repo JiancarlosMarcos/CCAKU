@@ -49,6 +49,12 @@
 
     }
 
+    .vista_clientes_nuevos {
+
+        border-radius: 3px;
+        background-color: #ccc;
+    }
+
 </style>
 
 
@@ -80,36 +86,12 @@
 
 
 <div class="row vista_clientes_nuevos hidden">
-    &nbsp;&nbsp;&nbsp;
-    <div class="col-md-1.5">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>TIPO: </b><b
-                    style="color:#B61A1A">(*)</b></label>
-            <select id="tipo_cliente" class="form-control buscador-linea required_cliente_nuevo" name="tipo_cliente">
-                <option value="" selected disabled>Seleccionar</option>
-                <option value="1" {{ old('tipo_cliente') == '1' ? 'selected' : '' }}>Empresa</option>
-                <option value="2" {{ old('tipo_cliente') == '2' ? 'selected' : '' }}>Persona Natural</option>
-            </select>
-        </div>
+    <br>
+    <br>
+    <div class="col-md-12">
+        <h5>Datos del Cliente<b style="color:#B61A1A">(*)</b>:</h5>
     </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    {{-- <div class="col-md-1.5">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>VIA DE INGRESO: </b>
-                <b style="color:#B61A1A">(*)</b></label>
-            <select name="id_via_ingreso" class="form-control buscador-linea required_cliente_nuevo" style="">
-                <option value="" selected disabled>Seleccionar</option>
-
-                <option value="1" {{ old('id_via_ingreso') == '1' ? 'selected' : '' }}>Pagina Web</option>
-                <option value="2" {{ old('id_via_ingreso') == '2' ? 'selected' : '' }}>Facebook</option>
-                <option value="3" {{ old('id_via_ingreso') == '3' ? 'selected' : '' }}>Referido</option>
-                <option value="4" {{ old('id_via_ingreso') == '4' ? 'selected' : '' }}>Mailling </option>
-                <option value="6" {{ old('id_via_ingreso') == '6' ? 'selected' : '' }}>No Aplica</option>
-
-            </select>
-        </div>
-    </div> --}}
-
+    <br>
     <div class="col-md-3">
         <div class="form-group" style="margin-bottom:0px !important">
             <!--DNI/RUC-->
@@ -159,6 +141,13 @@
 
 
 
+
+
+    <div class="col-md-12">
+        <h5>Datos del Contacto<b style="color:#B61A1A">(*)</b>:</h5>
+    </div>
+    <br>
+    <br>
     <div class="col-md-3">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>NOMBRE DE CONTACTO: </b>
@@ -198,6 +187,101 @@
                 value="{{ old('cargo_contacto') }}" autocomplete="off" placeholder="correo de contacto" />
         </div>
     </div>
+
+
+
+
+
+    <div class="col-md-12">
+        <h5>Datos de la Carga<b style="color:#B61A1A">(*)</b>:</h5>
+    </div>
+    <br>
+    <br>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA: </b>
+                <b style="color:#B61A1A">(*)</b></label>
+            <input class="form-control estilo_campo required_cliente_nuevo" name="tipo_carga" type="text"
+                value="{{ old('tipo_carga') }}" autocomplete="off" placeholder="Tipo de carga" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
+            </label>
+            <input class="form-control estilo_campo required_cliente_nuevo" name="marca_carga" type="text"
+                value="{{ old('marca_carga') }}" autocomplete="off" placeholder="Marca" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>MODELO </b></label>
+            <input class="form-control estilo_campo" name="modelo_carga" type="text"
+                value="{{ old('modelo_carga') }}" autocomplete="off" placeholder="Modelo" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>PLACA: </b></label>
+            <input class="form-control estilo_campo" name="placa_carga" type="text" value="{{ old('placa_carga') }}"
+                autocomplete="off" placeholder="Placa" />
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>VOLUMEN: </b></label>
+            <input class="form-control estilo_campo" name="volumen_carga" type="text"
+                value="{{ old('volumen_carga') }}" autocomplete="off" placeholder="Volumen" />
+        </div>
+    </div>
+
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>LARGO:</b></label>
+            <input class="form-control estilo_campo " name="largo_carga" type="text" value="{{ old('largo_carga') }}"
+                autocomplete="off" placeholder="Largo" />
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>ANCHO:</b></label>
+            <input class="form-control estilo_campo " name="ancho_carga" type="text" value="{{ old('ancho_carga') }}"
+                autocomplete="off" placeholder="Ancho" />
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>ALTURA:</b></label>
+            <input class="form-control estilo_campo " name="altura_carga" type="text"
+                value="{{ old('altura_carga') }}" autocomplete="off" placeholder="Altura" />
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>PESO:</b></label>
+            <input class="form-control estilo_campo " name="peso_carga" type="text" value="{{ old('peso_carga') }}"
+                autocomplete="off" placeholder="Peso" />
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <div class="form-group ">
+            <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MEDIDA</b><b
+                    style="color:#B61A1A">(*)</b>:</label>
+            <select name="medida_peso_carga" class="form-control form_nuevo estilo_campo ">
+                <option value="" selected disabled>Seleccionar</option>
+                <option value="kg">Kilogramo</option>
+                <option value="t">Tonelada</option>
+            </select>
+        </div>
+    </div>
+
 </div>
 
 
@@ -228,8 +312,7 @@
             </select>
         </div>
     </div>
-
-
+    <br>
     <div class="col-md-3 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>NOMBRE DE CONTACTO: </b>
@@ -238,7 +321,7 @@
                 value="{{ old('nombre_contacto_nuevo') }}" autocomplete="off" placeholder="Nombre de contacto" />
         </div>
     </div>
-    <div class="col-md-3 nuevo_contacto hidden">
+    <div class="col-md-2 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>DNI: </b>
                 <b style="color:#B61A1A">(*)</b></label>
@@ -246,15 +329,13 @@
                 value="{{ old('dni') }}" autocomplete="off" placeholder="Nombre de contacto" />
         </div>
     </div>
-
-    <div class="col-md-3 nuevo_contacto hidden">
+    <div class="col-md-2 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>CELULAR </b></label>
             <input class="form-control estilo_campo" name="celular_contacto_nuevo" type="text"
                 value="{{ old('celular_contacto_nuevo') }}" autocomplete="off" placeholder="Celular de contacto" />
         </div>
     </div>
-
     <div class="col-md-3 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>CORREO: </b></label>
@@ -262,14 +343,121 @@
                 value="{{ old('correo_contacto_nuevo') }}" autocomplete="off" placeholder="correo de contacto" />
         </div>
     </div>
-
-    <div class="col-md-3 nuevo_contacto hidden">
+    <div class="col-md-2 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>CARGO: </b></label>
             <input class="form-control estilo_campo" name="cargo_contacto_nuevo" type="text"
                 value="{{ old('cargo_contacto_nuevo') }}" autocomplete="off" placeholder="correo de contacto" />
         </div>
     </div>
+    <br>
+
+
+
+
+
+
+
+
+    <div class="col-md-12">
+        <div class="form-group">
+            <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
+            <select class="form-control buscador_cargas required_cliente_existente" onchange="valida_nueva_carga();"
+                id="buscador_carga" name="id_carga" style="width:100%">
+                <option value="" disabled selected> ⌛ Cargando lista ...</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-12 nueva_carga hidden">
+        <h5>Datos de la Carga<b style="color:#B61A1A">(*)</b>:</h5>
+    </div>
+    <div class="col-md-3 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA: </b>
+                <b style="color:#B61A1A">(*)</b></label>
+            <input class="form-control estilo_campo required_carga_nueva" name="tipo_carga_cliente_existente"
+                type="text" value="{{ old('tipo_carga_cliente_existente') }}" autocomplete="off"
+                placeholder="Tipo de carga" />
+        </div>
+    </div>
+    <div class="col-md-2 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
+            </label>
+            <input class="form-control estilo_campo " name="marca_carga_cliente_existente" type="text"
+                value="{{ old('marca_carga_cliente_existente') }}" autocomplete="off" placeholder="Marca" />
+        </div>
+    </div>
+    <div class="col-md-2 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>MODELO </b></label>
+            <input class="form-control estilo_campo" name="modelo_carga_cliente_existente" type="text"
+                value="{{ old('modelo_carga_cliente_existente') }}" autocomplete="off" placeholder="Modelo" />
+        </div>
+    </div>
+
+    <div class="col-md-3 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>PLACA: </b></label>
+            <input class="form-control estilo_campo" name="placa_carga_cliente_existente" type="text"
+                value="{{ old('placa_carga_cliente_existente') }}" autocomplete="off" placeholder="Placa" />
+        </div>
+    </div>
+
+    <div class="col-md-2 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>VOLUMEN: </b></label>
+            <input class="form-control estilo_campo" name="volumen_carga_cliente_existente" type="text"
+                value="{{ old('volumen_carga_cliente_existente') }}" autocomplete="off" placeholder="Volumen" />
+        </div>
+    </div>
+
+
+    <div class="col-md-2  nueva_carga hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>LARGO:</b></label>
+            <input class="form-control estilo_campo " name="largo_carga_cliente_existente" type="text"
+                value="{{ old('largo_carga_cliente_existente') }}" autocomplete="off" placeholder="Largo" />
+        </div>
+    </div>
+
+    <div class="col-md-2 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>ANCHO:</b></label>
+            <input class="form-control estilo_campo " name="ancho_carga_cliente_existente" type="text"
+                value="{{ old('ancho_carga_cliente_existente') }}" autocomplete="off" placeholder="Ancho" />
+        </div>
+    </div>
+
+    <div class="col-md-2 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>ALTURA:</b></label>
+            <input class="form-control estilo_campo " name="altura_carga_cliente_existente" type="text"
+                value="{{ old('altura_carga_cliente_existente') }}" autocomplete="off" placeholder="Altura" />
+        </div>
+    </div>
+
+    <div class="col-md-1 nueva_carga  hidden">
+        <div class="form-group">
+            <label class="control-label" style="font-weight:600;color:#777"><b>PESO:</b></label>
+            <input class="form-control estilo_campo " name="peso_carga_cliente_existente" type="text"
+                value="{{ old('peso') }}" autocomplete="off" placeholder="Peso" />
+        </div>
+    </div>
+
+    <div class="col-md-2 nueva_carga hidden">
+        <div class="form-group ">
+            <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MEDIDA</b>:</label>
+            <select name="medida_carga_cliente_existente" class="form-control form_nuevo estilo_campo ">
+                <option value="" selected disabled>Seleccionar Medida</option>
+                <option value="kg">Kilogramo</option>
+                <option value="t">Tonelada</option>
+            </select>
+        </div>
+    </div>
+
 
 
 </div>

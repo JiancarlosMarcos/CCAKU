@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use App\Models\ContactoCliente;
 use App\Models\VistaCliente;
 use Yajra\DataTables\DataTables;
+use App\Models\Carga;
 
 class ClienteController extends Controller
 {
@@ -57,7 +58,7 @@ class ClienteController extends Controller
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
         // $empresa->responsable_registro = $request->usuario;
-        $empresa->tipo_cliente = $tipo_empresa;
+        $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
         $nombre_empresa = $request->razon_social;
 
@@ -117,7 +118,7 @@ class ClienteController extends Controller
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
         // $empresa->responsable_registro = $request->usuario;
-        $empresa->tipo_cliente = $tipo_empresa;
+        $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
 
         $contador = $request->contador;
@@ -178,11 +179,14 @@ class ClienteController extends Controller
         $empresa = Cliente::findOrFail($id);
         $empresa = $empresa->nombre;
         $contactos_count = ContactoCliente::where('id_cliente', $id)->count();
-
+        $cargas_count = Carga::where('id_cliente', $id)->count();
 
         //Si hay mas de 0 contactos manda mensaje de error  sino elimina el cliente
         if ($contactos_count > 0) {
             $mensaje = 'No puede eliminar la empresa ' . $empresa . ', porque tiene ' . $contactos_count . ' contactos, elimine primero sus contactos';
+            $tipo = 'success';
+        } else if ($cargas_count > 0) {
+            $mensaje = 'No puede eliminar la empresa ' . $empresa . ', porque tiene ' . $cargas_count . ' cargas, elimine primero sus cargas';
             $tipo = 'success';
         } else {
             $empresa = Cliente::findOrFail($id);

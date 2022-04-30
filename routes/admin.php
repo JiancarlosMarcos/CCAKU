@@ -113,7 +113,7 @@ Route::get('/requerimientos/eliminar/{id}', [RequerimientoController::class, 'el
 
 //CONSULTA DE CONTACTOS DE CLIENTES
 Route::get('/consulta_contactos', [RequerimientoController::class, 'consulta_clientes_contactos_nuevo']);
-
+Route::get('/consulta_cargas', [RequerimientoController::class, 'consulta_cargas_nuevo']);
 
 
 // Route::get('/mapa', [VehiculosController::class, 'ubicaciones_vehiculos'])->name('ubicaciones_vehiculos');

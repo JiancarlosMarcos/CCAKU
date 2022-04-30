@@ -140,7 +140,7 @@
             });
 
         map.loadImage(
-            '{{ url('/image/camion plataforma.png') }}',
+            '{{ url('/image/plataforma.png') }}',
             function(error, image4) {
                 if (error) throw error;
                 map.addImage('custom-marker Camion Plataforma', image4);
@@ -148,13 +148,26 @@
             });
 
         map.loadImage(
-            '{{ url('/iconos/44.png') }}',
+            '{{ url('/image/carga.png') }}',
             function(error, image5) {
                 if (error) throw error;
                 map.addImage('custom-marker Carga', image5);
 
             });
+        map.loadImage(
+            '{{ url('/image/camion normal.png') }}',
+            function(error, image6) {
+                if (error) throw error;
+                map.addImage('custom-marker Camion Normal', image6);
 
+            });
+        map.loadImage(
+            '{{ url('/image/rebatible-grua.png') }}',
+            function(error, image7) {
+                if (error) throw error;
+                map.addImage('custom-marker Camion Rebatible', image7);
+
+            });
         //mapa normal
         map.dragRotate.disable();
         map.touchZoomRotate.disableRotation();
@@ -229,7 +242,7 @@
                     'circle-color': [
                         'step',
                         ['get', 'point_count'],
-                        '#599E9C',
+                        '#FCAF3B',
                         100,
                         '#fff',
                         750,

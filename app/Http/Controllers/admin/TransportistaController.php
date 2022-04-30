@@ -100,10 +100,13 @@ class TransportistaController extends Controller
         $id = $request->id;
         $empresa = Transportista::findOrFail($id);
         $contactos[] = ContactoTransportista::where('id_transportista', $id)->get();
-
+        $transportes[] = Vehiculo::where('id_transportista', $id)->get();
+        $ubicaciones = Ubicacion::all();
         return view("admin.editar_transportista", [
             "empresa" => $empresa,
-            "contactos" => $contactos[0]
+            "contactos" => $contactos[0],
+            "transportes" => $transportes[0],
+            "ubicaciones" => $ubicaciones
         ]);
     }
 
@@ -134,6 +137,7 @@ class TransportistaController extends Controller
         $empresa->save();
 
         $contador = $request->contador;
+        $contador_t = $request->contador_t;
         $usuario = $request->usuario;
 
         //Elimina todos los contactos de determinada empresa
@@ -149,7 +153,14 @@ class TransportistaController extends Controller
             $eliminar_registros = ContactoTransportista::where('id', $id_eliminar[$z])->delete();
         }
 
+        // $ids_eliminar_trans = $request->ids_eliminar_trans;
 
+        // $id_eliminar_trans = explode(",", $ids_eliminar_trans);
+        // $contador_id_trans = count($id_eliminar_trans);
+
+        // for ($m = 0; $m < $contador_id_trans; $m++) {
+        //     $eliminar_registros_trans = Vehiculo::where('id', $id_eliminar_trans[$z])->delete();
+        // }
 
 
 
@@ -177,6 +188,33 @@ class TransportistaController extends Controller
                 $contacto_nuevo->save();
             }
         }
+        for ($j = 0; $j < $contador_t; $j++) {
+            if (isset($request->id_transporte[$j])) {
+                $equipos = Vehiculo::where('id', $request->id_transporte[$j])->get();
+                $equipos->tipo = $request->tipo_t[$j];
+                $equipos->marca = $request->marca_t[$j];
+                $equipos->placa = $request->placa_t[$j];
+                $equipos->capacidad = $request->capacidad_t[$j];
+                $equipos->estado = $request->estado_t[$j];
+                $equipos->id_transportista = $id;
+                $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
+                $equipos->modelo = $request->modelo_t[$j];
+                $equipos->cantidad_ejes = $request->ejes_t[$j];
+                $equipos->save();
+            } else {
+                $equipos_nuevo = new Vehiculo;
+                $equipos_nuevo->tipo = $request->tipo_t[$j];
+                $equipos_nuevo->marca = $request->marca_t[$j];
+                $equipos_nuevo->placa = $request->placa_t[$j];
+                $equipos_nuevo->capacidad = $request->capacidad_t[$j];
+                $equipos_nuevo->estado = $request->estado_t[$j];
+                $equipos_nuevo->id_transportista = $id;
+                $equipos_nuevo->id_ubicacion = $request->id_ubicacion_t[$j];
+                $equipos_nuevo->modelo = $request->modelo_t[$j];
+                $equipos_nuevo->cantidad_ejes = $request->ejes_t[$j];
+                $equipos_nuevo->save();
+            }
+        }
         $notification = array(
             'mensaje' => 'Transportista actualizado correctamente!' . $ids_eliminar,
             'tipo' => 'success'
@@ -191,11 +229,14 @@ class TransportistaController extends Controller
         $empresa = Transportista::findOrFail($id);
         $empresa = $empresa->nombre;
         $contactos_count = ContactoTransportista::where('id_transportista', $id)->count();
-
+        $transportes_count = Vehiculo::where('id_transportista', $id)->count();
 
         //Si hay mas de 0 contactos manda mensaje de error  sino elimina el transportista
         if ($contactos_count > 0) {
             $mensaje = 'No puede eliminar la empresa ' . $empresa . ', porque tiene ' . $contactos_count . ' contactos, elimine primero sus contactos';
+            $tipo = 'success';
+        } else if ($transportes_count > 0) {
+            $mensaje = 'No puede eliminar la empresa ' . $empresa . ', porque tiene ' . $transportes_count . ' transportes, elimine primero sus transportes';
             $tipo = 'success';
         } else {
             $empresa = Transportista::findOrFail($id);

@@ -19,19 +19,19 @@ class RequerimientoController extends Controller
     public function mostrar_requerimientos()
     {
         $clientes = Cliente::all();
-        $proyectos = Carga::all();
+        $cargas = Carga::all();
 
-        return view('admin.requerimientos.requerimientos', compact('clientes', 'proyectos'));
+        return view('admin.requerimientos.requerimientos', compact('clientes', 'cargas'));
     }
 
     public function form_agregar_requerimiento()
     {
 
         $clientes = Cliente::all();
-        $proyectos = Carga::all();
+        $cargas = Carga::all();
         $departamentos = Ubicacion::all();
 
-        return view('admin.requerimientos.agregar_requerimiento', compact('clientes', 'proyectos', 'departamentos'));
+        return view('admin.requerimientos.agregar_requerimiento', compact('clientes', 'cargas', 'departamentos'));
     }
 
 
@@ -39,11 +39,11 @@ class RequerimientoController extends Controller
     public function vista_requerimientos(Request $request)
     {
         return DataTables::of(VistaRequerimiento::all())
-            // ->editColumn('fecha', function (VistaRequerimiento $requerimientos) {
-            //     if ($requerimientos->fecha == NULL) {
+            // ->editColumn('fecha', function (VistaRequerimiento $prueba) {
+            //     if ($prueba->fecha == NULL) {
             //         return "-";
             //     } else {
-            //         return $requerimientos->fecha->format('d/m/Y');
+            //         return $prueba->fecha->format('d/m/Y');
             //     }
             // })
             ->addColumn('btn_requerimientos', 'admin.botones.btn_requerimientos')
@@ -56,6 +56,7 @@ class RequerimientoController extends Controller
             $clientes = ContactoCliente::where('id_cliente', $request->id_cliente)->get();
             foreach ($clientes as $cliente) {
                 $nombreArray[] = $cliente->nombre;
+                $dniArray[] = $cliente->dni;
                 $celularArray[] = $cliente->celular;
                 $correoArray[] = $cliente->correo;
                 $cargoArray[] = $cliente->cargo;
@@ -63,6 +64,7 @@ class RequerimientoController extends Controller
             }
             return response()->json([
                 'nombre' => $nombreArray,
+                'dni' => $dniArray,
                 'celular' =>  $celularArray,
                 'correo' => $correoArray,
                 'cargo' =>  $cargoArray,
@@ -70,7 +72,29 @@ class RequerimientoController extends Controller
             ]);
         }
     }
+    public function consulta_cargas_nuevo(Request $request)
+    {
+        if ($request->ajax()) {
+            $cargas = Carga::where('id_cliente', $request->id_cliente)->get();
+            foreach ($cargas as $carga) {
 
+                $tipoArray[] = $carga->tipo;
+                $marcaArray[] = $carga->marca;
+                $modeloArray[] = $carga->modelo;
+                $placaArray[] = $carga->placa;
+                $pesoArray[] = $carga->peso;
+                $idArray[] = $carga->id;
+            }
+            return response()->json([
+                'tipo' => $tipoArray,
+                'marca' => $marcaArray,
+                'modelo' => $modeloArray,
+                'placa' => $placaArray,
+                'peso' => $pesoArray,
+                'id' => $idArray,
+            ]);
+        }
+    }
     public function agregar_requerimiento(Request $request)
     {
 
@@ -78,29 +102,29 @@ class RequerimientoController extends Controller
         $requerimientos->fecha = $request->fecha_requerimiento;
         $requerimientos->origen = $request->origen;
         $requerimientos->destino = $request->destino;
-
-        $requerimientos->responsable_registro = $request->responsable_registro;
         $requerimientos->observaciones = $request->observaciones;
-        $requerimientos->id_contacto = $request->id_contacto;
-        $requerimientos->id_cliente = $request->id_cliente;
         $requerimientos->estado = 'No atendido';
-        // $this->informacion_cliente($request, $requerimientos);
-        // $this->informacion_proyecto($request, $requerimientos);
 
         ///TIPO CLIENTE -> NUEVO O EXISTENTE
-        $tipo_cliente = $request->select_tipo_cliente;
+        $select_cliente = $request->select_tipo_cliente;
         //NUEVO
-        if ($tipo_cliente == '1') {
+        if ($select_cliente == '1') {
             $cliente = new Cliente;
-            $cliente->dni_ruc = $request->dni_ruc;
+            $dni_ruc = $request->dni_ruc;
+            if (strlen($dni_ruc) == '11') {
+                $tipo_empresa = '1';
+            } else {
+                $tipo_empresa = '2';
+            }
+            $cliente->dni_ruc = $dni_ruc;
             $cliente->nombre = $request->razon_social;
             $cliente->direccion = $request->direccion;
-            $cliente->id_tipo = $request->tipo_cliente;
-            // $cliente->responsable_registro = $request->usuario;
+            $cliente->id_tipo = $tipo_empresa;
             $cliente->save();
 
             $id_cliente = $cliente->id;
 
+            //REGISTRAR CONTACTO NUEVO PARA CLIENTE NUEVO
             $cliente_contacto = new ContactoCliente;
             $cliente_contacto->nombre = $request->nombre_contacto;
             $cliente_contacto->dni = $request->dni;
@@ -108,20 +132,40 @@ class RequerimientoController extends Controller
             $cliente_contacto->correo = $request->correo_contacto;
             $cliente_contacto->cargo = $request->cargo_contacto;
             $cliente_contacto->id_cliente = $id_cliente;
-            // $cliente_contacto->responsable_registro = $request->usuario;
             $cliente_contacto->save();
 
+            //REGISTRAR CARGA NUEVA PARA CLIENTE NUEVO
+
+            $cargas = new Carga;
+            $cargas->tipo = $request->tipo_carga;
+            $cargas->marca = $request->marca_carga;
+            $cargas->modelo = $request->modelo_carga;
+            $cargas->placa = $request->placa_carga;
+            $cargas->volumen = $request->volumen_carga;
+            $cargas->largo = $request->largo_carga;
+            $cargas->ancho = $request->ancho_carga;
+            $cargas->altura = $request->altura_carga;
+            $cargas->peso = $request->peso_carga;
+            $cargas->unidad_medida_peso = $request->medida_peso_carga;
+            // $ubicacion_carga = Ubicacion::where('departamento', $request->origen)->get();
+            // $cargas->id_ubicacion = $ubicacion_carga->id;
+            $cargas->id_cliente = $id_cliente;
+            $cargas->save();
+
             //ID Carga Cliente
-            $requerimientos->id_cliente = $cliente->id;
+            $requerimientos->id_cliente = $id_cliente;
             //ID CONTACTO
             $requerimientos->id_contacto = $cliente_contacto->id;
+            //ID CARGA
+            $requerimientos->id_carga_cliente = $cargas->id;
         }
         //EXISTENTE
-        if ($tipo_cliente == '2') {
+        if ($select_cliente == '2') {
             $id_cliente = $request->id_cliente;
             //ID EMPRESA - UNICO CASO
-            $requerimientos->id_cliente = $id_cliente;
+
             $id_contacto = $request->id_contacto;
+            //CONTACTO NUEVO
             if ($id_contacto == "nuevo_contacto") {
                 $cliente_contacto = new ContactoCliente;
                 $cliente_contacto->nombre = $request->nombre_contacto_nuevo;
@@ -135,87 +179,61 @@ class RequerimientoController extends Controller
 
                 //ID CONTACTO - CASO NUEVO CONTACTO
                 $requerimientos->id_contacto = $cliente_contacto->id;
+                //CONTACTO EXISTENTE
             } else {
                 //ID CONTACTO - CASO EXISTENTE
-                $requerimientos->id_contacto = $id_contacto;
+                $requerimientos->id_contacto = $request->id_contacto;
             }
+            $requerimientos->id_cliente = $id_cliente;
+
+
+            ///REGISTRAR CARGA -> NUEVO O EXISTENTE
+            $select_carga = $request->id_carga;
+            ///NUEVO
+            if ($select_carga == "nueva_carga") {
+                // $departamento = $request->origen;
+                // $nombre_departamento = '';
+                // if ($departamento != NULL) {
+                //     $nombre_departamento = $departamento;
+                // }
+                $cargas = new Carga;
+                $cargas->tipo = $request->tipo_carga_cliente_existente;
+                $cargas->marca = $request->marca_carga_cliente_existente;
+                $cargas->modelo = $request->modelo_carga_cliente_existente;
+                $cargas->placa = $request->placa_carga_cliente_existente;
+                $cargas->volumen = $request->volumen_carga_cliente_existente;
+                $cargas->largo = $request->largo_carga_cliente_existente;
+                $cargas->ancho = $request->ancho_carga_cliente_existente;
+                $cargas->altura = $request->altura_carga_cliente_existente;
+                $cargas->peso = $request->peso_carga_cliente_existente;
+                $cargas->unidad_medida_peso = $request->medida_carga_cliente_existente;
+                // $ubicacion = Ubicacion::where('departamento', $nombre_departamento)->first();
+                // $cargas->id_ubicacion = $ubicacion->id;
+                $cargas->id_cliente = $requerimientos->id_cliente;
+
+                $cargas->save();
+                $requerimientos->id_carga_cliente = $cargas->id;
+            } else {
+                $requerimientos->id_carga_cliente = $request->id_carga;
+            }
+            ///EXISTENTE
         }
 
-        ///REGISTRAR CARGA -> NUEVO O EXISTENTE
-        $tipo_select_carga = $request->valida_select_carga;
-        ///NUEVO
-        if ($tipo_select_carga == "1") {
-            $departamento = $request->origen;
-            $nombre_departamento = '';
-            if ($departamento != NULL) {
-                $nombre_departamento = $departamento;
-            }
-            $cargas = new Carga;
-            $cargas->tipo = $request->tipo;
-            $cargas->marca = $request->marca;
-            $cargas->modelo = $request->modelo;
-            $cargas->placa = $request->placa;
-            $cargas->volumen = $request->volumen;
-            $cargas->largo = $request->largo;
-            $cargas->ancho = $request->ancho;
-            $cargas->altura = $request->altura;
-            $cargas->peso = $request->peso;
-            $cargas->unidad_medida_peso = $request->medida;
-            $ubicacion = Ubicacion::where('departamento', $nombre_departamento)->first();
-            $cargas->id_ubicacion = $ubicacion->id;
-            $cargas->id_cliente = $request->id_cliente;
-            $cargas->save();
-            $id_carga = $cargas->id;
-        }
-        ///EXISTENTE
-        if ($tipo_select_carga == "2") {
-            $id_carga = $request->id_carga_existente;
-            $carga_existente = Carga::findOrFail($id_carga);
-            $carga_existente->tipo = $request->tipo;
-            $carga_existente->marca = $request->marca;
-            $carga_existente->modelo = $request->modelo;
-            $carga_existente->placa = $request->placa;
-            $carga_existente->volumen = $request->volumen;
-            $carga_existente->largo = $request->largo;
-            $carga_existente->ancho = $request->ancho;
-            $carga_existente->altura = $request->altura;
-            $carga_existente->peso = $request->peso;
-            $carga_existente->unidad_medida_peso = $request->medida;
-        }
-        $requerimientos->id_carga_cliente = $id_carga;
 
 
         $requerimientos->save();
 
         $id_requerimiento = $requerimientos->id;
-        $contador_transportes = $request->contandor_t;
+        $contador_transportes = count((is_countable($request->tipo_transporte) ? $request->tipo_transporte : []));
 
-        // $mensaje_transportes = "";
-        // $array_transportes_requerimiento = array();
-        // $array_transportes_tipo = array();
-        // $array_transportes_ejes = array();
-        // $array_transportes_cantidad = array();
-        // $array_transportes_creado = array();
-        // $array_equipos_division = array();
         for ($i = 0; $i < $contador_transportes; $i++) {
             $transportes = new RequerimientoTransporte;
-            $transportes->tipo = $request->tipo[$i];
+            $transportes->tipo = $request->tipo_transporte[$i];
             $transportes->cantidad_ejes = $request->cantidad_ejes[$i];
-            // $requerimiento_transportes->nombre = $request->nombre_equipo[$i];
-            // $requerimiento_transportes->capacidad = $request->capacidad_equipo[$i];
+            $transportes->id_requerimiento = $id_requerimiento;
             $transportes->cantidad = $request->cantidad[$i];
             $transportes->parte_carga = $request->parte_carga[$i];
-            // $requerimiento_transportes->tiempo = $request->tiempo_equipo[$i];
-            // $requerimiento_transportes->servicio = $request->valor_tipo_coti;
-            $transportes->id_requerimiento = $id_requerimiento;
-            // $requerimiento_transportes->division = $request->division[$i];
             $transportes->save();
-
-            // array_push($array_transportes_requerimiento, $requerimiento_transportes->id_requerimiento);
-            // array_push($array_transportes_ejes, $requerimiento_transportes->cantidad_ejes);
-            // array_push($array_transportes_cantidad, $requerimiento_transportes->cantidad);
-            // array_push($array_transportes_tipo, $requerimiento_transportes->tipo);
-            // array_push($array_transportes_division, $requerimiento_transportes->division);
         }
 
         // $contacto_correo = $this->contacto_c;
@@ -292,54 +310,48 @@ class RequerimientoController extends Controller
         return Redirect()->back()->with($notification);
     }
 
-    // public function editar_requerimiento(Request $request){
-    //     $request->validate([
+    public function editar_requerimiento(Request $request)
+    {
+        $request->validate(
+            [],
+            []
+        );
 
-    //     ],    
-    //     [
+        $requerimiento_id = $request->id_registro;
 
-    //     ]);
+        $requerimientos_e =  Requerimiento::where('id', $requerimiento_id)->first();
+        $requerimientos_e->observaciones = $request->observaciones;
+        $requerimientos_e->id_cliente = $request->id_empresa;
+        $requerimientos_e->id_contacto = $request->id_contacto;
+        $requerimientos_e->id_carga = $request->id_proyecto;
 
-    //     $requerimiento_id = $request->id_registro;
+        $tipo_servicio = $request->tipo_servicio;
 
-    //     $requerimientos =  Requerimiento::where('id',$requerimiento_id)->first();
+        $requerimientos_e->save();
 
+        $delete_equipos_requerimiento = RequerimientoTransporte::where('id_requerimiento', $requerimiento_id);
+        $delete_equipos_requerimiento->delete();
 
-    //     $requerimientos->observaciones = $request->observaciones;
+        $contador_equipos = count($request->nombre_equipo);
 
+        for ($i = 0; $i < $contador_equipos; $i++) {
+            $requerimiento_equipos = new RequerimientoTransporte;
+            $requerimiento_equipos->nombre = $request->nombre_equipo[$i];
+            $requerimiento_equipos->capacidad = $request->capacidad_equipo[$i];
+            $requerimiento_equipos->cantidad = $request->cantidad_equipo[$i];
+            $requerimiento_equipos->tiempo = $request->tiempo_equipo[$i];
+            $requerimiento_equipos->servicio = $tipo_servicio;
+            $requerimiento_equipos->id_requerimiento = $requerimiento_id;
+            $requerimiento_equipos->division = $request->division[$i];
+            $requerimiento_equipos->save();
+        }
 
-    //     $requerimientos->id_empresa = $request->id_empresa;
-    //     $requerimientos->id_contacto = $request->id_contacto;
-    //     $requerimientos->id_proyecto = $request->id_proyecto;
-
-    //     $tipo_servicio = $request->tipo_servicio;
-
-    //     $requerimientos->save();
-
-    //     $delete_equipos_requerimiento = RequerimientoEquipo::where('id_requerimiento',$requerimiento_id);
-    //     $delete_equipos_requerimiento->delete();
-
-    //     $contador_equipos = count($request->nombre_equipo);
-
-    //     for($i=0;$i<$contador_equipos;$i++){
-    //         $requerimiento_equipos = new RequerimientoEquipo;
-    //         $requerimiento_equipos->nombre = $request->nombre_equipo[$i];
-    //         $requerimiento_equipos->capacidad = $request->capacidad_equipo[$i];
-    //         $requerimiento_equipos->cantidad = $request->cantidad_equipo[$i];
-    //         $requerimiento_equipos->tiempo = $request->tiempo_equipo[$i];
-    //         $requerimiento_equipos->servicio = $tipo_servicio;
-    //         $requerimiento_equipos->id_requerimiento = $requerimiento_id;
-    //         $requerimiento_equipos->division = $request->division[$i];
-    //         $requerimiento_equipos->save();
-
-    //     }
-
-    //     $notification = array(
-    //         'mensaje' => 'Requerimiento actualizado correctamente!',
-    //         'tipo' => 'success'
-    //         );
-    //        return Redirect()->back()->with($notification);
-    // }
+        $notification = array(
+            'mensaje' => 'Requerimiento actualizado correctamente!',
+            'tipo' => 'success'
+        );
+        return Redirect()->back()->with($notification);
+    }
 
 
 

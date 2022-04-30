@@ -112,6 +112,7 @@
                 <table class="table table-bordered display" id="tablaClientes">
                     <thead>
                         <tr>
+
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="empresa"
                                     data-column="0" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha"
@@ -133,22 +134,23 @@
                                     data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="modelo"
                                     data-column="6" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="volumen"
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="volumen"
                                     data-column="7" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="peso"
                                     data-column="8" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="unidad"
-                                    data-column="9" /></td>
+                                    data-column="9" /></td> --}}
                             {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="transporte"
                                     data-column="10" /></td> --}}
-                            <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="observaciones" data-column="11" /></td>
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input"
+                                    id="observaciones" data-column="11" /></td> --}}
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="estado"
                                     data-column="12" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input"
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input"
                                     id="fecha_creacion" data-column="13" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_modificacion" data-column="14" /></td>
+                                    id="fecha_modificacion" data-column="14" /></td> --}}
+
 
 
 
@@ -164,19 +166,19 @@
                             <th>Carga</th>
                             <th>Marca</th>
                             <th>Modelo</th>
-                            <th>Volumen</th>
+                            {{-- <th>Volumen</th>
                             <th>Peso</th>
-                            <th>Unidad Medidad</th>
+                            <th>Unidad Medidad</th> --}}
                             {{-- <th>Transporte<br>Requerido</th> --}}
-                            <th>Observaciones</th>
+                            {{-- <th>Observaciones</th> --}}
                             <th>Estado</th>
-                            <th>Fecha de<br>Creacion</th>
-                            <th>Fecha de<br>Modificacion</th>
+                            {{-- <th>Fecha de<br>Creacion</th>
+                            <th>Fecha de<br>Modificacion</th> --}}
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                        @include('admin.requerimientos.vista_equipos')
 
                     </tbody>
                 </table>
@@ -185,7 +187,7 @@
     </div>
 </div>
 
-
+@include('admin/requerimientos.vista_equipos')
 </div>
 
 <script>
@@ -215,34 +217,34 @@
                 {
                     data: 'modelo'
                 },
-                {
-                    data: 'volumen'
-                },
-                {
-                    data: 'peso'
-                },
-                {
-                    data: 'unidad_medida_peso'
-                },
+                // {
+                //     data: 'volumen'
+                // },
+                // {
+                //     data: 'peso'
+                // },
+                // {
+                //     data: 'unidad_medida_peso'
+                // },
                 // {
                 //     data: 'transporte_requerido'
                 // },
-                {
-                    data: 'observaciones'
-                },
+                // {
+                //     data: 'observaciones'
+                // },
                 {
                     data: 'estado'
                 },
-                {
-                    data: 'created_at'
-                },
-                {
-                    data: 'updated_at'
-                },
-
+                // {
+                //     data: 'created_at'
+                // },
+                // {
+                //     data: 'updated_at'
+                // },
                 {
                     data: 'btn_requerimientos'
                 },
+
 
             ],
 

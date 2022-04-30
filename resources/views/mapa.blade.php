@@ -81,7 +81,7 @@
             });
 
         map.loadImage(
-            '{{ url('/iconos/44.png') }}',
+            '{{ url('/image/carga.png') }}',
             function(error, image5) {
                 if (error) throw error;
                 map.addImage('custom-marker Carga', image5);
@@ -162,7 +162,7 @@
                     'circle-color': [
                         'step',
                         ['get', 'point_count'],
-                        '#599E9C',
+                        '#FCAF3B',
                         100,
                         '#fff',
                         750,

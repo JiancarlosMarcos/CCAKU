@@ -236,6 +236,7 @@
 
 
 <!--PROYECTO EXISTENTES FORM-->
+
 <div class="proyecto_existente hidden">
 
     <div class="col-md-3">
@@ -249,10 +250,9 @@
                 <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b> </h6>
                 <select name="id_carga_existente" class="form-control buscador_clientes form_existe" style="width:100%">
                     <option value="" selected disabled> ✔ Seleccionar una Carga Existente</option>
-                    @foreach ($proyectos as $proyecto)
-                        <option value="{{ $proyecto->id }}">Cod.{{ $proyecto->tipo }} || Nombre:
-                            {{ $proyecto->marca }} || Etapa: {{ $proyecto->volumen }} || Departamento:
-                            {{ $proyecto->departamento }}</option>
+                    @foreach ($cargas as $carga)
+                        <option value="{{ $carga->id }}">Tipo:{{ $carga->tipo }} || Marca:
+                            {{ $carga->marca }} || Modelo: {{ $carga->modelo }} </option>
                     @endforeach
                 </select>
             </div>

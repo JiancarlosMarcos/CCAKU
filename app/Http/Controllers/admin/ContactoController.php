@@ -43,9 +43,12 @@ class ContactoController extends Controller
             'created_at',
             'updated_at',
         ))
-            // ->editColumn('created_at', function (Vista_Clientes_Contactos $prueba) {
-            //     return $prueba->created_at->format('d/m/Y');
-            // })
+            ->editColumn('created_at', function (Vista_Clientes_Contactos $prueba) {
+                return $prueba->created_at->format('d/m/Y');
+            })
+            ->editColumn('updated_at', function (Vista_Clientes_Contactos $prueba) {
+                return $prueba->updated_at->format('d/m/Y');
+            })
             ->addColumn('btn_clientes_contactos', 'admin.botones.btn_clientes_contactos')
             ->rawColumns(['btn_clientes_contactos'])
             ->toJson();

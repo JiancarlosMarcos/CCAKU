@@ -1,13 +1,13 @@
-<h5>Lista de Transportes Requeridos<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
+<h5>Lista de Equipos<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
 <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
 
     <thead>
         <tr>
-            <td>Division(*)</td>
-            <td>Nombre Equipo(*)</td>
-            <td>Capacidad</td>
+            <td>Tipo(*)</td>
             <td>Cantidad(*)</td>
-            <td>Tiempo(*)</td>
+            <td>Cantidad de Ejes</td>
+            <td>Parte de la Carga(*)</td>
+
             <td style="text-align:center">Eliminar</td>
         </tr>
     </thead>
@@ -35,9 +35,9 @@
                 '<tr id="row' + i + '" class="equipos">' +
 
                 '<td>' +
-                '<select class="form-control" style="background:#77777710" name="division[]" required>' +
+                '<select class="form-control" style="background:#77777710" name="tipo[]" required>' +
                 '<option value="" disabled selected>Seleccionar</option>' +
-                '<option value="Camabaja" >Camabaja</option>' +
+                '<option value="Camabaja" {{ old('tipo') == 'Camabaja' ? 'selected' : '' }}>Camabaja</option>' +
                 '<option value="Camacuna">Camacuna</option>' +
                 '<option value="Tracto">Tracto</option>' +
                 '<option value="Camion Plataforma">Camion Plataforma</option>' +
@@ -45,24 +45,20 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text" name="nombre_equipo[]" ' +
-                'title="nombre_equipo" class="form-control" style="background:#77777710" >' +
+                '<input type="text" name="cantidad[]" ' +
+                'title="cantidad" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="capacidad_equipo[]" ' +
+                '<input type="text"  name="cantidad_ejes[]" ' +
                 'class="form-control" style="background:#77777710" autocomplete="off" >' +
                 '</td>' +
 
                 '<td>' +
-                '<input type="text" name="cantidad_equipo[]" ' +
+                '<input type="text" name="parte_carga[]" ' +
                 'class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                '<td>' +
-                '<input type="text" name="tiempo_equipo[]" ' +
-                ' class="form-control" style="background:#77777710" >' +
-                '</td>' +
 
                 '<td style="text-align:center">' +
                 '<button type="button" id="' + i +
@@ -71,15 +67,13 @@
                 '</tr>'
             );
             i++;
-            document.getElementById("contador_t").value++;
         });
 
         $(document).on('click', '.btn_remove', function() {
-            if (!confirm("¿Estas seguro de eliminar este contacto?")) return;
+            if (!confirm("¿Estas seguro de eliminar este equipo?")) return;
 
             var id = $(this).attr('id');
             $('#row' + id).remove();
-            document.getElementById("contador_t").value--;
 
         });
 
