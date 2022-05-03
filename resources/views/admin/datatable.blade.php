@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Dashboard')
+@section('title', 'Clientes')
 
 @section('content_header')
 
@@ -7,7 +7,7 @@
 
 @section('content')
     {{-- @include('buscador') --}}
-    <h1>AQUI VAN LOS DASHBOARDS</h1>
+    {{-- <h1>AQUI VAN LOS DASHBOARDS</h1> --}}
 @stop
 
 @section('css')
@@ -111,8 +111,8 @@
 @section('js')
     <!-- Essential javascripts for application to work-->
     <!--<script src="{{ asset('backend/js/jquery-3.3.1.min.js') }}"></script>-->
-    <script src="{{ asset('js2/popper.min.js') }}"></script>
-    <script src="{{ asset('js2/bootstrap.min.js') }}"></script>
+    {{-- <script src="{{ asset('js2/popper.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js2/bootstrap.min.js') }}"></script> --}}
     <script src="{{ asset('js2/main.js') }}"></script>
 
     <script src="{{ asset('js2/product.js') }}"></script>

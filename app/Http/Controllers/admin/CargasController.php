@@ -33,9 +33,10 @@ class CargasController extends Controller
             'peso',
             'unidad_medida_peso',
             'ubicacion',
-
+            'created_at',
+            'updated_at'
         ))
-            // ->editColumn('created_at', function (Cliente $prueba) {
+            // ->editColumn('created_at', function (VistaCarga $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
             // })
             ->addColumn('btn_clientes', 'admin.botones.btn_clientes')

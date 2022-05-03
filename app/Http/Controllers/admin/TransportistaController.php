@@ -15,7 +15,7 @@ class TransportistaController extends Controller
 {
     public function transportistas()
     {
-        return view('admin.transportistas');
+        return view('admin.transportistas.transportistas');
     }
 
 
@@ -33,7 +33,7 @@ class TransportistaController extends Controller
     public function form_agregar_transportista()
     {
         $ubicaciones = Ubicacion::all();
-        return view('admin.agregar_transportista', compact('ubicaciones'));
+        return view('admin.transportistas.agregar_transportista', compact('ubicaciones'));
     }
 
     public function agregar_transportista(Request $request)
@@ -102,7 +102,7 @@ class TransportistaController extends Controller
         $contactos[] = ContactoTransportista::where('id_transportista', $id)->get();
         $transportes[] = Vehiculo::where('id_transportista', $id)->get();
         $ubicaciones = Ubicacion::all();
-        return view("admin.editar_transportista", [
+        return view("admin.transportistas.editar_transportista", [
             "empresa" => $empresa,
             "contactos" => $contactos[0],
             "transportes" => $transportes[0],
@@ -150,17 +150,17 @@ class TransportistaController extends Controller
         $contador_id = count($id_eliminar);
 
         for ($z = 0; $z < $contador_id; $z++) {
-            $eliminar_registros = ContactoTransportista::where('id', $id_eliminar[$z])->delete();
+            ContactoTransportista::where('id', $id_eliminar[$z])->delete();
         }
 
-        // $ids_eliminar_trans = $request->ids_eliminar_trans;
+        $ids_eliminar_t = $request->ids_eliminar_t;
 
-        // $id_eliminar_trans = explode(",", $ids_eliminar_trans);
-        // $contador_id_trans = count($id_eliminar_trans);
+        $id_eliminar_t = explode(",", $ids_eliminar_t);
+        $contador_id_t = count($id_eliminar_t);
 
-        // for ($m = 0; $m < $contador_id_trans; $m++) {
-        //     $eliminar_registros_trans = Vehiculo::where('id', $id_eliminar_trans[$z])->delete();
-        // }
+        for ($m = 0; $m < $contador_id_t; $m++) {
+            Vehiculo::where('id', $id_eliminar_t[$m])->delete();
+        }
 
 
 
@@ -190,7 +190,7 @@ class TransportistaController extends Controller
         }
         for ($j = 0; $j < $contador_t; $j++) {
             if (isset($request->id_transporte[$j])) {
-                $equipos = Vehiculo::where('id', $request->id_transporte[$j])->get();
+                $equipos = Vehiculo::where('id', $request->id_transporte[$j])->first();
                 $equipos->tipo = $request->tipo_t[$j];
                 $equipos->marca = $request->marca_t[$j];
                 $equipos->placa = $request->placa_t[$j];
@@ -216,7 +216,7 @@ class TransportistaController extends Controller
             }
         }
         $notification = array(
-            'mensaje' => 'Transportista actualizado correctamente!' . $ids_eliminar,
+            'mensaje' => 'Transportista actualizado correctamente!',
             'tipo' => 'success'
         );
         return Redirect()->back()->with($notification);

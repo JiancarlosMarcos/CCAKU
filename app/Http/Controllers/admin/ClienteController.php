@@ -9,13 +9,14 @@ use App\Models\ContactoCliente;
 use App\Models\VistaCliente;
 use Yajra\DataTables\DataTables;
 use App\Models\Carga;
+use App\Models\Ubicacion;
 
 class ClienteController extends Controller
 {
     public function clientes()
     {
         // $clientes = Cliente::all();
-        return view('admin.clientes');
+        return view('admin.clientes.clientes');
     }
 
 
@@ -32,7 +33,8 @@ class ClienteController extends Controller
     }
     public function form_agregar_cliente()
     {
-        return view('admin.agregar_cliente');
+        $ubicaciones = Ubicacion::all();
+        return view('admin.clientes.agregar_cliente', compact('ubicaciones'));
     }
 
     public function agregar_cliente(Request $request)
@@ -64,6 +66,7 @@ class ClienteController extends Controller
 
         $id = $empresa->id;
         $contador = $request->contador;
+        $contador_c = $request->contador_c;
         // $usuario = $request->usuario;
 
         for ($i = 0; $i < $contador; $i++) {
@@ -77,6 +80,20 @@ class ClienteController extends Controller
             // $contacto->responsable_registro = $usuario;
             $contacto->save();
         }
+        for ($j = 0; $j < $contador_c; $j++) {
+            $equipos = new Carga;
+            $equipos->tipo = $request->tipo_c[$j];
+            $equipos->volumen = $request->volumen_c[$j];
+            $equipos->peso = $request->peso_c[$j];
+            $equipos->unidad_medida_peso = $request->medida_c[$j];
+            $equipos->id_ubicacion = $request->id_ubicacion_c[$j];
+            $equipos->id_cliente = $id;
+            $equipos->marca = $request->marca_c[$j];
+            $equipos->modelo = $request->modelo_c[$j];
+            $equipos->placa = $request->placa_c[$j];
+
+            $equipos->save();
+        }
         $notification = array(
             'mensaje' => 'Cliente ' . $nombre_empresa . ' registrado correctamente!',
             'tipo' => 'success'
@@ -88,10 +105,14 @@ class ClienteController extends Controller
         $id = $request->id;
         $empresa = Cliente::findOrFail($id);
         $contactos[] = ContactoCliente::where('id_cliente', $id)->get();
+        $cargas[] = Carga::where('id_cliente', $id)->get();
+        $ubicaciones = Ubicacion::all();
 
-        return view("admin.editar_cliente", [
+        return view("admin.clientes.editar_cliente", [
             "empresa" => $empresa,
-            "contactos" => $contactos[0]
+            "contactos" => $contactos[0],
+            "cargas" => $cargas[0],
+            "ubicaciones" => $ubicaciones
         ]);
     }
 
@@ -122,6 +143,7 @@ class ClienteController extends Controller
         $empresa->save();
 
         $contador = $request->contador;
+        $contador_c = $request->contador_c;
         // $usuario = $request->usuario;
 
         //Elimina todos los contactos de determinada empresa
@@ -136,7 +158,14 @@ class ClienteController extends Controller
         for ($z = 0; $z < $contador_id; $z++) {
             $eliminar_registros = ContactoCliente::where('id', $id_eliminar[$z])->delete();
         }
+        $ids_eliminar_c = $request->ids_eliminar_c;
 
+        $id_eliminar_c = explode(",", $ids_eliminar_c);
+        $contador_id_c = count($id_eliminar_c);
+
+        for ($m = 0; $m < $contador_id_c; $m++) {
+            Carga::where('id', $id_eliminar_c[$m])->delete();
+        }
 
 
 
@@ -165,6 +194,35 @@ class ClienteController extends Controller
                 $contacto_nuevo->save();
             }
         }
+        for ($j = 0; $j < $contador_c; $j++) {
+            if (isset($request->id_carga[$j])) {
+                $equipos = Carga::where('id', $request->id_carga[$j])->first();
+                $equipos->tipo = $request->tipo_c[$j];
+                $equipos->volumen = $request->volumen_c[$j];
+                $equipos->peso = $request->peso_c[$j];
+                $equipos->unidad_medida_peso = $request->medida_c[$j];
+                $equipos->id_ubicacion = $request->id_ubicacion_c[$j];
+                $equipos->id_cliente = $id;
+                $equipos->marca = $request->marca_c[$j];
+                $equipos->modelo = $request->modelo_c[$j];
+                $equipos->placa = $request->placa_c[$j];
+                $equipos->save();
+            } else {
+                $equipos_nuevo = new Carga;
+                $equipos_nuevo->tipo = $request->tipo_c[$j];
+                $equipos_nuevo->volumen = $request->volumen_c[$j];
+                $equipos_nuevo->peso = $request->peso_c[$j];
+                $equipos_nuevo->unidad_medida_peso = $request->medida_c[$j];
+                $equipos_nuevo->id_ubicacion = $request->id_ubicacion_c[$j];
+                $equipos_nuevo->id_cliente = $id;
+                $equipos_nuevo->marca = $request->marca_c[$j];
+                $equipos_nuevo->modelo = $request->modelo_c[$j];
+                $equipos_nuevo->placa = $request->placa_c[$j];
+                $equipos_nuevo->save();
+            }
+        }
+
+
         $notification = array(
             'mensaje' => 'Cliente actualizado correctamente!' . $ids_eliminar,
             'tipo' => 'success'

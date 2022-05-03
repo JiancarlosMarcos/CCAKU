@@ -1,67 +1,8 @@
 @extends('adminlte::page')
 
 @section('content')
-@section('titulo', 'Clientes')
-<style>
-    @import url(https://fonts.googleapis.com/css?family=Montserrat);
+@section('titulo', 'Transportistas')
 
-    .lds-ring {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 80px;
-    }
-
-    .lds-ring div {
-        box-sizing: border-box;
-        display: block;
-        position: absolute;
-        width: 64px;
-        height: 64px;
-        margin: 8px;
-        border: 8px solid #123;
-        border-radius: 50%;
-        animation: lds-ring 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-        border-color: #123 transparent transparent transparent;
-    }
-
-    .lds-ring div:nth-child(1) {
-        animation-delay: -0.30s;
-    }
-
-    .lds-ring div:nth-child(2) {
-        animation-delay: -0.15s;
-    }
-
-    .lds-ring div:nth-child(3) {
-        animation-delay: -0.15s;
-    }
-
-    @keyframes lds-ring {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .hidden {
-        overflow: hidden;
-        visibility: hidden;
-    }
-
-    .centrado {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-
-    }
-
-</style>
 
 
 <br>
@@ -70,12 +11,12 @@
 <div class="app-title">
     <div>
         <h1>
-            <a href="{{ route('clientes') }}" class="btn btn-primary"
-                style="background:#777;border-color:#777">Clientes</a>
-            <a href="{{ route('clientes.contactos.mostrar') }}" class="btn btn-primary "
-                style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a>
-            <a href="{{ route('cargas') }}" class="btn btn-primary "
-                style="color:#777;background:#fff;border-color:#777">Cargas</a>
+            <a href="{{ route('transportistas') }}" class="btn btn-primary"
+                style="background:#777;border-color:#777">Transportistas</a>
+            <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
+            <a href="{{ route('vehiculos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Transportes</a>
 
         </h1>
 
@@ -84,7 +25,7 @@
 
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-        <li class="breadcrumb-item"><a href=""></a>Clientes</li>
+        <li class="breadcrumb-item"><a href=""></a>Transportistas</li>
     </ul>
 </div>
 @include('notificacion')
@@ -106,13 +47,13 @@
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
-            <a class="btn btn-primary btn-sm" href="{{ route('clientes.formulario.agregar') }}"
+            <a class="btn btn-primary btn-sm" href="{{ route('transportistas.formulario.agregar') }}"
                 style="margin-left:auto;width:120px;font-size:14px">
                 <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar </a>
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
-                <table class="table table-bordered display" id="tablaClientes">
+                <table class="table table-bordered display" id="tablaTransportistas">
                     <thead>
                         <tr>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre"
@@ -131,20 +72,22 @@
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web"
                                     data-column="4" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_creacion" data-column="5" /></td>
+                                    id="responsable_registro" data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_modificacion" data-column="6" /></td>
+                                    id="fecha_creacion" data-column="6" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input"
+                                    id="fecha_modificacion" data-column="7" /></td>
 
                             <td></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-
                             <th>Nombre</th>
                             <th>DNI/RUC</th>
-                            <th>Tipo de<br>Cliente</th>
+                            <th>Tipo de<br>Transportista</th>
                             <th>Direccion</th>
                             <th>Pagina Web</th>
+                            <th>Responsable<br>de Registro</th>
                             <th>Fecha de<br>Creacion</th>
                             <th>Fecha de<br>Modificacion</th>
                             <th>Acciones</th>
@@ -165,10 +108,10 @@
 
 <script>
     $(document).ready(function() {
-        var table = $('#tablaClientes').DataTable({
+        var table = $('#tablaTransportistas').DataTable({
 
             serverSider: true,
-            ajax: '{{ route('lista_clientes') }}',
+            ajax: '{{ route('lista_transportistas') }}',
             columns: [{
                     data: 'nombre'
                 },
@@ -176,7 +119,7 @@
                     data: 'dni_ruc'
                 },
                 {
-                    data: 'tipo_cliente'
+                    data: 'tipo_transportista'
                 },
                 {
                     data: 'direccion'
@@ -185,13 +128,16 @@
                     data: 'pagina_web'
                 },
                 {
+                    data: 'responsable_registro'
+                },
+                {
                     data: 'created_at'
                 },
                 {
                     data: 'updated_at'
                 },
                 {
-                    data: 'btn_clientes'
+                    data: 'btn_transportistas'
                 },
 
             ],
@@ -227,15 +173,17 @@
 
 <script>
     function LimpiarFiltros() {
-        var table = $('#tablaClientes').DataTable();
+        var table = $('#tablaTransportistas').DataTable();
         table.search('').columns().search('').draw();
         document.getElementById("nombre").value = ' ';
         document.getElementById("dni_ruc").value = ' ';
         document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
         document.getElementById("direccion").value = ' ';
         document.getElementById("pagina_web").value = ' ';
+        document.getElementById("responsable_registro").value = ' ';
         document.getElementById("fecha_creacion").value = ' ';
         document.getElementById("fecha_creacion").value = ' ';
+
     }
 </script>
 
@@ -258,103 +206,5 @@
 </script>
 @endsection
 @section('css')
-<!-- SELECT 2 JS CSS-->
-<script src="{{ asset('js2/jquery/jquery.min.js') }}"></script>
-<!-- NUEVO JQUERY-->
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<!-- Main CSS-->
-<link rel="stylesheet" type="text/css" href="{{ asset('css2/main.css') }}">
-
-<link rel="stylesheet" href="{{ asset('css2/product.css') }}">
-<!-- Font-icon css-->
-<link rel="stylesheet" type="text/css"
-    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--  extension responsive  -->
-
-<link rel="stylesheet" type="text/css"
-    href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-
-<style>
-    .bg-principal {
-        background: #222d32;
-        color: #fff;
-    }
-
-</style>
-<style>
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-
-</style>
-
-@stop
-@section('js')
-<!-- Essential javascripts for application to work-->
-<!--<script src="{{ asset('backend/js/jquery-3.3.1.min.js') }}"></script>-->
-<script src="{{ asset('js2/popper.min.js') }}"></script>
-<script src="{{ asset('js2/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js2/main.js') }}"></script>
-
-<script src="{{ asset('js2/product.js') }}"></script>
-
-<script type="text/javascript" src="{{ asset('js2/plugins/jquery.dataTables.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js2/plugins/dataTables.bootstrap.min.js') }}"></script>
-
-
-
-
-
-<script src="https://kit.fontawesome.com/102c277d5c.js" crossorigin="anonymous"></script>
-<!-- extension responsive -->
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
-
-<!-- The javascript plugin to display page loading on top-->
-<script src="{{ asset('js2/plugins/pace.min.js') }}"></script>
-<!-- Page specific javascripts-->
-<script type="text/javascript" src="{{ asset('js2/plugins/chart.js') }}"></script>
-<script type="text/javascript">
-
-</script>
-
-
-
-<script type="text/javascript" src="{{ asset('js2/plugins/sweetalert.min.js') }}"></script>
-
-<script>
-    //SweetAlert2 Para eliminar
-    $(function() {
-        $(document).on('click', '#delete', function(e) {
-            e.preventDefault();
-            var link = $(this).attr("href");
-            swal({
-                title: "Estas Seguro?",
-                text: "Una vez eliminado, no podrás recuperarlo",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, Eliminarlo",
-                cancelButtonText: "No, Cancelarlo",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    window.location.href = link
-
-                } else {
-                    swal("Cancelado", "", "error");
-                }
-            });
-        });
-    });
-</script>
+@include('admin.datatable')
 @stop

@@ -7,8 +7,10 @@
     <div>
         <a href="{{ route('transportistas') }}" class="btn btn-primary"
             style="background:#777;border-color:#777">Transportistas</a>
-        <a class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-        <a class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Transportes</a>
+        <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
+        <a href="{{ route('vehiculos') }}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Transportes</a>
         {{-- <a href="{{route('proveedores.contactos.mostrar')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Proveedores</a> --}}
         {{-- <a href="{{route('grupo_mdn.mostrar')}}" class="btn btn-primary " style="background:#fff;border-color:#777;color:#777">Grupo MDN</a> --}}
 
@@ -155,10 +157,97 @@
             <button class="btn btn-primary" type="Submit"> <i class="fa fa-plus-square"></i>Registrar </button>
         </div>
     </div>
-    </div>
-</form>
 
-@include('admin.tabla_transporte')
+</form>
+<script>
+    $(document).ready(function() {
+        var j = $(".transportes").length;
+
+        $('#add_transporte').click(function() {
+
+            $('#tabla_transporte').append(
+
+                '<tr id="transporte' + j + '" class="transportes">' +
+
+                '<td>' +
+                '<select name="tipo_t[]" class="form-control " id="tipo_t' + j + '" ' +
+                ' required >' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="Camion Plataforma">Camion Plataforma</option>' +
+                '<option value="Camion Rebatible">Camion Rebatible</option>' +
+                '<option value="Camion Normal">Camion Normal</option>' +
+                '<option value="Camacuna">Camacuna</option>' +
+                '<option value="Camabaja">Camabaja</option>' +
+                '<option value="Tracto">Tracto</option>' +
+                '<option value="Modulares">Modulares</option>' +
+                '</select>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="cantidad_ejes_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="capacidad_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<select name="id_ubicacion_t[]" " class="form-control " >' +
+                '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
+                @foreach ($ubicaciones as $ubicacion)
+                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>'+
+                @endforeach '</select>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="estado_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="marca_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<input type="text" name="modelo_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td style="text-align:center">' +
+                '<button type="button" onclick="eliminar_fila(' + j +
+                ')" class="btn btn-danger btn_remove_t">X</button>' +
+                '</td>' +
+                '</tr>'
+            );
+            j++;
+
+            document.getElementById("contador_t").value++;
+
+        });
+
+
+
+    })
+
+    function eliminar_fila(id) {
+        if (!confirm("¿Estas seguro de eliminar este equipo?")) return;
+
+        $('#transporte' + id).remove();
+        document.getElementById("contador_t").value--;
+
+    }
+</script>
+
 <script>
     $(document).ready(function() {
         var i = 1;
@@ -217,56 +306,6 @@
 
     })
 </script>
-<script>
-    // function LimpiarForm(){
-
-    //     document.getElementById("nombre_registrador").value="";
-    //     document.getElementById("celular_registrador").value="";
-    //     document.getElementById("cargo_registrador").value="";
-    //     document.getElementById("correo_registrador").value="";
-
-    //     document.getElementById("tipo_t_registrador").value="";
-    //     document.getElementById("cantidad_ejes_t_registrador").value="";
-    //     document.getElementById("capacidad_t_registrador").value="";
-    //     document.getElementById("id_ubicacion_t_registrador").value="";
-    //     document.getElementById("estado_t_registrador").value="";
-    //     document.getElementById("marca_t_registrador").value="";
-    //     document.getElementById("modelo_t_registrador").value="";
-    //     document.getElementById("placa_t_registrador").value="";
-
-    // }
-</script>
-<script>
-    // function PasarValores(){
-
-    //     var cont = $(".contactos").length;
-
-    //     var nombre_contacto = document.getElementsByName("nombre_contacto[]");
-    //     var dni = document.getElementsByName("dni[]");
-    //     var celular = document.getElementsByName("celular[]");
-    //     var cargo = document.getElementsByName("cargo[]");
-    //     var correo = document.getElementsByName("correo[]");
-
-
-    //     // nombre_contacto[cont-1].value = document.getElementById("nombre_registrador").value;
-    //     // celular[cont-1].value = document.getElementById("celular_registrador").value;
-    //     // cargo[cont-1].value = document.getElementById("cargo_registrador").value;
-    //     // correo[cont-1].value = document.getElementById("correo_registrador").value;
-
-    // var cont_t = $(".transportes").length;
-
-    // var tipo_t = document.getElementsByName("tipo_t[]");
-    // var cantidad_ejes_t = document.getElementsByName("cantidad_ejes_t[]");
-    // var capacidad_t = document.getElementsByName("capacidad_t[]");
-    // var id_ubicacion_t = document.getElementsByName("id_ubicacion_t[]");
-    // var estado_t = document.getElementsByName("estado_t[]");
-    // var marca_t = document.getElementsByName("marca_t[]");
-    // var modelo_t = document.getElementsByName("modelo_t[]");
-    // var placa_t = document.getElementsByName("placa_t[]");
-
-
-    // }
-</script>
 
 <script>
     function validar_transportista() {
@@ -308,103 +347,5 @@
 
 
 @section('css')
-<!-- SELECT 2 JS CSS-->
-<script src="{{ asset('js2/jquery/jquery.min.js') }}"></script>
-<!-- NUEVO JQUERY-->
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<!-- Main CSS-->
-<link rel="stylesheet" type="text/css" href="{{ asset('css2/main.css') }}">
-
-<link rel="stylesheet" href="{{ asset('css2/product.css') }}">
-<!-- Font-icon css-->
-<link rel="stylesheet" type="text/css"
-    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--  extension responsive  -->
-
-<link rel="stylesheet" type="text/css"
-    href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-
-<style>
-    .bg-principal {
-        background: #222d32;
-        color: #fff;
-    }
-
-</style>
-<style>
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-
-</style>
-
-@stop
-@section('js')
-<!-- Essential javascripts for application to work-->
-<!--<script src="{{ asset('backend/js/jquery-3.3.1.min.js') }}"></script>-->
-<script src="{{ asset('js2/popper.min.js') }}"></script>
-<script src="{{ asset('js2/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js2/main.js') }}"></script>
-
-<script src="{{ asset('js2/product.js') }}"></script>
-
-<script type="text/javascript" src="{{ asset('js2/plugins/jquery.dataTables.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js2/plugins/dataTables.bootstrap.min.js') }}"></script>
-
-
-
-
-
-<script src="https://kit.fontawesome.com/102c277d5c.js" crossorigin="anonymous"></script>
-<!-- extension responsive -->
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
-
-<!-- The javascript plugin to display page loading on top-->
-<script src="{{ asset('js2/plugins/pace.min.js') }}"></script>
-<!-- Page specific javascripts-->
-<script type="text/javascript" src="{{ asset('js2/plugins/chart.js') }}"></script>
-<script type="text/javascript">
-
-</script>
-
-
-
-<script type="text/javascript" src="{{ asset('js2/plugins/sweetalert.min.js') }}"></script>
-
-<script>
-    //SweetAlert2 Para eliminar
-    $(function() {
-        $(document).on('click', '#delete', function(e) {
-            e.preventDefault();
-            var link = $(this).attr("href");
-            swal({
-                title: "Estas Seguro?",
-                text: "Una vez eliminado, no podrás recuperarlo",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, Eliminarlo",
-                cancelButtonText: "No, Cancelarlo",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    window.location.href = link
-
-                } else {
-                    swal("Cancelado", "", "error");
-                }
-            });
-        });
-    });
-</script>
+@include('admin.datatable')
 @stop

@@ -118,7 +118,9 @@
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
-
+            {{-- <a class="btn btn-primary btn-sm" href="{{ route('transportistas.formulario.agregar') }}"
+                style="margin-left:auto;width:120px;font-size:14px">
+                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar Transportista</a> --}}
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">

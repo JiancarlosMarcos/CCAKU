@@ -38,13 +38,28 @@ class RequerimientoController extends Controller
 
     public function vista_requerimientos(Request $request)
     {
-        return DataTables::of(VistaRequerimiento::all())
+        return DataTables::of(VistaRequerimiento::select(
+            'id',
+            'empresa',
+            'fecha',
+            'origen',
+            'destino',
+            'carga',
+            'marca',
+            'modelo',
+            'volumen',
+            'largo',
+            'ancho',
+            'altura',
+            'peso',
+            'unidad_medida_peso',
+            'observaciones',
+            'estado',
+            'created_at',
+            'updated_at'
+        ))
             // ->editColumn('fecha', function (VistaRequerimiento $prueba) {
-            //     if ($prueba->fecha == NULL) {
-            //         return "-";
-            //     } else {
-            //         return $prueba->fecha->format('d/m/Y');
-            //     }
+            //     return $prueba->fecha->format('d/m/Y');
             // })
             ->addColumn('btn_requerimientos', 'admin.botones.btn_requerimientos')
             ->rawColumns(['btn_requerimientos'])
