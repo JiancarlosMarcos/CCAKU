@@ -7,6 +7,7 @@ use App\Http\Livewire\Cargas;
 use App\Http\Livewire\Vehiculos;
 use App\Http\Controllers\MapaController;
 use App\Http\Controllers\BuscadorController;
+use App\Http\Controllers\cliente\RequerimientoClienteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,9 +39,15 @@ Route::post('mapa/vehiculo/', [MapaController::class, 'ubicacion_vehiculo'])->na
 
 //RUTAS DE MAPA DE EQUIPOS
 
+
+
 Route::get('/mapa/cargas/{equipos}', [MapaController::class, 'ubicacion_equipos'])->name('mapa_equipos');
 
 Route::get('/mapa/cargas', [MapaController::class, 'ubicacion_todos_equipos'])->name('mapa_todos_equipos');
+
+
+Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'form_agregar_requerimiento'])->middleware('can:cliente')->name('requerimientos.formulario.agregar');
+
 
 Route::middleware([
     'auth:sanctum',

@@ -45,15 +45,15 @@
             <div style="display:flex">
 
                 <a class="btn btn-primary " onclick="LimpiarFiltros();" style="margin-rigth:auto;width:140px;
-                                font-size:14px;background:#ECDCC2;border-color:#777">
+                                    font-size:14px;background:#ECDCC2;border-color:#777">
                     <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Eliminar();" id="eliminar" style="margin-rigth:auto;width:140px;yo
-                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Editar();" id="editar" style="margin-rigth:auto;width:140px;display:block;
-                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
 
@@ -149,10 +149,10 @@
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
                 }
-                // asigna un id a cada tr
-                fnCreatedRow: function(rowEl, data) {
-                    $(rowEl).attr('id', data['id']);
-                }
+                // // asigna un id a cada tr
+                // fnCreatedRow: function(rowEl, data) {
+                //     $(rowEl).attr('id', data['id']);
+                // }
             });
             // text search
             $('.filter-input').keyup(function() {

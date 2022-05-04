@@ -1,12 +1,3 @@
-{{-- <style>
-    .hidden {
-        overflow: hidden;
-        visibility: hidden;
-        display: none;
-    }
-
-</style> --}}
-
 <style>
     .estilo_1 {
         height: 35px !important;

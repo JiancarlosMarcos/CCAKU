@@ -82,7 +82,7 @@
             autocomplete="off" />
         <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="<?php echo $contador_t; ?>"
             value="0" autocomplete="off" />
-        <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->Nombres }}"
+        <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}"
             autocomplete="off" />
         <!---->
     </div>

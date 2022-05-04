@@ -65,11 +65,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -254,20 +254,41 @@ return [
             // 'label'       => 4,
             // 'label_color' => 'success',
         ],
-        // ['header' => 'account_settings'],
-        [
-            'text' => 'Usuarios',
-            'url'  => 'admin/usuarios',
-            'icon' => 'fas fa-fw fa-user',
-        ],
+
         [
             'text' => 'Mapa',
             'url'  => 'admin/mapa',
             'icon' => 'fas fa-solid fa-map',
         ],
+        //CLIENTE
+        [
+            'header' => 'Cliente',
+            'can' => 'cliente'
+        ],
+        [
+            'text' => 'Requerimientos',
+            'url'  => 'requerimientos/agregar',
+            'icon' => 'fas fa-solid fa-clipboard-list',
+            'can' => 'cliente'
+
+        ],
+        //ADMINISTRADOR
+        [
+            'header' => 'Administrador',
+            'can' => 'administrador'
+        ],
+
+        [
+            'text' => 'Usuarios',
+            'url'  => 'admin/usuarios',
+            'icon' => 'fas fa-fw fa-user',
+            'can'     => 'administrador',
+        ],
+
         [
             'text'    => 'Clientes/Trasportistas',
             'icon'    => 'fas fa-solid fa-truck',
+            'can'     => 'administrador',
             'submenu' => [
                 [
                     'text' => 'Clientes',
@@ -310,12 +331,14 @@ return [
             'text' => 'Requerimientos',
             'url'  => 'admin/requerimientos',
             'icon' => 'fas fa-solid fa-clipboard-list',
+            'can' => 'administrador'
 
         ],
         [
             'text' => 'Cotizaciones',
             'url'  => 'admin/cotizaciones',
             'icon' => 'fas fa-solid fa-dollar-sign',
+            'can'     => 'administrador',
 
 
         ],

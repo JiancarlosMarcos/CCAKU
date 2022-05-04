@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use App\Models\UserRole;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -17,7 +20,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-
+    use HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -58,4 +61,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public function adminlte_desc()
+    {
+        $rol = UserRole::where('model_id', $this->id)->first();
+        $nombre_rol = Role::find($rol->role_id)->name;
+        return "$nombre_rol";
+    }
+    public function adminlte_profile_url()
+    {
+        return "user/profile";
+    }
 }

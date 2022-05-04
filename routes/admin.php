@@ -30,16 +30,16 @@ Route::get('/mapa/cargas', [MapaAdminController::class, 'ubicacion_todos_equipos
 
 
 //MOSTRAR CLIENTES
-Route::get('/clientes', [ClienteController::class, 'clientes'])->name('clientes');
-Route::get('/lista_clientes', [ClienteController::class, 'vista_clientes'])->name('lista_clientes');
+Route::get('/clientes', [ClienteController::class, 'clientes'])->middleware('can:administrador')->name('clientes');
+Route::get('/lista_clientes', [ClienteController::class, 'vista_clientes'])->middleware('can:administrador')->name('lista_clientes');
 //AGREGAR CLIENTE
-Route::get('/clientes/agregar', [ClienteController::class, 'form_agregar_cliente'])->name('clientes.formulario.agregar');
-Route::post('/clientes/agregar', [ClienteController::class, 'agregar_cliente'])->name('agregar_cliente');
+Route::get('/clientes/agregar', [ClienteController::class, 'form_agregar_cliente'])->middleware('can:administrador')->name('clientes.formulario.agregar');
+Route::post('/clientes/agregar', [ClienteController::class, 'agregar_cliente'])->middleware('can:administrador')->name('agregar_cliente');
 //EDITAR CLIENTE
-Route::get('/clientes/editar/{id}', [ClienteController::class, 'form_editar_cliente'])->name('editar_cliente');
-Route::post('/clientes/editar/', [ClienteController::class, 'editar_cliente'])->name('actualizar_cliente');
+Route::get('/clientes/editar/{id}', [ClienteController::class, 'form_editar_cliente'])->middleware('can:administrador')->name('editar_cliente');
+Route::post('/clientes/editar/', [ClienteController::class, 'editar_cliente'])->middleware('can:administrador')->name('actualizar_cliente');
 //ELIMINAR CLIENTE
-Route::get('/clientes/eliminar/{id}', [ClienteController::class, 'eliminar_cliente'])->name('eliminar_cliente');
+Route::get('/clientes/eliminar/{id}', [ClienteController::class, 'eliminar_cliente'])->middleware('can:administrador')->name('eliminar_cliente');
 
 //MOSTRAR TRANSPORTISTAS
 Route::get('/transportistas', [TransportistaController::class, 'transportistas'])->name('transportistas');

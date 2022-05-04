@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
+use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller
 {
@@ -37,9 +38,9 @@ class UsuarioController extends Controller
     {
         $id = $request->id;
         $usuario = User::findOrFail($id);
+        $roles = Role::all();
 
-
-        return view("admin.usuarios.editar_usuario", ["usuario" => $usuario]);
+        return view("admin.usuarios.editar_usuario", compact('usuario', 'roles'));
     }
 
     public function editar_usuario(Request $request)
@@ -54,6 +55,7 @@ class UsuarioController extends Controller
         $usuario = User::findOrFail($id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
+        $usuario->roles()->sync($request->roles);
         // $usuario->id_via_ingreso = $request->id_via_ingreso;
         // $usuario->id_indicador = $request->id_indicador;
         // $usuario->responsable_registro = $request->usuario;

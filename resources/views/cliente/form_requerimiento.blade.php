@@ -81,9 +81,12 @@
             </div>
         </div>
     </div>
-    @include('admin/requerimientos/agregar_cliente')
 
-    <br>
+    {{-- @include('07-Requerimientos/agregar_servicio') --}}
+    {{-- @include('admin/requerimientos/agregar_cliente') --}}
+    {{-- @include('admin/requerimientos/agregar_proyecto') --}}
+    {{-- @include('admin/requerimientos/agregar_transportes') --}}
+    {{-- <br>
     <br>
     <h5>Lista de Transportes Requeridos:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
     <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="0" autocomplete="off" />
@@ -95,7 +98,7 @@
                 <td>Cantidad(*)</td>
                 <td>Cantidad Ejes</td>
                 <td>Parte de la Carga(*)</td>
-                {{-- <td>Tiempo(*)</td> --}}
+
                 <td style="text-align:center">Eliminar</td>
             </tr>
         </thead>
@@ -116,7 +119,7 @@
                 <textarea rows="10" class="form-control" name="observaciones"></textarea>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
