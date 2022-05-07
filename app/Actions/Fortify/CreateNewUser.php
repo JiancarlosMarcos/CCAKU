@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 use App\Models\UserRole;
+use App\Models\ContactoCliente;
+use App\Models\ContactoTransportista;
+use App\Models\Cliente;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -27,11 +30,30 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
-
-        return User::create([
+        $usuario = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-        ])->assignRole($input['role_id']);;
+        ])->assignRole($input['role_id']);
+
+        if ($input['role_id'] == 2) {
+            $contacto_cliente = new ContactoCliente;
+            $contacto_cliente->nombre = $input['name'];
+            $contacto_cliente->correo = $input['email'];
+            $contacto_cliente->id_users = $usuario->id;
+            $ruc = $input['ruc'];
+            $empresa = Cliente::where('dni_ruc', $ruc)->first();
+            if (isset($empresa)) {
+                $contacto_cliente->id_cliente = $empresa->id;
+            }
+            $contacto_cliente->save();
+        } else {
+            $contacto_transportista = new ContactoTransportista;
+            $contacto_transportista->nombre = $input['name'];
+            $contacto_transportista->correo = $input['email'];
+            $contacto_transportista->id_users = $usuario->id;
+            $contacto_transportista->save();
+        }
+        return $usuario;
     }
 }

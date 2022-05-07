@@ -77,7 +77,6 @@
         <!--OCULTO-->
         <?php $contador = count($contactos); ?>
         <?php $contador_t = count($transportes); ?>
-
         <input class="form-control" name="contador" id="contador" type="hidden" value="<?php echo $contador; ?>" value="0"
             autocomplete="off" />
         <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="<?php echo $contador_t; ?>"
@@ -213,11 +212,6 @@
                     <input type="text" name="capacidad_t[]" autocomplete="off" class="form-control"
                         style="background:#77777710" value="{{ $transportes[$j]->capacidad }}">
                 </td>
-                {{-- <td>
-                    <input type="text" name="id_ubicacion_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $transportes[$j]->id_ubicacion }}">
-                </td> --}}
-
 
                 <td>
                     <select name="id_ubicacion_t[]" class="form-control " style="background:#77777710">
@@ -462,8 +456,6 @@
     let array_lista = [];
 
     function lista_eliminados(data) {
-
-
         array_lista.push(data);
         console.log(array_lista);
         $('#ids_eliminar').val(array_lista);

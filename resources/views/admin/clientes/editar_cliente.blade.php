@@ -183,19 +183,6 @@
                     <input type="hidden" name="id_carga[]" id="id_carga<?php echo $j; ?>" autocomplete="off"
                         class="form-control" style="background:#77777710" value="{{ $cargas[$j]->id }}">
 
-                    {{-- <select name="tipo_c[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710"
-                        required>
-                        <option value="{{ $cargas[$j]->tipo }}">
-                            {{ $cargas[$j]->tipo }}</option>
-                        <option value="Camion Plataforma">Camion Plataforma</option>
-                        <option value="Camion Rebatible">Camion Rebatible</option>
-                        <option value="Camion Normal">Camion Normal</option>
-                        <option value="Camacuna">Camacuna</option>
-                        <option value="Camabaja">Camabaja</option>
-                        <option value="Tracto">Tracto</option>
-                        <option value="Modulares">Modulares</option>
-                    </select> --}}
-
 
                 </td>
 
@@ -212,12 +199,6 @@
                     <input type="text" name="medida_c[]" autocomplete="off" class="form-control"
                         style="background:#77777710" value="{{ $cargas[$j]->medida }}">
                 </td>
-
-                {{-- <td>
-                    <input type="text" name="id_ubicacion_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->id_ubicacion }}">
-                </td> --}}
-
 
                 <td>
                     <select name="id_ubicacion_c[]" class="form-control " style="background:#77777710">
@@ -337,8 +318,9 @@
                 '</td>' +
 
                 '<td style="text-align:center">' +
-                '<button type="button" id="' + i +
-                '" class="btn btn-danger btn_remove">X</button>' +
+                '<button type="button" onclick="eliminar_fila(' + i +
+                ')" id="' + i +
+                '" class="btn btn-danger ">X</button>' +
                 '</td>' +
                 '</tr>'
             );
@@ -433,7 +415,7 @@
 
     })
 
-    function eliminar_fila_t(id) {
+    function eliminar_fila_c(id) {
         if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
 
         $('#carga' + id).remove();

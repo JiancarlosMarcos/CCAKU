@@ -2,10 +2,13 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\ContactoCliente;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use App\Models\UserRole;
+use ContactoCliente;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
@@ -28,8 +31,10 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+        if (
+            $input['email'] !== $user->email &&
+            $user instanceof MustVerifyEmail
+        ) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
@@ -53,7 +58,10 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'email' => $input['email'],
             'email_verified_at' => null,
         ])->save();
-
+        // $rol=UserRole::where('id',$input['role_id'])->first();
+        // $contacto = ContactoCliente::where('id_users', $user->id)->first();
+        // $contacto->dni = [$input['dni']];
+        // $contacto->save();
         $user->sendEmailVerificationNotification();
     }
 }

@@ -105,9 +105,8 @@
             <a class="btn btn-primary" onclick="Editar();" id="editar" style="margin-rigth:auto;width:140px;display:block;
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
-
-            <a class="btn btn-primary btn-sm" {{-- href="{{route('clientes.formulario.agregar')}}" --}} style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar </a>
+            {{-- <a class="btn btn-primary btn-sm" href="{{route('clientes.formulario.agregar')}}" style="margin-left:auto;width:120px;font-size:14px">
+                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar </a> --}}
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
@@ -231,7 +230,7 @@
                     data: 'updated_at'
                 },
                 {
-                    data: 'btn_clientes'
+                    data: 'btn_cargas'
                 },
 
             ],

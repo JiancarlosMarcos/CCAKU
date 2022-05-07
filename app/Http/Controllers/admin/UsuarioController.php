@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
 use Spatie\Permission\Models\Role;
+use App\Models\ContactoCliente;
 
 class UsuarioController extends Controller
 {
@@ -86,7 +87,9 @@ class UsuarioController extends Controller
 
     public function eliminar_usuario($id)
     {
-
+        // $contacto = ContactoCliente::where('id_users', $id)->first();
+        // $contacto->id_users = "";
+        // $contacto->save();
         $usuarios =  User::findOrFail($id);
         $usuarios->delete();
 

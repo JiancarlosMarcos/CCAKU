@@ -259,6 +259,7 @@ return [
             'text' => 'Mapa',
             'url'  => 'admin/mapa',
             'icon' => 'fas fa-solid fa-map',
+            'can' => 'administrador'
         ],
         //CLIENTE
         [
@@ -266,12 +267,33 @@ return [
             'can' => 'cliente'
         ],
         [
-            'text' => 'Requerimientos',
-            'url'  => 'requerimientos/agregar',
+            'text' => 'Perfil',
+            'url'  => 'user/perfil_usuario',
+            'icon' => 'fas fa-fw fa-user',
+            'can' => 'cliente'
+
+        ],
+        [
+            'text' => 'Mis Requerimientos',
+            'url'  => 'user/vista_requerimientos_cliente',
             'icon' => 'fas fa-solid fa-clipboard-list',
             'can' => 'cliente'
 
         ],
+        [
+            'text' => 'Mapa de Requerimientos',
+            'url'  => 'user/mapa/requerimientos_propios',
+            'icon' => 'fas fa-solid fa-map',
+            'can' =>  'cliente'
+        ],
+        // [
+        //     'text' => 'Mapa de Transportes',
+        //     'url'  => 'admin/mapa/transportes',
+        //     'icon' => 'fas fa-solid fa-map',
+        //     'can' => 'cliente'
+        // ],
+        //TRANSPORTISTA
+
         //ADMINISTRADOR
         [
             'header' => 'Administrador',

@@ -31,6 +31,7 @@
     <div class="font-sans text-gray-900 antialiased fondo">
         {{ $slot }}
     </div>
+
 </body>
 
 </html>

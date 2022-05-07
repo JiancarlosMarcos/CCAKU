@@ -13,6 +13,16 @@
         display: none;
     }
 
+    .disponible {
+        background-color: #5afa8f !important;
+        color: white !important;
+    }
+
+    .no_disponible {
+        background-color: #fa5050 !important;
+        color: white !important;
+    }
+
 </style>
 
 <div class="centrado" id="onload">
@@ -29,23 +39,25 @@
 
 <div class="app-title contenido">
     <div>
-        <h1> Crear Requerimiento de un Transporte </h1>
+        <h1> Solicitar un Equipo de Transporte </h1>
     </div>
 </div>
 
+
+
 @include('errores')
-<form method="POST" action="{{ route('agregar_requerimiento') }}" autocomplete="nope" id="add_requerimientos"
+<form method="POST" action="{{ route('agregar_requerimiento_cliente') }}" autocomplete="nope" id="add_requerimientos"
     class="contenido " name="add_requerimientos">
     @csrf
     @include('notificacion')
 
 
+    <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->id }}">
+    {{-- <input type="text" id="fecha_reporte" name="fecha_reporte" readonly style="font-weight:600;text-align:center"> --}}
 
-    <input type="text" id="fecha_reporte" name="fecha_reporte" readonly style="font-weight:600;text-align:center">
+    <h5> Fecha de transporte:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
 
-    <h5> Fecha:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
-
-    <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control" style="width:140px"
+    <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control fecha" style="width:200px"
         onchange="validar_fecha_cotizacion();">
     <br>
     <h5> Seleccionar Origen y Destino de la Carga:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
@@ -78,6 +90,31 @@
                             {{ $departamento->departamento }}</option>
                     @endforeach
                 </select>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h5>Datos de la carga:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
+    <div class="row" style="margin-bottom:0px">
+        <div class="col-md-3">
+            <div class="form-group">
+
+                <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA: </b>
+                </label>
+
+                <input type="text" name="tipo" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="">
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+
+                <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
+                </label>
+
+                <input type="text" name="tipo" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="">
             </div>
         </div>
     </div>
@@ -121,12 +158,162 @@
         </div>
     </div> --}}
 
+    {{-- <div class="col-md-12">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"
+                style="width:100%;font-weight:700;font-size:14px;background:#ECDCC2;border-color:#777">
+                Guardar</button>
+        </div>
+    </div> --}}
+    <h3>Transporte Solicitado</h3>
+    <div class="row" style="margin-bottom:0px">
 
-    <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
-        value="{{ auth()->user()->name }}" autocomplete="off" />
+        <div class="col-md-3">
+            <div class="form-group">
 
-    <button type="submit" class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">
-        <i class="fa fa-file-text"></i>Crear Requerimiento</button>
+                <input type="hidden" name="id_transporte" autocomplete="off" class="form-control"
+                    style="background:#77777710" value="{{ $equipo->id }}">
+
+                <label class="control-label" style="font-weight:600;color:#777"><b>EMPRESA: </b>
+                </label>
+                <input type="text" name="id_transportista" autocomplete="off" class="form-control"
+                    style="background:#77777710" value="{{ $transportista->nombre }}" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+
+                <label class="control-label" style="font-weight:600;color:#777"><b>TRANSPORTE: </b>
+                </label>
+
+                <input type="text" name="tipo" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->tipo }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>UBICACION ACTUAL: </b>
+                </label>
+
+                <input type="text" name="ubicacion" autocomplete="off" class="form-control"
+                    style="background:#77777710" value="{{ $ubicacion_transporte->departamento }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>CAPACIDAD: </b>
+                </label>
+                <input type="text" name="capacidad" autocomplete="off" class="form-control"
+                    style="background:#77777710" value="{{ $equipo->capacidad }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>CANTIDAD EJES: </b>
+                </label>
+                <input type="text" name="cantidad_ejes" autocomplete="off" class="form-control"
+                    style="background:#77777710" value="{{ $equipo->cantidad_ejes }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
+                </label>
+                <input type="text" name="marca" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->marca }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>MODELO: </b>
+                </label>
+                <input type="text" name="modelo" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->modelo }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>PLACA: </b>
+                </label>
+                <input type="text" name="placa" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->placa }}" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>AÑO: </b>
+                </label>
+                <input type="text" name="anio" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->anio }}" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>LARGO: </b>
+                </label>
+                <input type="text" name="largo" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->largo }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>ANCHO: </b>
+                </label>
+                <input type="text" name="ancho" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->ancho }}" readonly>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>ALTO: </b>
+                </label>
+                <input type="text" name="altura" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->altura }}" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>VOLUMEN: </b>
+                </label>
+                <input type="text" name="volumen" autocomplete="off" class="form-control" style="background:#77777710"
+                    value="{{ $equipo->volumen }}" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label" style="font-weight:600;color:#777"><b>ESTADO: </b>
+                </label>
+                @if ($equipo->estado == 'disponible')
+                    <input type="text" name="estado" autocomplete="off" class="form-control disponible"
+                        style="background:#77777710" value="{{ $equipo->estado }}" readonly>
+                @else
+                    <input type="text" name="estado" autocomplete="off" class="form-control no_disponible"
+                        style="background:#77777710" value="{{ $equipo->estado }}" readonly>
+                @endif
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden" value="cliente"
+        autocomplete="off" />
+    @if ($equipo->estado == 'disponible')
+        <button type="submit" class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">
+            <i class="fa fa-file-text"></i>Crear Requerimiento</button>
+    @else
+        <button type="submit" class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777"
+            disabled>
+            <i class="fa fa-file-text"></i>Crear Requerimiento</button>
+    @endif
+
 </form>
 <br>
 

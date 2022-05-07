@@ -239,7 +239,7 @@
                     data: 'guia_remision'
                 },
                 {
-                    data: 'btn_transportistas'
+                    data: 'btn_transportes'
                 },
 
             ],

@@ -31,20 +31,21 @@ Route::get('/welcome', function () {
 //RUTAS DE MAPA DE TRANSPORTES
 Route::get('/mapa', [MapaController::class, 'ubicacion_todos'])->name('mapa_todos');
 
-Route::get('/mapa/transportes/{transportes}', [MapaController::class, 'ubicacion_transportes'])->name('mapa_transportes');
+Route::get('/transportes', [MapaController::class, 'ubicacion_todos_transportes'])->name('mapa_todos_transportes');
 
-Route::get('/mapa/transportes', [MapaController::class, 'ubicacion_todos_transportes'])->name('mapa_todos_transportes');
+Route::get('/transportes/{transportes}', [MapaController::class, 'ubicacion_transportes'])->name('mapa_transportes');
 
-Route::post('mapa/vehiculo/', [MapaController::class, 'ubicacion_vehiculo'])->name('mapa_vehiculo');
-
-//RUTAS DE MAPA DE EQUIPOS
+Route::post('/mapa/vehiculo/', [MapaController::class, 'ubicacion_vehiculo'])->name('mapa_vehiculo');
 
 
+
+//MAPA DE REQUERIMIENTOS
 
 Route::get('/mapa/cargas/{equipos}', [MapaController::class, 'ubicacion_equipos'])->name('mapa_equipos');
 
-Route::get('/mapa/cargas', [MapaController::class, 'ubicacion_todos_equipos'])->name('mapa_todos_equipos');
+Route::get('/mapa/cargas', [MapaController::class, 'ubicacion_requerimientos'])->name('mapa_todos_equipos');
 
+Route::get('/mapa/requerimientos', [MapaController::class, 'ubicacion_requerimientos'])->name('mapa_requerimientos');
 
 Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'form_agregar_requerimiento'])->middleware('can:cliente')->name('requerimientos.formulario.agregar');
 

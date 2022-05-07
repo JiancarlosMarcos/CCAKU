@@ -38,6 +38,8 @@ class VehiculosController extends Controller
 
         return DataTables::of(VistaVehiculo::select(
             'id',
+            'id_transportista',
+            'empresa',
             'tipo',
             'marca',
             'placa',
@@ -47,7 +49,6 @@ class VehiculosController extends Controller
             'altura',
             'capacidad',
             'estado',
-            'empresa',
             'departamento',
             'modelo',
             'anio',
@@ -57,60 +58,22 @@ class VehiculosController extends Controller
             // ->editColumn('created_at', function (Cliente $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
             // })
-            ->addColumn('btn_transportistas', 'admin.botones.btn_transportistas')
-            ->rawColumns(['btn_transportistas'])
+            ->addColumn('btn_transportes', 'admin.botones.btn_transportes')
+            ->rawColumns(['btn_transportes'])
             ->toJson();
     }
-    public function form_agregar_vehiculo()
+
+    public function eliminar_vehiculo($id)
     {
-        return view('admin.vehiculos.agregar_vehiculo');
-    }
+        $vehiculo = Vehiculo::findOrFail($id);
+        $tipo_vehiculo = $vehiculo->tipo;
+        $vehiculo->delete();
+        $mensaje = $tipo_vehiculo . ' eliminado correctamente!';
+        $tipo = 'success';
 
-    public function agregar_vehiculo(Request $request)
-    {
-        $request->validate(
-            [],
-            []
-        );
-        $dni_ruc = $request->dni_ruc;
-
-        if (strlen($dni_ruc) == '11') {
-            $tipo_empresa = '1';
-        } else {
-            $tipo_empresa = '2';
-        }
-
-        $empresa = new Vehiculo;
-        $empresa->dni_ruc = $request->dni_ruc;
-        $empresa->nombre = $request->razon_social;
-        $empresa->direccion = $request->direccion;
-        $empresa->pagina_web = $request->pagina_web;
-        // $empresa->id_clasificacion = $request->id_clasificacion;
-        // $empresa->id_via_ingreso = $request->id_via_ingreso;
-        // $empresa->id_indicador = $request->id_indicador;
-        // $empresa->responsable_registro = $request->usuario;
-        $empresa->tipo_transportista = $tipo_empresa;
-        $empresa->save();
-        $nombre_empresa = $request->razon_social;
-
-        // $id = $empresa->id;
-        // $contador = $request->contador;
-        // $usuario = $request->usuario;
-
-        // for ($i = 0; $i < $contador; $i++) {
-        //     $contacto = new ContactoTransportista;
-        //     $contacto->nombre = $request->nombre_contacto[$i];
-        //     $contacto->celular = $request->celular[$i];
-        //     $contacto->cargo = $request->cargo[$i];
-        //     $contacto->correo = $request->correo[$i];
-        //     $contacto->id_transportista = $id;
-        //     $contacto->dni = $request->dni[$i];
-        //     // $contacto->responsable_registro = $usuario;
-        //     $contacto->save();
-        // }
         $notification = array(
-            'mensaje' => 'Transportista ' . $nombre_empresa . ' registrado correctamente!',
-            'tipo' => 'success'
+            'mensaje' => $mensaje,
+            'tipo' => $tipo
         );
         return Redirect()->back()->with($notification);
     }

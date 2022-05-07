@@ -48,8 +48,14 @@
                     id="role_id" required>
                     <option value="">--Seleccione su tipo de usuario--</option>
                     <option value="2">Cliente</option>
-                    <option value="3">Transportista</option>
+                    {{-- <option value="3">Transportista</option> --}}
                 </select>
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="ruc" value="{{ __('RUC') }}" />
+                <x-jet-input id="ruc" class="block mt-1 w-full" type="number" name="ruc" required
+                    autocomplete="new-password" />
             </div>
 
             <div class="mt-4">

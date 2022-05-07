@@ -11,6 +11,7 @@ use App\Models\Transportista;
 use Yajra\DataTables\DataTables;
 use App\Models\ContactoCliente;
 use App\Models\ContactoTransportista;
+use App\Models\Requerimiento;
 
 class ContactoController extends Controller
 {
@@ -107,13 +108,19 @@ class ContactoController extends Controller
 
     public function eliminar_contacto_cliente($id)
     {
-
         $contacto = ContactoCliente::findOrFail($id);
-        $nombre_contacto = $contacto->nombre;
-        $contacto->delete();
-        $mensaje = 'Contacto ' . $nombre_contacto . ' eliminado correctamente!';
-        $tipo = 'success';
-
+        $contacto->nombre;
+        $requerimientos_count = Requerimiento::where('id_contacto', $id)->count();
+        if ($requerimientos_count > 0) {
+            $mensaje = 'No puede eliminar el contacto ' . $contacto->nombre . ', porque tiene ' . $requerimientos_count . ' requerimientos a su nombre';
+            $tipo = 'success';
+        } else {
+            $contacto = ContactoCliente::findOrFail($id);
+            $nombre_contacto = $contacto->nombre;
+            $contacto->delete();
+            $mensaje = 'Contacto ' . $nombre_contacto . ' eliminado correctamente!';
+            $tipo = 'success';
+        }
 
         $notification = array(
             'mensaje' => $mensaje,

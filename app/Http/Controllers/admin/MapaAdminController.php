@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\VistaVehiculo;
 use App\Models\VistaCarga;
-
+use App\Models\VistaRequerimiento;
+use App\Models\VistaRequerimientoMapa;
 
 class MapaAdminController extends Controller
 {
@@ -14,22 +15,22 @@ class MapaAdminController extends Controller
     public function ubicacion_todos_admin(Request $request)
     {
         $transportes = VistaVehiculo::all();
-        $cargas = VistaCarga::all();
-        return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
+        $requerimientos = VistaRequerimientoMapa::all();
+        return view('admin.mapa_admin', ['transportes' => $transportes, 'requerimientos' => $requerimientos]);
     }
     //OBSERVAR TODOS LOS TRANSPORTES EN EL MAPA
     public function ubicacion_todos_transportes_admin(Request $request)
     {
         $transportes = VistaVehiculo::all();
-        $cargas = null;
-        return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
+        $requerimientos = null;
+        return view('admin.mapa_admin', compact('transportes', 'requerimientos'));
     }
     //OBSERVAR SEGUN TIPO DE TRANSPORTE EN EL MAPA
     public function ubicacion_transportes_admin(Request $request)
     {
         $transportes = VistaVehiculo::where('tipo', $request->transportes)->get();
-        $cargas = null;
-        return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
+        $requerimientos = null;
+        return view('admin.mapa_admin', compact('transportes', 'requerimientos'));
     }
     //OBSERVAR LA BUSQUEDA PERSONALIZADA EN EL MAPA
     public function ubicacion_vehiculo_admin(Request $request)
@@ -58,17 +59,24 @@ class MapaAdminController extends Controller
 
 
     //OBSERVAR SEGUN TIPO DE CARGA EN EL MAPA
-    public function ubicacion_equipos_admin(Request $request)
+    // public function ubicacion_equipos_admin(Request $request)
+    // {
+    //     $cargas = VistaCarga::where('tipo', $request->equipos)->get();
+    //     $transportes = null;
+    //     return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
+    // }
+    // //OBSERVAR SEGUN TIPO DE CARGAS EN EL MAPA
+    // public function ubicacion_todos_equipos_admin(Request $request)
+    // {
+    //     $cargas = VistaCarga::all();
+    //     $transportes = null;
+    //     return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
+    // }
+
+    public function ubicacion_requerimientos_admin(Request $request)
     {
-        $cargas = VistaCarga::where('tipo', $request->equipos)->get();
         $transportes = null;
-        return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
-    }
-    //OBSERVAR SEGUN TIPO DE CARGAS EN EL MAPA
-    public function ubicacion_todos_equipos_admin(Request $request)
-    {
-        $cargas = VistaCarga::all();
-        $transportes = null;
-        return view('admin.mapa', ['transportes' => $transportes, 'cargas' => $cargas]);
+        $requerimientos = VistaRequerimientoMapa::all();
+        return view('admin.mapa_admin', compact('transportes', 'requerimientos'));
     }
 }

@@ -19,13 +19,15 @@ Route::get('/buscador', [BuscadorController::class, 'mostrar_buscador_admin'])->
 
 //RUTAS DE MAPA DE TRANSPORTES
 Route::get('/mapa', [MapaAdminController::class, 'ubicacion_todos_admin'])->name('mapa_todos_admin');
-Route::get('/mapa/transportes/{transportes}', [MapaAdminController::class, 'ubicacion_transportes_admin'])->name('mapa_transportes_admin');
+// Route::get('/transportes/{transportes}', [MapaAdminController::class, 'ubicacion_transportes_admin'])->name('mapa_transportes_admin');
 Route::get('/mapa/transportes', [MapaAdminController::class, 'ubicacion_todos_transportes_admin'])->name('mapa_todos_transportes_admin');
-Route::post('mapa/vehiculo/', [MapaAdminController::class, 'ubicacion_vehiculo_admin'])->name('mapa_vehiculo_admin');
+Route::get('/mapa/requerimientos', [MapaAdminController::class, 'ubicacion_requerimientos_admin'])->name('mapa_requerimientos_admin');
+// Route::post('mapa/vehiculo/', [MapaAdminController::class, 'ubicacion_vehiculo_admin'])->name('mapa_vehiculo_admin');
 
 //RUTAS DE MAPA DE EQUIPOS
-Route::get('/mapa/cargas/{equipos}', [MapaAdminController::class, 'ubicacion_equipos_admin'])->name('mapa_equipos_admin');
-Route::get('/mapa/cargas', [MapaAdminController::class, 'ubicacion_todos_equipos_admin'])->name('mapa_todos_equipos_admin');
+// Route::get('/mapa/cargas/{equipos}', [MapaAdminController::class, 'ubicacion_equipos_admin'])->name('mapa_equipos_admin');
+// Route::get('/mapa/cargas', [MapaAdminController::class, 'ubicacion_todos_equipos_admin'])->name('mapa_todos_equipos_admin');
+
 
 
 
@@ -84,17 +86,18 @@ Route::get('/transportistas/contactos/eliminar/{id}', [ContactoController::class
 
 
 //MOSTRAR CARGAS
-Route::get('/cargas', [CargasController::class, 'cargas'])->name('cargas');
-Route::get('/lista_cargas', [CargasController::class, 'vista_cargas'])->name('lista_cargas');
-
+Route::get('/cargas', [CargasController::class, 'cargas'])->middleware('can:administrador')->name('cargas');
+Route::get('/lista_cargas', [CargasController::class, 'vista_cargas'])->middleware('can:administrador')->name('lista_cargas');
+//ELIMINAR CARGA
+Route::get('/cargas/eliminar/{id}', [CargasController::class, 'eliminar_carga'])->middleware('can:administrador')->name('eliminar_carga');
 
 
 //MOSTRAR VEHICULOS
 Route::get('/vehiculos', [VehiculosController::class, 'vehiculos'])->name('vehiculos');
 Route::get('/lista_vehiculos', [VehiculosController::class, 'vista_vehiculos'])->name('lista_vehiculos');
-//AGREGAR VEHICULOS
-Route::get('/vehiculos/agregar', [VehiculosController::class, 'form_agregar_vehiculo'])->name('vehiculos.formulario.agregar');
-Route::post('/vehiculos/agregar', [VehiculosController::class, 'agregar_vehiculo'])->name('agregar_vehiculo');
+//ELIMINAR VEHICULOS
+Route::get('/vehiculos/eliminar/{id}', [VehiculosController::class, 'eliminar_vehiculo'])->middleware('can:administrador')->name('eliminar_vehiculo');
+
 
 
 //REQUERIMIENTOS

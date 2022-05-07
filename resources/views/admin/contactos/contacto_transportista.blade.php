@@ -238,20 +238,7 @@
     }
 </script>
 
-<script>
-    function LimpiarFiltros() {
-        var table = $('#sampleTable').DataTable();
-        table.search('').columns().search('').draw();
-        document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-        document.getElementById("nombre_contacto").value = ' ';
-        document.getElementById("correo_contacto").value = ' ';
-        document.getElementById("celular").value = ' ';
-        document.getElementById("empresa").value = ' ';
-        document.getElementById("dni_ruc").value = ' ';
-        document.getElementById("fecha").value = ' ';
 
-    }
-</script>
 
 
 <script>
