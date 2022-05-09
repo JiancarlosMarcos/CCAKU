@@ -121,57 +121,56 @@
                             <td>
                                 <select data-column="1" class="form-control filter-select" id="select_tipo_empresa">
                                     <option value=" " selected></option>
-                                    <option value="Tracto">Tracto</option>
-                                    <option value="Camabaja">Camabaja</option>
                                     <option value="Camion Plataforma">Camion Plataforma</option>
+                                    <option value="Camion Rebatible">Camion Rebatible</option>
+                                    <option value="Camion Normal">Camion Normal</option>
+                                    <option value="Camacuna">Camacuna</option>
+                                    <option value="Camabaja">Camabaja</option>
+                                    <option value="Tracto">Tracto</option>
+                                    <option value="Modulares">Modulares</option>
                                 </select>
                             </td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre"
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="marca"
                                     data-column="2" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="clasificacion" data-column="3" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="via_ingreso"
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="modelo"
+                                    data-column="3" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="placa"
                                     data-column="4" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web"
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="ubicacion"
                                     data-column="5" /></td>
+                            <td>
+                                <select data-column="6" class="form-control filter-select" id="estado">
+                                    <option value=" " selected></option>
+                                    <option value="DISPONIBLE">DISPONIBLE</option>
+                                    <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+                                </select>
+                            </td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="capacidad"
+                                    data-column="7" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dimensiones"
+                                    data-column="8" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_reacion" data-column="5" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
+                                    id="cantidad_ejes" data-column="9" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="anio"
+                                    data-column="10" /></td>
                             <td></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                            <th>Empresa</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
-                            <th>Ubicacion</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Placa</th>
-                            <th>Volumen</th>
-                            <th>Largo</th>
-                            <th>Ancho</th>
-                            <th>Altura</th>
-                            <th>Capacidad</th>
-                            <th>Cantidad<br>de ejes</th>
-                            <th>anio</th>
-                            <th>Guia de<br>Remision</th>
+                            <th style="width:12%">Empresa</th>
+                            <th style="width:10%">Tipo</th>
+                            <th style="width:12%">Marca</th>
+                            <th style="width:10%">Modelo</th>
+                            <th style="width:4%">Placa</th>
+                            <th style="width:8%">Ubicacion</th>
+                            <th style="width:8%">Estado</th>
+                            <th style="width:3%">Capacidad</th>
+                            <th style="width:12%">Dimensiones</th>
+                            <th style="width:4%">Cant. Ejes</th>
+                            <th style="width:4%">Año</th>
                             <th>Acciones</th>
+
+
                         </tr>
                     </thead>
                     <tbody>
@@ -200,12 +199,6 @@
                     data: 'tipo'
                 },
                 {
-                    data: 'estado'
-                },
-                {
-                    data: 'departamento'
-                },
-                {
                     data: 'marca'
                 },
                 {
@@ -215,28 +208,22 @@
                     data: 'placa'
                 },
                 {
-                    data: 'volumen'
+                    data: 'departamento'
                 },
                 {
-                    data: 'largo'
-                },
-                {
-                    data: 'ancho'
-                },
-                {
-                    data: 'altura'
+                    data: 'estado'
                 },
                 {
                     data: 'capacidad'
+                },
+                {
+                    data: 'volumen'
                 },
                 {
                     data: 'cantidad_ejes'
                 },
                 {
                     data: 'anio'
-                },
-                {
-                    data: 'guia_remision'
                 },
                 {
                     data: 'btn_transportes'
@@ -277,14 +264,17 @@
     function LimpiarFiltros() {
         var table = $('#tablaClientes').DataTable();
         table.search('').columns().search('').draw();
+        document.getElementById("empresa").value = "";
         document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-        document.getElementById("pagina_web").value = ' ';
-        document.getElementById("responsable_registro").value = ' ';
-        document.getElementById("fecha_creacion").value = ' ';
-        document.getElementById("via_ingreso").value = ' ';
-        document.getElementById("clasificacion").value = ' ';
-        document.getElementById("nombre").value = ' ';
-        document.getElementById("dni_ruc").value = ' ';
+        document.getElementById("marca").value = "";
+        document.getElementById("modelo").value = "";
+        document.getElementById("placa").value = "";
+        document.getElementById("ubicacion").value = "";
+        document.getElementById("estado").options.item(0).selected = 'selected';
+        document.getElementById("capacidad").value = "";
+        document.getElementById("dimensiones").value = "";
+        document.getElementById("cantidad_ejes").value = "";
+        document.getElementById("anio").value = "";
 
     }
 </script>

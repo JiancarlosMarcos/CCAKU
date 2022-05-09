@@ -182,7 +182,7 @@
         document.getElementById("pagina_web").value = ' ';
         document.getElementById("responsable_registro").value = ' ';
         document.getElementById("fecha_creacion").value = ' ';
-        document.getElementById("fecha_creacion").value = ' ';
+        document.getElementById("fecha_modificacion").value = ' ';
 
     }
 </script>

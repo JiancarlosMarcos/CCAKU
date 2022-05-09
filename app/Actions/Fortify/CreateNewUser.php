@@ -45,6 +45,17 @@ class CreateNewUser implements CreatesNewUsers
             $empresa = Cliente::where('dni_ruc', $ruc)->first();
             if (isset($empresa)) {
                 $contacto_cliente->id_cliente = $empresa->id;
+            } else {
+                $cliente = new Cliente;
+                $cliente->dni_ruc = $input['ruc'];
+                $cliente->nombre = $input['empresa'];
+                if (strlen($input['ruc']) > 8) {
+                    $cliente->id_tipo = 1;
+                } else {
+                    $cliente->id_tipo = 2;
+                }
+                $cliente->save();
+                $contacto_cliente->id_cliente = $cliente->id;
             }
             $contacto_cliente->save();
         } else {

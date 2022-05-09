@@ -53,9 +53,14 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="ruc" value="{{ __('RUC') }}" />
-                <x-jet-input id="ruc" class="block mt-1 w-full" type="number" name="ruc" required
-                    autocomplete="new-password" />
+                <x-jet-label for="ruc" value="{{ __('RUC/DNI de la empresa') }}" />
+                <x-jet-input id="ruc" class="block mt-1 w-full" onkeyup="validar_cliente()" type="number" name="ruc"
+                    required />
+            </div>
+
+            <div class="mt-4 oculto">
+                <x-jet-label for="ruc" value="{{ __('Nombre Empresa/Persona Natural') }}" />
+                <x-jet-input id="ruc" class="block mt-1 w-full" type="text" name="empresa" required />
             </div>
 
             <div class="mt-4">
@@ -77,7 +82,7 @@
                             <x-jet-checkbox name="terms" id="terms" />
 
                             <div class="ml-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                {!! __('Estoy deacuerdo con los :terms_of_service y :privacy_policy', [
     'terms_of_service' => '<a target="_blank" href="' . route('terms.show') . '" class="underline text-sm text-gray-600 hover:text-gray-900">' . __('Terms of Service') . '</a>',
     'privacy_policy' => '<a target="_blank" href="' . route('policy.show') . '" class="underline text-sm text-gray-600 hover:text-gray-900">' . __('Privacy Policy') . '</a>',
 ]) !!}
@@ -99,3 +104,35 @@
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>
+<script>
+    function validar_cliente() {
+
+        var dni_ruc = document.getElementById('ruc').value;
+
+        if ($.trim(dni_ruc) != '') {
+            $.get('../consulta_clientes', {
+                dni_ruc: dni_ruc
+            }, function(empresas) {
+
+                var data_nombre_empresa = empresas["nombre_empresa"];
+                var data_dni_ruc_empresa = empresas["dni_ruc_empresa"];
+
+
+                $.each(empresas, function(index, value) {
+                    $('#valida_dni_ruc_1').css("color", "#be1e37");
+                    $('#valida_dni_ruc_1').val("Empresa existente");
+
+                })
+
+            }).fail(function() {
+
+                $('#valida_dni_ruc_1').css("color", "#35993A");
+                $('#valida_dni_ruc_1').val("Este DNI o RUC no se encuentra registrado");
+
+            }).then(function(data) {
+                // console.log(data);
+                // console.log("--__"+data[0]);
+            });
+        }
+    }
+</script>

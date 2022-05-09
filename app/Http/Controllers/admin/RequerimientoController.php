@@ -189,7 +189,7 @@ class RequerimientoController extends Controller
                 $cliente_contacto->correo = $request->correo_contacto_nuevo;
                 $cliente_contacto->cargo = $request->cargo_contacto_nuevo;
                 $cliente_contacto->id_cliente = $id_cliente;
-                // $cliente_contacto->responsable_registro = $request->usuario;
+                $cliente_contacto->responsable_registro = $request->usuario;
                 $cliente_contacto->save();
 
                 //ID CONTACTO - CASO NUEVO CONTACTO

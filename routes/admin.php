@@ -55,6 +55,11 @@ Route::post('/transportistas/editar/', [TransportistaController::class, 'editar_
 //ELIMINAR TRANSPORTISTA
 Route::get('/transportistas/eliminar/{id}', [TransportistaController::class, 'eliminar_transportista'])->name('eliminar_transportista');
 
+Route::get('/consulta_transportistas', [TransportistaController::class, 'consulta_transportistas'])->name('consulta_transportistas');
+
+Route::get('/consulta_clientes', [ClienteController::class, 'consulta_clientes'])->name('consulta_clientes');
+
+
 //MOSTRAR USUARIOS
 Route::get('/usuarios', [UsuarioController::class, 'usuarios'])->name('usuarios');
 Route::get('/lista_usuarios', [UsuarioController::class, 'vista_usuarios'])->name('lista_usuarios');

@@ -59,7 +59,7 @@ class ClienteController extends Controller
         // $empresa->id_clasificacion = $request->id_clasificacion;
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
-        // $empresa->responsable_registro = $request->usuario;
+        $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
         $nombre_empresa = $request->razon_social;
@@ -67,7 +67,7 @@ class ClienteController extends Controller
         $id = $empresa->id;
         $contador = $request->contador;
         $contador_c = $request->contador_c;
-        // $usuario = $request->usuario;
+        $usuario = $request->usuario;
 
         for ($i = 0; $i < $contador; $i++) {
             $contacto = new ContactoCliente;
@@ -138,13 +138,13 @@ class ClienteController extends Controller
         $empresa->pagina_web = $request->pagina_web;
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
-        // $empresa->responsable_registro = $request->usuario;
+        $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
 
         $contador = $request->contador;
         $contador_c = $request->contador_c;
-        // $usuario = $request->usuario;
+        $usuario = $request->usuario;
 
         //Elimina todos los contactos de determinada empresa
         //Contacto::where('id',$id)->delete();
@@ -259,5 +259,20 @@ class ClienteController extends Controller
             'tipo' => $tipo
         );
         return Redirect()->back()->with($notification);
+    }
+
+    public function consulta_clientes(Request $request)
+    {
+        if ($request->ajax()) {
+            $empresas = Cliente::where('dni_ruc', $request->dni_ruc)->first();
+            $nombre_empresa = $empresas->nombre;
+            $dni_ruc_empresa = $empresas->dni_ruc;
+
+            return response()->json([
+                'nombre_empresa' => $nombre_empresa,
+                'dni_ruc_empresa' => $dni_ruc_empresa
+
+            ]);
+        }
     }
 }

@@ -22,7 +22,17 @@ class TransportistaController extends Controller
     public function vista_transportistas(Request $request)
     {
         $transportistas = VistaTransportista::all();
-        return DataTables::of($transportistas)
+        return DataTables::of(VistaTransportista::select(
+            'id',
+            'nombre',
+            'dni_ruc',
+            'tipo_transportista',
+            'direccion',
+            'pagina_web',
+            'responsable_registro',
+            'created_at',
+            'updated_at'
+        ))
             // ->editColumn('created_at', function (Transportista $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
             // })
@@ -84,6 +94,9 @@ class TransportistaController extends Controller
             $equipos->capacidad = $request->capacidad_t[$j];
             $equipos->estado = $request->estado_t[$j];
             $equipos->id_transportista = $id;
+            $equipos->responsable_registro = $usuario;
+            $equipos->volumen = $request->volumen_t[$j];
+            $equipos->anio = $request->anio_t[$j];
             $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
             $equipos->modelo = $request->modelo_t[$j];
             $equipos->cantidad_ejes = $request->cantidad_ejes_t[$j];
@@ -197,6 +210,9 @@ class TransportistaController extends Controller
                 $equipos->capacidad = $request->capacidad_t[$j];
                 $equipos->estado = $request->estado_t[$j];
                 $equipos->id_transportista = $id;
+                $equipos->responsable_registro = $usuario;
+                $equipos->volumen = $request->volumen_t[$j];
+                $equipos->anio = $request->anio_t[$j];
                 $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
                 $equipos->modelo = $request->modelo_t[$j];
                 $equipos->cantidad_ejes = $request->ejes_t[$j];
@@ -209,6 +225,9 @@ class TransportistaController extends Controller
                 $equipos_nuevo->capacidad = $request->capacidad_t[$j];
                 $equipos_nuevo->estado = $request->estado_t[$j];
                 $equipos_nuevo->id_transportista = $id;
+                $equipos_nuevo->responsable_registro = $usuario;
+                $equipos_nuevo->volumen = $request->volumen_t[$j];
+                $equipos_nuevo->anio = $request->anio_t[$j];
                 $equipos_nuevo->id_ubicacion = $request->id_ubicacion_t[$j];
                 $equipos_nuevo->modelo = $request->modelo_t[$j];
                 $equipos_nuevo->cantidad_ejes = $request->ejes_t[$j];
@@ -251,5 +270,20 @@ class TransportistaController extends Controller
             'tipo' => $tipo
         );
         return Redirect()->back()->with($notification);
+    }
+
+    public function consulta_transportistas(Request $request)
+    {
+        if ($request->ajax()) {
+            $empresas = Transportista::where('dni_ruc', $request->dni_ruc)->first();
+            $nombre_empresa = $empresas->nombre;
+            $dni_ruc_empresa = $empresas->dni_ruc;
+
+            return response()->json([
+                'nombre_empresa' => $nombre_empresa,
+                'dni_ruc_empresa' => $dni_ruc_empresa
+
+            ]);
+        }
     }
 }

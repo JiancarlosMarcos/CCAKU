@@ -161,15 +161,17 @@
 
             <thead>
                 <tr>
-                    <td style="width:15%">Tipo Transporte</td>
-                    <td style="width:8%">Cantidad <br>de Ejes</td>
-                    <td style="width:12%">Capacidad</td>
+                    <td style="width:10%">Tipo Transporte</td>
+                    <td style="width:8%">Marca</td>
+                    <td style="width:8%">Modelo</td>
+                    <td style="width:7%">Placa</td>
+                    <td style="width:4%">Cant. Ejes</td>
+                    <td style="width:8%">Capacidad</td>
+                    <td style="width:12%">Dimensiones</td>
+                    <td style="width:5%">Año</td>
                     <td style="width:12%">Ubicacion</td>
                     <td style="width:12%">Estado</td>
-                    <td style="width:10%">Marca</td>
-                    <td style="width:12%">Modelo</td>
-                    <td style="width:12%">Placa</td>
-                    {{-- <td style="width:8%">Año</td> --}}
+
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -205,12 +207,37 @@
                 </td>
 
                 <td>
+                    <input type="text" name="marca_t[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->marca }}">
+                </td>
+
+                <td>
+                    <input type="text" name="modelo_t[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->modelo }}">
+                </td>
+
+                <td>
+                    <input type="text" name="placa_t[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->placa }}">
+                </td>
+
+                <td>
                     <input type="text" name="ejes_t[]" autocomplete="off" class="form-control"
                         style="background:#77777710" value="{{ $transportes[$j]->cantidad_ejes }}">
                 </td>
                 <td>
                     <input type="text" name="capacidad_t[]" autocomplete="off" class="form-control"
                         style="background:#77777710" value="{{ $transportes[$j]->capacidad }}">
+                </td>
+
+                <td>
+                    <input type="text" name="volumen_t[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->volumen }}">
+                </td>
+
+                <td>
+                    <input type="text" name="anio_t[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->anio }}">
                 </td>
 
                 <td>
@@ -228,24 +255,17 @@
                 </td>
 
                 <td>
-                    <input type="text" name="estado_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $transportes[$j]->estado }}">
+
+                    <select name="estado_t[]" class="form-control " style="background:#77777710">
+                        <option value="{{ $transportes[$j]->estado }}">
+                            {{ $transportes[$j]->estado }}</option>
+                        <option value="DISPONIBLE">DISPONIBLE</option>
+                        <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+
+                    </select>
                 </td>
 
-                <td>
-                    <input type="text" name="marca_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $transportes[$j]->marca }}">
-                </td>
 
-                <td>
-                    <input type="text" name="modelo_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $transportes[$j]->modelo }}">
-                </td>
-
-                <td>
-                    <input type="text" name="placa_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $transportes[$j]->placa }}">
-                </td>
 
                 {{-- <td>
                 <input type="text" name="anio_t[]" autocomplete="off" class="form-control"
@@ -390,29 +410,6 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="ejes_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text"  name="capacidad_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<select name="id_ubicacion_t[]" " class="form-control " >' +
-                '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
-                @foreach ($ubicaciones as $ubicacion)
-                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>'+
-                @endforeach '</select>' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text" name="estado_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
                 '<input type="text"  name="marca_t[]" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
@@ -426,6 +423,43 @@
                 '<td>' +
                 '<input type="text" name="placa_t[]" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="ejes_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="capacidad_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="anio_t[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<select name="id_ubicacion_t[]" " class="form-control " >' +
+                '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
+                @foreach ($ubicaciones as $ubicacion)
+                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>'+
+                @endforeach '</select>' +
+                '</td>' +
+
+
+                '<td>' +
+                '<select name="estado_t[]" class="form-control " >' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="DISPONIBLE">DISPONIBLE</option>' +
+                '<option value="NO DISPONIBLE">NO DISPONIBLE</option>' +
+                '</select>' +
                 '</td>' +
 
 

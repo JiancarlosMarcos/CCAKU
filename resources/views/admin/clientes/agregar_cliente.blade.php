@@ -50,8 +50,10 @@
                 <div class="form-group">
                     <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
                             style="color:#B61A1A">*</a></label>
-                    <input class="form-control" name="razon_social" type="text" value="{{ old('razon_social') }}"
+                    <input class="form-control" name="razon_social" type="text" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('razon_social') }}"
                         autocomplete="off" placeholder="Nombre de la empresa" required />
+
                 </div>
             </div>
 
@@ -59,7 +61,8 @@
                 <div class="form-group">
                     <label class="control-label" style="font-weight:600;color:#777">DIRECCION: <a
                             style="color:#B61A1A"></a></label>
-                    <input class="form-control" name="direccion" type="text" value="{{ old('direccion') }}"
+                    <input class="form-control" name="direccion" type="text" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('direccion') }}"
                         autocomplete="off" placeholder="Direccion de la empresa" />
                 </div>
             </div>
@@ -86,7 +89,7 @@
         <!--OCULTO-->
         <input class="form-control" name="contador" id="contador" type="hidden" value="0" autocomplete="off" />
         <input class="form-control" name="contador" id="contador_c" type="hidden" value="0" autocomplete="off" />
-        <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->Nombres }}"
+        <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}"
             autocomplete="off" />
         <!---->
     </div>
@@ -166,12 +169,12 @@
 
                 '<td>' +
                 '<input type="text"  name="tipo_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" required>' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" required>' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="volumen_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -181,7 +184,7 @@
 
                 '<td>' +
                 '<input type="text"  name="medida_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -195,18 +198,18 @@
 
                 '<td>' +
                 '<input type="text"  name="marca_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 
                 '<td>' +
                 '<input type="text" name="modelo_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text" name="placa_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 
@@ -248,7 +251,7 @@
 
                 '<td>' +
                 '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -264,7 +267,7 @@
 
                 '<td>' +
                 '<input type="text" name="cargo[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -302,7 +305,7 @@
         var dni_ruc = document.getElementById('dni_ruc').value;
 
         if ($.trim(dni_ruc) != '') {
-            $.get('../consulta_empresas', {
+            $.get('../consulta_clientes', {
                 dni_ruc: dni_ruc
             }, function(empresas) {
 
@@ -312,7 +315,7 @@
 
                 $.each(empresas, function(index, value) {
                     $('#valida_dni_ruc_1').css("color", "#be1e37");
-                    $('#valida_dni_ruc_1').val(empresas["indicador_empresa"] + " existente");
+                    $('#valida_dni_ruc_1').val("Empresa existente");
 
                 })
 

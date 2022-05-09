@@ -42,7 +42,7 @@
                         </a></label>
                     <input class="form-control" name="dni_ruc" type="number" value="{{ old('dni_ruc') }}"
                         autocomplete="off" id="dni_ruc" onkeyup="validar_transportista()" placeholder="RUC O DNI"
-                        required pattern="[0-9]" />
+                        required pattern="[0-9]" maxlength="11" />
                     <input type="text" value="" class="alerta_1" id="valida_dni_ruc_1"
                         style="font-size:14px;background:transparent;border:0px solid transparent;width:400px;color:#be1e37;margin-top:-50px"
                         disabled>
@@ -54,7 +54,8 @@
                 <div class="form-group">
                     <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
                             style="color:#B61A1A">*</a></label>
-                    <input class="form-control" name="razon_social" type="text" value="{{ old('razon_social') }}"
+                    <input class="form-control" name="razon_social" type="text" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('razon_social') }}"
                         autocomplete="off" placeholder="Nombre de la empresa" required />
                 </div>
             </div>
@@ -63,7 +64,8 @@
                 <div class="form-group">
                     <label class="control-label" style="font-weight:600;color:#777">DIRECCION: <a
                             style="color:#B61A1A"></a></label>
-                    <input class="form-control" name="direccion" type="text" value="{{ old('direccion') }}"
+                    <input class="form-control" name="direccion" type="text" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('direccion') }}"
                         autocomplete="off" placeholder="Direccion de la empresa" />
                 </div>
             </div>
@@ -128,14 +130,16 @@
 
             <thead>
                 <tr>
-                    <td style="width:15%">Tipo Transporte</td>
-                    <td style="width:8%">Cantidad <br>de Ejes</td>
-                    <td style="width:12%">Capacidad</td>
+                    <td style="width:10%">Tipo Transporte</td>
+                    <td style="width:8%">Marca</td>
+                    <td style="width:8%">Modelo</td>
+                    <td style="width:7%">Placa</td>
+                    <td style="width:4%">Cant. Ejes</td>
+                    <td style="width:8%">Capacidad</td>
+                    <td style="width:12%">Dimensiones</td>
+                    <td style="width:5%">Año</td>
                     <td style="width:12%">Ubicacion</td>
                     <td style="width:12%">Estado</td>
-                    <td style="width:10%">Marca</td>
-                    <td style="width:12%">Modelo</td>
-                    <td style="width:12%">Placa</td>
                     {{-- <td style="width:8%">Año</td> --}}
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
@@ -184,12 +188,38 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="cantidad_ejes_t[]" ' +
+                '<input type="text"  name="marca_t[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<input type="text" name="modelo_t[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_t[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="ejes_t[]" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="capacidad_t[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_t[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="anio_t[]" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
@@ -201,26 +231,16 @@
                 @endforeach '</select>' +
                 '</td>' +
 
-                '<td>' +
-                '<input type="text" name="estado_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="marca_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '<select name="estado_t[]" class="form-control " >' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="DISPONIBLE">DISPONIBLE</option>' +
+                '<option value="NO DISPONIBLE">NO DISPONIBLE</option>' +
+                '</select>' +
                 '</td>' +
 
 
-                '<td>' +
-                '<input type="text" name="modelo_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text" name="placa_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
 
 
                 '<td style="text-align:center">' +
@@ -260,7 +280,7 @@
 
                 '<td>' +
                 '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -276,7 +296,7 @@
 
                 '<td>' +
                 '<input type="text" name="cargo[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -313,7 +333,7 @@
         var dni_ruc = document.getElementById('dni_ruc').value;
 
         if ($.trim(dni_ruc) != '') {
-            $.get('../consulta_empresas', {
+            $.get('../consulta_transportistas', {
                 dni_ruc: dni_ruc
             }, function(empresas) {
 
@@ -323,7 +343,7 @@
 
                 $.each(empresas, function(index, value) {
                     $('#valida_dni_ruc_1').css("color", "#be1e37");
-                    $('#valida_dni_ruc_1').val(empresas["indicador_empresa"] + " existente");
+                    $('#valida_dni_ruc_1').val("Este DNI o RUC ya se encuentra registrado");
 
                 })
 
