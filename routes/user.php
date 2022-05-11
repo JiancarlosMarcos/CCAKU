@@ -16,8 +16,9 @@ Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'f
 Route::get('/mapa/requerimientos_propios', [MapaClienteController::class, 'ubicacion_requerimientos_propios'])->name('mapa_requerimientos_propios');
 
 /////////PERFIL///////////
+// Route::get('/perfil_usuario/{id}', [PerfilController::class, 'perfil_usuario'])->name('perfil_usuario');
 Route::get('/perfil_usuario', [PerfilController::class, 'perfil_usuario'])->name('perfil_usuario');
-
+Route::post('/perfil_usuario/editar/', [PerfilController::class, 'editar_perfil'])->name('actualizar_perfil');
 //REQUERIMIENTO DE TRANSPORTE ESPECIFICO
 
 //REQUERIMIENTO SIMPLE

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 return [
 
     /*
@@ -268,6 +270,7 @@ return [
         ],
         [
             'text' => 'Perfil',
+            // 'url'  => ['user/perfil_usuario', ['id' => Auth::user()->id]],
             'url'  => 'user/perfil_usuario',
             'icon' => 'fas fa-fw fa-user',
             'can' => 'cliente'
