@@ -18,6 +18,7 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ asset('js2/jquery/jquery.min.js') }}"></script>
 </head>
 
 <body class="font-sans antialiased">

@@ -13,6 +13,43 @@
         color: #212529;
     }
 
+    .oculto {
+        display: none;
+    }
+
+    .validacion {
+        background-color: #dfdfdf;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /* padding-top: 0.3rem; */
+    }
+
+    .validar_ruc {
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+    }
+
+    .boton {
+        background-color: #ffbf00;
+        margin-left: 5px;
+        border-radius: 3px;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+        border: 1px solid black;
+        padding: 0.2rem;
+    }
+
+    .alerta_1 {
+        text-align: center
+    }
+
 </style>
 <x-guest-layout>
     <x-jet-authentication-card>
@@ -42,25 +79,29 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="role" value="{{ __('Tipo de Usuario') }}" />
-                <select name="role_id" x-model="role_id"
-                    class="block mt-1 w-full border-gray-300 border-radious ocus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                    id="role_id" required>
-                    <option value="">--Seleccione su tipo de usuario--</option>
-                    <option value="2">Cliente</option>
-                    {{-- <option value="3">Transportista</option> --}}
-                </select>
+                <x-jet-input type="hidden" name="role_id" x-model="role_id" value="2" />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="ruc" value="{{ __('RUC/DNI de la empresa') }}" />
-                <x-jet-input id="ruc" class="block mt-1 w-full" onkeyup="validar_cliente()" type="number" name="ruc"
-                    required />
+                <x-jet-label for="ruc" value="{{ __('RUC de la empresa') }}" />
+                <div class="validar_ruc">
+                    <x-jet-input id="ruc" class="block mt-1 w-full" type="number" name="ruc" onkeyup="cambio_dni_ruc()"
+                        required />
+                    <a class="boton" title="Validar Empresa" onclick="validar_cliente()">✔</a>
+                </div>
+
             </div>
 
-            <div class="mt-4 oculto">
-                <x-jet-label for="ruc" value="{{ __('Nombre Empresa/Persona Natural') }}" />
-                <x-jet-input id="ruc" class="block mt-1 w-full" type="text" name="empresa" required />
+            <div class="mt-4 validacion">
+
+                <input type="text" value="" class="alerta_1 oculto" id="valida_dni_ruc_1"
+                    style="font-size:14px;background:transparent;border:0px solid transparent;width:100%;color:#be1e37"
+                    disabled>
+            </div>
+
+            <div class="mt-4 oculto" id="nombre_empresa">
+                <x-jet-label for="ruc" value="{{ __('Nombre de la Empresa') }}" />
+                <x-jet-input id="empresa" class="block mt-1 w-full" type="text" name="empresa" required />
             </div>
 
             <div class="mt-4">
@@ -104,11 +145,12 @@
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>
+
 <script>
     function validar_cliente() {
-
+        $('#valida_dni_ruc_1').removeClass('oculto');
         var dni_ruc = document.getElementById('ruc').value;
-
+        var nombre_empresa = document.getElementById('empresa');
         if ($.trim(dni_ruc) != '') {
             $.get('../consulta_clientes', {
                 dni_ruc: dni_ruc
@@ -119,20 +161,31 @@
 
 
                 $.each(empresas, function(index, value) {
-                    $('#valida_dni_ruc_1').css("color", "#be1e37");
+                    $('#valida_dni_ruc_1').css("color", "#35993A");
                     $('#valida_dni_ruc_1').val("Empresa existente");
-
+                    $('#nombre_empresa').addClass('oculto');
+                    $('#empresa').removeAttr('required');
                 })
 
             }).fail(function() {
 
                 $('#valida_dni_ruc_1').css("color", "#35993A");
                 $('#valida_dni_ruc_1').val("Este DNI o RUC no se encuentra registrado");
+                $('#nombre_empresa').removeClass('oculto');
+                $('#empresa').prop('required', true);
 
             }).then(function(data) {
                 // console.log(data);
                 // console.log("--__"+data[0]);
             });
         }
+    }
+
+    function cambio_dni_ruc() {
+        $('.validacion').addClass('oculto');
+        $('#valida_dni_ruc_1').addClass('oculto');
+        $('#valida_dni_ruc_1').val("");
+        $('#nombre_empresa').addClass('oculto');
+        $('#empresa').removeAttr('required');
     }
 </script>
