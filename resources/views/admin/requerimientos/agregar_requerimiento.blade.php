@@ -119,8 +119,8 @@
     </div>
 
 
-    <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
-        value="{{ auth()->user()->name }}" autocomplete="off" />
+    <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}"
+        autocomplete="off" />
 
     <button type="submit" class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">
         <i class="fa fa-file-text"></i>Crear Requerimiento</button>
@@ -248,7 +248,7 @@
 
         @error('razon_social')
             validacion_razon_social();
-        
+
             activar_servicio();
             activar_proyecto();
         @enderror

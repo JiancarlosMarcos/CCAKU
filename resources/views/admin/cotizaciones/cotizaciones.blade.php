@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
-@section('titulo', 'Requerimientos')
+@section('titulo', 'Cotizaciones')
 <style>
     .hidden {
         overflow: hidden;
@@ -25,14 +25,19 @@
 
 <div class="app-title">
     <div>
-        <h3>Requerimientos de Clientes</h3>
+        {{-- <h1>
+      <a href="{{route('clientes')}}" class="btn btn-primary" style="background:#777;border-color:#777">Clientes</a>
+      <a href="{{route('clientes.contactos.mostrar')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a> 
+      <a href="{{route('cargas')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Cargas</a> 
+
+    </h1> --}}
 
     </div><br>
 
 
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-        <li class="breadcrumb-item"><a href=""></a>Requerimientos</li>
+        <li class="breadcrumb-item"><a href=""></a>Cotizaciones</li>
     </ul>
 </div>
 @include('notificacion')
@@ -56,7 +61,7 @@
 
             <a class="btn btn-primary btn-sm" href="{{ route('agregar_requerimiento') }}"
                 style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar </a>
+                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar Cotizacion</a>
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">

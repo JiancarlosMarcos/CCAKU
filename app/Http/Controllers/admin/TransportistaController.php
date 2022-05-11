@@ -99,7 +99,7 @@ class TransportistaController extends Controller
             $equipos->anio = $request->anio_t[$j];
             $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
             $equipos->modelo = $request->modelo_t[$j];
-            $equipos->cantidad_ejes = $request->cantidad_ejes_t[$j];
+            $equipos->cantidad_ejes = $request->ejes_t[$j];
             $equipos->save();
         }
         $notification = array(
@@ -145,7 +145,7 @@ class TransportistaController extends Controller
         $empresa->pagina_web = $request->pagina_web;
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
-        $empresa->responsable_registro = $request->usuario;
+        // $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
 
@@ -187,7 +187,7 @@ class TransportistaController extends Controller
                 $contacto->cargo = $request->cargo[$i];
                 $contacto->correo = $request->correo[$i];
                 $contacto->id_transportista = $id;
-                $contacto->responsable_registro = $usuario;
+                // $contacto->responsable_registro = $usuario;
                 $contacto->save();
             } else {
                 $contacto_nuevo = new ContactoTransportista;
@@ -210,7 +210,7 @@ class TransportistaController extends Controller
                 $equipos->capacidad = $request->capacidad_t[$j];
                 $equipos->estado = $request->estado_t[$j];
                 $equipos->id_transportista = $id;
-                $equipos->responsable_registro = $usuario;
+                // $equipos->responsable_registro = $usuario;
                 $equipos->volumen = $request->volumen_t[$j];
                 $equipos->anio = $request->anio_t[$j];
                 $equipos->id_ubicacion = $request->id_ubicacion_t[$j];

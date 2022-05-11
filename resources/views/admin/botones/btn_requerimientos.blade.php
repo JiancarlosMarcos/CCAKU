@@ -1,11 +1,8 @@
 <div style="padding-left:30%">
-    <button class="btn btn-primary btn-sm" data-toggle="modal" id="mostrar{{ $id }}"
-        data-target="#showModal{{ $id }}" title="Editar" value="{{ $id }}" style="display:none">
-        <i class="fas fa-pencil-alt" aria-hidden="true"></i></button>
 
-    <button class="btn btn-primary btn-sm btn-editar" style="position:absolute; margin:auto;"
-        onclick="mostrar_vista(<?php echo $id; ?>);">
-        <i class="fas fa-pencil-alt" aria-hidden="true"></i></button>
+    <a class="btn btn-primary btn-sm btn-editar" style="position:absolute;margin:auto;"
+        href="{{ route('editar_requerimiento', $id) }}">
+        <i class="fas fa-eye" aria-hidden="true"></i></a>
 
     <a class="btn btn-danger btn-sm btn-eliminar hidden" style="position:absolute;margin:auto;"
         href="{{ route('eliminar_requerimiento', $id) }}" id="delete" title="Eliminar" type="button">

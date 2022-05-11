@@ -102,6 +102,7 @@ class RequerimientoClienteController extends Controller
 
 
         $requerimientos->save();
+
         $id_requerimiento = $requerimientos->id;
 
         $transporte = new RequerimientoTransporte;

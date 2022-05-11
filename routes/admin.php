@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\VehiculosController;
 use App\Http\Controllers\BuscadorController;
 use App\Http\Controllers\admin\MapaAdminController;
 use App\Http\Controllers\admin\RequerimientoController;
+use App\Http\Controllers\admin\CotizacionController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
 //BUSCADOR
@@ -107,16 +108,22 @@ Route::get('/vehiculos/eliminar/{id}', [VehiculosController::class, 'eliminar_ve
 
 //REQUERIMIENTOS
 Route::get('/lista_requerimientos', [RequerimientoController::class, 'vista_requerimientos'])->name('lista_requerimientos');
-///MOSTRAR////////////
+//MOSTRAR//
 Route::get('/requerimientos', [RequerimientoController::class, 'mostrar_requerimientos'])->name('requerimientos.mostrar');
-///AGREGAR///////////
+//AGREGAR//
 Route::get('/requerimientos/agregar', [RequerimientoController::class, 'form_agregar_requerimiento'])->name('requerimientos.formulario.agregar');
 Route::post('/requerimientos/agregar', [RequerimientoController::class, 'agregar_requerimiento'])->name('agregar_requerimiento');
-//EDITAR
+//EDITAR//
+Route::get('/requerimientos/editar/{id}', [RequerimientoController::class, 'form_editar_requerimiento'])->name('editar_requerimiento');
 Route::post('/requerimientos/editar/', [RequerimientoController::class, 'editar_requerimiento'])->name('actualizar_requerimiento');
-//ELIMINAR 
+//ELIMINAR//
 Route::get('/requerimientos/eliminar/{id}', [RequerimientoController::class, 'eliminar_requerimiento'])->name('eliminar_requerimiento');
 
+
+//COTIZACIONES
+Route::get('/lista_cotizaciones', [CotizacionController::class, 'vista_cotizaciones'])->name('lista_cotizaciones');
+///MOSTRAR////////////
+Route::get('/cotizaciones', [CotizacionController::class, 'mostrar_cotizaciones'])->name('cotizaciones.mostrar');
 
 
 //CONSULTA DE CONTACTOS DE CLIENTES
