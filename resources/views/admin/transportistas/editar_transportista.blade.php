@@ -330,7 +330,8 @@
                 '<tr id="row' + i + '" class="contactos">' +
 
                 '<td>' +
-                '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
+                '<input type="text" name="nombre_contacto[]" required id="nombre_contacto' + i +
+                '" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
@@ -446,7 +447,7 @@
                 '</td>' +
 
                 '<td>' +
-                '<select name="id_ubicacion_t[]" " class="form-control " >' +
+                '<select name="id_ubicacion_t[]" required  class="form-control " >' +
                 '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
                 @foreach ($ubicaciones as $ubicacion)
                     '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
@@ -456,7 +457,7 @@
 
 
                 '<td>' +
-                '<select name="estado_t[]" class="form-control " >' +
+                '<select name="estado_t[]" required class="form-control " >' +
                 '<option value="" selected disabled>Seleccionar</option>' +
                 '<option value="DISPONIBLE">DISPONIBLE</option>' +
                 '<option value="NO DISPONIBLE">NO DISPONIBLE</option>' +

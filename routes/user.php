@@ -12,6 +12,9 @@ Route::get('/vista_requerimientos_cliente', [RequerimientoClienteController::cla
 //AGREGAR REQUERIMIENTO 
 Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'form_agregar_requerimiento'])->middleware('can:cliente')->name('requerimiento_simple');
 
+
+
+
 //MAPA REQUERIMIENTOS PROPIOS DE UN CLIENTE//
 Route::get('/mapa/requerimientos_propios', [MapaClienteController::class, 'ubicacion_requerimientos_propios'])->name('mapa_requerimientos_propios');
 
@@ -23,5 +26,10 @@ Route::post('/perfil_usuario/editar/', [PerfilController::class, 'editar_perfil'
 
 //REQUERIMIENTO SIMPLE
 Route::post('/requerimientos/agregar', [RequerimientoClienteController::class, 'agregar_requerimiento'])->middleware('can:cliente')->name('agregar_requerimiento_cliente');
+//EDITAR REQUERIMIENTO//
+
+Route::get('/requerimientos/editar/{id}', [RequerimientoClienteController::class, 'form_editar_requerimiento'])->name('editar_requerimiento_cliente');
+Route::post('/requerimientos/editar/', [RequerimientoClienteController::class, 'editar_requerimiento'])->name('actualizar_requerimiento_cliente');
+
 
 Route::get('/consulta_cargas_cliente', [RequerimientoClienteController::class, 'consulta_cargas_nuevo']);

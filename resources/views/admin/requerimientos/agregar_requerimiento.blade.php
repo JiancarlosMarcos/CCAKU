@@ -128,18 +128,6 @@
 <br>
 
 
-
-@endsection
-
-@section('css')
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-@stop
-@section('js')
-
 <script>
     $(document).ready(function() {
         var i = 1;
@@ -482,15 +470,48 @@
     }
 </script>
 <script>
-    function valida_nueva_carga() {
-        var data_buscador_carga = document.getElementById("buscador_carga").value;
+    let cont = 0;
 
-        if (data_buscador_carga == "nueva_carga") {
+    function valida_nueva_carga() {
+        var id_carga = document.getElementById("buscador_carga").value;
+
+        if (id_carga == "nueva_carga") {
             $(".nueva_carga").removeClass("hidden");
             $(".required_carga_nueva").prop("required", true);
         } else {
-            $(".nueva_carga").addClass("hidden");
-            $(".required_carga_nueva").prop("required", false);
+            $(".nueva_carga").removeClass("hidden");
+            if ($.trim(id_carga) != '') {
+                $.get('../consulta_carga', {
+                    id_carga: id_carga
+                }, function(datos) {
+                    var id_carga = datos["id"];
+                    var tipo = datos["tipo"];
+                    var marca = datos["marca"];
+                    var modelo = datos["modelo"];
+                    var placa = datos["placa"];
+                    var peso = datos["peso"];
+
+                    // $(".nueva_carga").addClass("hidden");
+                    $(".carga_existente").attr("id", "'carga" + cont + "'");
+                    $(".carga_existente").removeClass("hidden");
+                    $("#tipo_c").val(tipo);
+                    $("#marca_c").val(marca);
+                    $("#modelo_c").val(modelo);
+                    $("#placa_c").val(placa);
+                    $("#peso_c").val(peso);
+                    console.log(id_carga);
+                    $(".required_carga_nueva").prop("required", false);
+                    cont++;
+                }).fail(function() {
+                    console.log("Hay un error")
+                }).then(function(data) {
+                    console.log(data);
+                });
+            }
+
+
+
+
         }
     }
 </script>
@@ -563,10 +584,8 @@
                     z++;
 
                 })
-
                 $('#buscador_carga').append(
-                    "<option value='nueva_carga'>++ Agregar Nueva Carga</option>");
-
+                    "<option value='nueva_carga'>++ Agregar Nueva Carga </option>");
             }).fail(function() {
                 $('#buscador_carga').empty();
                 $('#buscador_carga').append(
@@ -626,4 +645,8 @@
         cliente.style.border = " ";
     }
 </script>
+@endsection
+
+@section('css')
+@include('admin.datatable')
 @stop

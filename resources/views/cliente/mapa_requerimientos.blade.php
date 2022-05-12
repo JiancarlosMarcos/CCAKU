@@ -53,23 +53,25 @@
 
                         @foreach ($requerimientos as $requerimiento)
                             {
-                            'type': 'Feature',
-                            'properties': {
-                            'message': 'Foo',
-                            'nombre': '{{ $requerimiento->tipo . ' ' . $requerimiento->marca . ' ' . $requerimiento->modelo }}',
-                            'empresa': '{{ $requerimiento->empresa }}',
-                            'origen': '{{ $requerimiento->origen }}',
-                            'destino': '{{ $requerimiento->destino }}',
-                            'fecha': '{{ $requerimiento->fecha_transporte }}',
-                            'transporte': '{{ $requerimiento->transporte_requerido }}',
-                            'id': '{{ $requerimiento->id }}',
-                            'peso': '{{ $requerimiento->peso }}',
-                            'iconMarker': 'Carga',
-                            },
-                            'geometry': {
-                            'type': 'Point',
-                            'coordinates': ['{{ $requerimiento->longitud }}', '{{ $requerimiento->latitud }}'],
-                            }
+                                'type': 'Feature',
+                                'properties': {
+                                    'message': 'Foo',
+                                    'nombre': '{{ $requerimiento->tipo . ' ' . $requerimiento->marca . ' ' . $requerimiento->modelo }}',
+                                    'empresa': '{{ $requerimiento->empresa }}',
+                                    'origen': '{{ $requerimiento->origen }}',
+                                    'destino': '{{ $requerimiento->destino }}',
+                                    'fecha': '{{ $requerimiento->fecha_transporte }}',
+                                    'transporte': '{{ $requerimiento->transporte_requerido }}',
+                                    'id': '{{ $requerimiento->id }}',
+                                    'peso': '{{ $requerimiento->peso }}',
+                                    'iconMarker': 'Carga',
+                                },
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': ['{{ $requerimiento->longitud }}',
+                                        '{{ $requerimiento->latitud }}'
+                                    ],
+                                }
                             },
                         @endforeach
 

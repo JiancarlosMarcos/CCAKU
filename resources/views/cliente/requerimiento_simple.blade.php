@@ -128,25 +128,47 @@
                     <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA</b><b
                             style="color:#B61A1A">(*)</b>:</label>
                     <input class="form-control form_nuevo estilo_campo" name="tipo_carga" type="text"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                         value="{{ old('tipo_carga') }}" id="nombre_proyecto" autocomplete="off"
                         placeholder="Tipo de Carga" onkeyup="validar_nombre_proyecto()">
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group ">
                     <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MARCA:</b><b
                             style="color:#B61A1A">(*)</b>:</label>
                     <input class="form-control estilo_campo " name="marca_carga" type="text"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                         value="{{ old('marca_carga') }}" autocomplete="off" placeholder="Marca" />
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777"><b>MODELO:</b></label>
+                    <label class="control-label" style="font-weight:600;color:#777"><b>MODELO:</b><b
+                            style="color:#B61A1A">(*)</b>:</label>
                     <input class="form-control estilo_campo " name="modelo_carga" type="text"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                         value="{{ old('modelo_carga') }}" autocomplete="off" placeholder="Modelo" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:600;color:#777"><b>PESO (opcional):</b></label>
+                    <input class="form-control estilo_campo " name="peso" type="number" value="{{ old('peso') }}"
+                        autocomplete="off" placeholder="Peso" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:600;color:#777"><b>Medida (opcional):</b></label>
+                    <select name="medida" class="form-control" style="background:#77777710">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="TN">KG</option>
+                        <option value="KG">TN</option>
+
+                    </select>
                 </div>
             </div>
         </div>
@@ -193,6 +215,16 @@
                     <option value="Camion Plataforma">Camion Plataforma</option>
                     <option value="Camion Normal">Camion Normal</option>
                 </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+
+                <label class="control-label" style="font-weight:600;color:#777"><b>Cantidad Ejes (Opcional): </b>
+                </label>
+
+                <input class="form-control estilo_campo " name="ejes" type="text" value="{{ old('ejes') }}"
+                    autocomplete="off" placeholder="Cantidad Ejes" />
             </div>
         </div>
     </div>
@@ -259,7 +291,8 @@
                 var tipo_carga = datos["tipo"];
                 var marca_carga = datos["marca"];
                 var modelo_carga = datos["modelo"];
-
+                var peso = datos["peso"];
+                var medida = datos["medida"];
 
                 $('#buscador_carga').empty();
                 $('#buscador_carga').append(
@@ -267,8 +300,9 @@
                 var z = 0;
                 $.each(datos["tipo"], function(index, value) {
                     $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
-                        tipo_carga[z] + " || MARCA: " + marca_carga[z] + " || MODELO: ; " +
-                        modelo_carga[z] +
+                        tipo_carga[z] + " || MARCA: " + marca_carga[z] + " || MODELO: " +
+                        modelo_carga[z] + " || PESO: " +
+                        peso[z] + " " + medida[z] +
                         "</option>");
                     z++;
 

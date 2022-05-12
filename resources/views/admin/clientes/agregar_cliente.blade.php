@@ -191,8 +191,9 @@
                 '<select name="id_ubicacion_c[]" " class="form-control " >' +
                 '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
                 @foreach ($ubicaciones as $ubicacion)
-                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>'+
-                @endforeach '</select>' +
+                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
+                @endforeach
+                '</select>' +
                 '</td>' +
 
 

@@ -8,6 +8,7 @@ use App\Models\User;
 use Yajra\DataTables\DataTables;
 use Spatie\Permission\Models\Role;
 use App\Models\ContactoCliente;
+use App\Models\Cliente;
 
 class UsuarioController extends Controller
 {
@@ -54,6 +55,10 @@ class UsuarioController extends Controller
 
         $id = $request->id;
         $usuario = User::findOrFail($id);
+        $contacto = ContactoCliente::where('id_users', $id)->first();
+        $contacto->nombre = $request->name;
+        $contacto->correo = $request->email;
+        $contacto->save();
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->roles()->sync($request->roles);

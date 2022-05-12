@@ -130,7 +130,7 @@
 
             <thead>
                 <tr>
-                    <td style="width:10%">Tipo Transporte</td>
+                    <td style="width:10%">Tipo Transporte(*)</td>
                     <td style="width:8%">Marca</td>
                     <td style="width:8%">Modelo</td>
                     <td style="width:7%">Placa</td>
@@ -138,8 +138,8 @@
                     <td style="width:8%">Capacidad</td>
                     <td style="width:12%">Dimensiones</td>
                     <td style="width:5%">Año</td>
-                    <td style="width:12%">Ubicacion</td>
-                    <td style="width:12%">Estado</td>
+                    <td style="width:12%">Ubicacion(*)</td>
+                    <td style="width:12%">Estado(*)</td>
                     {{-- <td style="width:8%">Año</td> --}}
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
@@ -224,16 +224,17 @@
                 '</td>' +
 
                 '<td>' +
-                '<select name="id_ubicacion_t[]" " class="form-control " >' +
+                '<select name="id_ubicacion_t[]" " class="form-control " required>' +
                 '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
                 @foreach ($ubicaciones as $ubicacion)
-                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>'+
-                @endforeach '</select>' +
+                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
+                @endforeach
+                '</select>' +
                 '</td>' +
 
 
                 '<td>' +
-                '<select name="estado_t[]" class="form-control " >' +
+                '<select name="estado_t[]" class="form-control " required>' +
                 '<option value="" selected disabled>Seleccionar</option>' +
                 '<option value="DISPONIBLE">DISPONIBLE</option>' +
                 '<option value="NO DISPONIBLE">NO DISPONIBLE</option>' +

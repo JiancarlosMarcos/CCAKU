@@ -187,91 +187,33 @@
         <h5>Datos de la Carga<b style="color:#B61A1A">(*)</b>:</h5>
     </div>
     <br>
+
+    <input class="form-control" name="contador_c" id="contador_c" type="hidden" value="0" autocomplete="off" />
+
+    <table class="table table-bordered" id="tabla_carga" style="border: 1px solid #123;background:#fff">
+
+        <thead>
+            <tr>
+                <td style="width:15%">Tipo de Carga</td>
+                <td style="width:8%">Volumen</td>
+                <td style="width:12%">Peso</td>
+                <td style="width:12%">Unidad Medida</td>
+                <td style="width:10%">Marca</td>
+                <td style="width:12%">Modelo</td>
+                <td style="width:12%">Placa</td>
+                <td style="text-align:center;width:6%">Eliminar</td>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <a class="btn btn-primary" name="add_carga" id="add_carga" style="margin-rigth:auto;width:100%;font-weight:700;
+     font-size:14px;background:#ECDCC2;border-color:#777">
+                ++ Agregar Carga </a>
+        </div>
+    </div>
     <br>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA: </b>
-                <b style="color:#B61A1A">(*)</b></label>
-            <input class="form-control estilo_campo required_cliente_nuevo" name="tipo_carga" type="text"
-                value="{{ old('tipo_carga') }}" autocomplete="off" placeholder="Tipo de carga" />
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
-            </label>
-            <input class="form-control estilo_campo required_cliente_nuevo" name="marca_carga" type="text"
-                value="{{ old('marca_carga') }}" autocomplete="off" placeholder="Marca" />
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>MODELO </b></label>
-            <input class="form-control estilo_campo" name="modelo_carga" type="text"
-                value="{{ old('modelo_carga') }}" autocomplete="off" placeholder="Modelo" />
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>PLACA: </b></label>
-            <input class="form-control estilo_campo" name="placa_carga" type="text" value="{{ old('placa_carga') }}"
-                autocomplete="off" placeholder="Placa" />
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>VOLUMEN: </b></label>
-            <input class="form-control estilo_campo" name="volumen_carga" type="text"
-                value="{{ old('volumen_carga') }}" autocomplete="off" placeholder="Volumen" />
-        </div>
-    </div>
-
-
-    <div class="col-md-2">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>LARGO:</b></label>
-            <input class="form-control estilo_campo " name="largo_carga" type="text" value="{{ old('largo_carga') }}"
-                autocomplete="off" placeholder="Largo" />
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>ANCHO:</b></label>
-            <input class="form-control estilo_campo " name="ancho_carga" type="text" value="{{ old('ancho_carga') }}"
-                autocomplete="off" placeholder="Ancho" />
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>ALTURA:</b></label>
-            <input class="form-control estilo_campo " name="altura_carga" type="text"
-                value="{{ old('altura_carga') }}" autocomplete="off" placeholder="Altura" />
-        </div>
-    </div>
-
-    <div class="col-md-1">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>PESO:</b></label>
-            <input class="form-control estilo_campo " name="peso_carga" type="text" value="{{ old('peso_carga') }}"
-                autocomplete="off" placeholder="Peso" />
-        </div>
-    </div>
-
-    <div class="col-md-1">
-        <div class="form-group ">
-            <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MEDIDA</b><b
-                    style="color:#B61A1A">(*)</b>:</label>
-            <select name="medida_peso_carga" class="form-control form_nuevo estilo_campo ">
-                <option value="" selected disabled>Seleccionar</option>
-                <option value="kg">Kilogramo</option>
-                <option value="t">Tonelada</option>
-            </select>
-        </div>
-    </div>
 
 </div>
 
@@ -350,7 +292,7 @@
 
 
 
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="form-group">
             <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
             <select class="form-control buscador_cargas required_cliente_existente" onchange="valida_nueva_carga();"
@@ -361,94 +303,237 @@
         </div>
     </div>
 
+
     <div class="col-md-12 nueva_carga hidden">
         <h5>Datos de la Carga<b style="color:#B61A1A">(*)</b>:</h5>
-    </div>
-    <div class="col-md-3 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA: </b>
-                <b style="color:#B61A1A">(*)</b></label>
-            <input class="form-control estilo_campo required_carga_nueva" name="tipo_carga_cliente_existente"
-                type="text" value="{{ old('tipo_carga_cliente_existente') }}" autocomplete="off"
-                placeholder="Tipo de carga" />
-        </div>
-    </div>
-    <div class="col-md-2 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
-            </label>
-            <input class="form-control estilo_campo " name="marca_carga_cliente_existente" type="text"
-                value="{{ old('marca_carga_cliente_existente') }}" autocomplete="off" placeholder="Marca" />
-        </div>
-    </div>
-    <div class="col-md-2 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>MODELO </b></label>
-            <input class="form-control estilo_campo" name="modelo_carga_cliente_existente" type="text"
-                value="{{ old('modelo_carga_cliente_existente') }}" autocomplete="off" placeholder="Modelo" />
-        </div>
-    </div>
 
-    <div class="col-md-3 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>PLACA: </b></label>
-            <input class="form-control estilo_campo" name="placa_carga_cliente_existente" type="text"
-                value="{{ old('placa_carga_cliente_existente') }}" autocomplete="off" placeholder="Placa" />
-        </div>
-    </div>
+        <br>
 
-    <div class="col-md-2 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>VOLUMEN: </b></label>
-            <input class="form-control estilo_campo" name="volumen_carga_cliente_existente" type="text"
-                value="{{ old('volumen_carga_cliente_existente') }}" autocomplete="off" placeholder="Volumen" />
-        </div>
-    </div>
+        <input class="form-control" name="contador_c_e" id="contador_c_e" type="hidden" value="0"
+            autocomplete="off" />
+
+        <table class="table table-bordered" id="tabla_carga_e" style="border: 1px solid #123;background:#fff">
+
+            <thead>
+                <tr>
+                    <td style="width:15%">Tipo de Carga</td>
+                    <td style="width:8%">Volumen</td>
+                    <td style="width:12%">Peso</td>
+                    <td style="width:12%">Unidad Medida</td>
+                    <td style="width:10%">Marca</td>
+                    <td style="width:12%">Modelo</td>
+                    <td style="width:12%">Placa</td>
+                    <td style="text-align:center;width:6%">Eliminar</td>
+                </tr>
+            </thead>
 
 
-    <div class="col-md-2  nueva_carga hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>LARGO:</b></label>
-            <input class="form-control estilo_campo " name="largo_carga_cliente_existente" type="text"
-                value="{{ old('largo_carga_cliente_existente') }}" autocomplete="off" placeholder="Largo" />
+
+
+
+            <tr class="carga_existente hidden">
+                <td>
+                    <input type="text" id="tipo_c" name="tipo_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710">
+
+
+                    <input type="hidden" id="id_carga" name="id_carga[]" {{-- id="id_carga<?php echo $j; ?>" --}} autocomplete="off"
+                        class="form-control" style="background:#77777710">
+
+                </td>
+
+                <td>
+                    <input type="text" id="volumen_c" name="volumen_c[]" autocomplete="off" class="form-control "
+                        style="background:#77777710">
+                </td>
+                <td>
+                    <input type="text" id="peso_c" name="peso_c[]" autocomplete="off" class="form-control "
+                        style="background:#77777710">
+                </td>
+
+                <td>
+                    <input type="text" id="medida_c" name="medida_c[]" autocomplete="off" class="form-control "
+                        style="background:#77777710">
+                </td>
+
+                <td>
+                    <input type="text" id="marca_c" name="marca_c[]" autocomplete="off" class="form-control "
+                        style="background:#77777710">
+                </td>
+
+                <td>
+                    <input type="text" id="modelo_c" name="modelo_c[]" autocomplete="off" class="form-control "
+                        style="background:#77777710">
+                </td>
+
+                <td>
+                    <input type="text" id="placa_c" name="placa_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710">
+                </td>
+
+                <td>
+                    <button type="button" {{-- id="{{ $j }}" --}} class="btn btn-danger btn_remove_data_c">X</button>
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <a class="btn btn-primary" name="add_carga_e" id="add_carga_e" style="margin-rigth:auto;width:100%;font-weight:700;
+     font-size:14px;background:#ECDCC2;border-color:#777">
+                    ++ Agregar Carga </a>
+            </div>
         </div>
     </div>
-
-    <div class="col-md-2 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>ANCHO:</b></label>
-            <input class="form-control estilo_campo " name="ancho_carga_cliente_existente" type="text"
-                value="{{ old('ancho_carga_cliente_existente') }}" autocomplete="off" placeholder="Ancho" />
-        </div>
-    </div>
-
-    <div class="col-md-2 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>ALTURA:</b></label>
-            <input class="form-control estilo_campo " name="altura_carga_cliente_existente" type="text"
-                value="{{ old('altura_carga_cliente_existente') }}" autocomplete="off" placeholder="Altura" />
-        </div>
-    </div>
-
-    <div class="col-md-1 nueva_carga  hidden">
-        <div class="form-group">
-            <label class="control-label" style="font-weight:600;color:#777"><b>PESO:</b></label>
-            <input class="form-control estilo_campo " name="peso_carga_cliente_existente" type="text"
-                value="{{ old('peso') }}" autocomplete="off" placeholder="Peso" />
-        </div>
-    </div>
-
-    <div class="col-md-2 nueva_carga hidden">
-        <div class="form-group ">
-            <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MEDIDA</b>:</label>
-            <select name="medida_carga_cliente_existente" class="form-control form_nuevo estilo_campo ">
-                <option value="" selected disabled>Seleccionar Medida</option>
-                <option value="kg">Kilogramo</option>
-                <option value="t">Tonelada</option>
-            </select>
-        </div>
-    </div>
-
 
 
 </div>
+<script>
+    $(document).ready(function() {
+        var j = $(".cargas").length;
+
+        $('#add_carga').click(function() {
+
+            $('#tabla_carga').append(
+
+                '<tr id="carga' + j + '" class="cargas" >' +
+
+                '<td>' +
+                '<input type="text"  name="tipo_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" required>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="peso_c[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="medida_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+
+                '<td>' +
+                '<input type="text"  name="marca_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<input type="text" name="modelo_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td style="text-align:center">' +
+                '<button type="button" onclick="eliminar_fila(' + j +
+                ')" class="btn btn-danger btn_remove_c">X</button>' +
+                '</td>' +
+                '</tr>'
+            );
+            j++;
+
+            document.getElementById("contador_c").value++;
+
+        });
+
+
+
+    })
+
+    function eliminar_fila(id) {
+        if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
+
+        $('#carga' + id).remove();
+        document.getElementById("contador_c").value--;
+
+    }
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        var j = $(".cargas_e").length;
+
+        $('#add_carga_e').click(function() {
+
+            $('#tabla_carga_e').append(
+
+                '<tr id="carga_e' + j + '" class="cargas_e" >' +
+
+                '<td>' +
+                '<input type="text"  name="tipo_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" required>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="peso_c_e[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="medida_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+
+                '<td>' +
+                '<input type="text"  name="marca_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<input type="text" name="modelo_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td style="text-align:center">' +
+                '<button type="button" onclick="eliminar_fila(' + j +
+                ')" class="btn btn-danger btn_remove_c">X</button>' +
+                '</td>' +
+                '</tr>'
+            );
+            j++;
+
+            document.getElementById("contador_c_e").value++;
+
+        });
+
+
+
+    })
+
+    function eliminar_fila(id) {
+        if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
+
+        $('#carga_e' + id).remove();
+        document.getElementById("contador_c_e").value--;
+
+    }
+</script>

@@ -80,8 +80,8 @@ class RequerimientoClienteController extends Controller
             // // $cargas->largo = $request->largo_carga_cliente_existente;
             // // $cargas->ancho = $request->ancho_carga_cliente_existente;
             // // $cargas->altura = $request->altura_carga_cliente_existente;
-            // // $cargas->peso = $request->peso_carga_cliente_existente;
-            // // $cargas->unidad_medida_peso = $request->medida_carga_cliente_existente;
+            $cargas->peso = $request->peso;
+            $cargas->unidad_medida_peso = $request->medida;
             $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
             $cargas->id_ubicacion = $ubicacion->id;
             $cargas->id_cliente = $requerimientos->id_cliente;
@@ -109,6 +109,7 @@ class RequerimientoClienteController extends Controller
         $transporte->tipo = $request->tipo;
         // $transporte->cantidad_ejes = $request->cantidad_ejes;
         $transporte->id_requerimiento = $id_requerimiento;
+        $transporte->cantidad_ejes = $request->ejes;
         $transporte->cantidad = "1";
         // $transporte->parte_carga = $request->parte_carga[$i];
         $transporte->save();
@@ -201,6 +202,7 @@ class RequerimientoClienteController extends Controller
                 $modeloArray[] = $carga->modelo;
                 $placaArray[] = $carga->placa;
                 $pesoArray[] = $carga->peso;
+                $medidaArray[] = $carga->unidad_medida_peso;
                 $idArray[] = $carga->id;
             }
             return response()->json([
@@ -209,8 +211,97 @@ class RequerimientoClienteController extends Controller
                 'modelo' => $modeloArray,
                 'placa' => $placaArray,
                 'peso' => $pesoArray,
+                'medida' => $medidaArray,
                 'id' => $idArray,
             ]);
         }
+    }
+    public function form_editar_requerimiento(Request $request)
+    {
+        $requerimiento = Requerimiento::find($request->id);
+        $clientes = Cliente::all();
+        $contacto = ContactoCliente::where('id', $requerimiento->id_contacto)->first();
+        $cargas = Carga::where('id_cliente', $requerimiento->id_cliente)->get();
+        $departamentos = Ubicacion::all();
+        $transportes[] = RequerimientoTransporte::where('id_requerimiento', $request->id)->get();
+
+        return view('clientes.editar_requerimiento', [
+            'requerimiento' => $requerimiento,
+            'clientes' => $clientes,
+            'contacto' => $contacto,
+            'cargas' => $cargas,
+            'departamentos' => $departamentos,
+            'transportes' => $transportes[0]
+        ]);
+    }
+    public function editar_requerimiento(Request $request)
+    {
+        $request->validate(
+            [],
+            []
+        );
+
+        $requerimiento =  Requerimiento::where('id', $request->id_requerimiento)->first();
+        $requerimiento->observaciones = $request->observaciones;
+        // $requerimientos_e->id_cliente = $request->id_empresa;
+        // $requerimientos_e->id_contacto = $request->id_contacto;
+        $requerimiento->id_carga_cliente = $request->id_carga;
+        $requerimiento->fecha = $request->fecha;
+        $requerimiento->origen = $request->origen;
+        $requerimiento->destino = $request->destino;
+
+
+
+        $contador_transportes = count((is_countable($request->tipo_transporte) ? $request->tipo_transporte : []));
+        // $requerimiento->responsable_registro = $request->usuario;
+        if ($contador_transportes > 1) {
+            $requerimiento->transporte_requerido = "CONVOY";
+        } else {
+            $requerimiento->transporte_requerido = $request->tipo_transporte[0];
+        }
+        $requerimiento->save();
+
+        $id_requerimiento = $requerimiento->id;
+
+        $delete_equipos_requerimiento = RequerimientoTransporte::where('id_requerimiento', $request->id_requerimiento);
+        $delete_equipos_requerimiento->delete();
+
+        for ($i = 0; $i < $contador_transportes; $i++) {
+            $transportes = new RequerimientoTransporte;
+            $transportes->tipo = $request->tipo_transporte[$i];
+            $transportes->cantidad_ejes = $request->cantidad_ejes[$i];
+            $transportes->id_requerimiento = $id_requerimiento;
+            $transportes->cantidad = $request->cantidad[$i];
+            $transportes->parte_carga = $request->parte_carga[$i];
+            $transportes->save();
+        }
+
+        $notification = array(
+            'mensaje' => 'Requerimiento actualizado correctamente!',
+            'tipo' => 'success'
+        );
+        return Redirect()->back()->with($notification);
+    }
+
+
+
+    public function eliminar_requerimiento($id)
+    {
+
+        $eliminar_equipo_requerimiento = RequerimientoTransporte::where('id_requerimiento', $id);
+        $eliminar_equipo_requerimiento->delete();
+
+        $eliminar_requerimiento = Requerimiento::where('id', $id);
+        $eliminar_requerimiento->delete();
+
+
+        $mensaje = 'Requerimiento eliminado correctamente!';
+        $tipo = 'success';
+
+        $notification = array(
+            'mensaje' => $mensaje,
+            'tipo' => $tipo
+        );
+        return Redirect()->back()->with($notification);
     }
 }

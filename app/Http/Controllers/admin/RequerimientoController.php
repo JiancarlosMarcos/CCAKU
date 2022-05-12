@@ -110,6 +110,28 @@ class RequerimientoController extends Controller
             ]);
         }
     }
+
+    public function consulta_carga_existente(Request $request)
+    {
+        if ($request->ajax()) {
+            $carga = Carga::where('id', $request->id_carga)->first();
+            $tipoArray = $carga->tipo;
+            $marcaArray = $carga->marca;
+            $modeloArray = $carga->modelo;
+            $placaArray = $carga->placa;
+            $pesoArray = $carga->peso;
+            $idArray = $carga->id;
+
+            return response()->json([
+                'tipo' => $tipoArray,
+                'marca' => $marcaArray,
+                'modelo' => $modeloArray,
+                'placa' => $placaArray,
+                'peso' => $pesoArray,
+                'id' => $idArray,
+            ]);
+        }
+    }
     public function agregar_requerimiento(Request $request)
     {
 
@@ -339,7 +361,6 @@ class RequerimientoController extends Controller
         $departamentos = Ubicacion::all();
         $transportes[] = RequerimientoTransporte::where('id_requerimiento', $request->id)->get();
 
-
         return view('admin.requerimientos.editar_requerimiento', [
             'requerimiento' => $requerimiento,
             'clientes' => $clientes,
@@ -358,33 +379,39 @@ class RequerimientoController extends Controller
             []
         );
 
-        $requerimiento_id = $request->id_registro;
+        $requerimiento =  Requerimiento::where('id', $request->id_requerimiento)->first();
+        $requerimiento->observaciones = $request->observaciones;
+        // $requerimientos_e->id_cliente = $request->id_empresa;
+        // $requerimientos_e->id_contacto = $request->id_contacto;
+        $requerimiento->id_carga_cliente = $request->id_carga;
+        $requerimiento->fecha = $request->fecha;
+        $requerimiento->origen = $request->origen;
+        $requerimiento->destino = $request->destino;
 
-        $requerimientos_e =  Requerimiento::where('id', $requerimiento_id)->first();
-        $requerimientos_e->observaciones = $request->observaciones;
-        $requerimientos_e->id_cliente = $request->id_empresa;
-        $requerimientos_e->id_contacto = $request->id_contacto;
-        $requerimientos_e->id_carga = $request->id_proyecto;
 
-        $tipo_servicio = $request->tipo_servicio;
 
-        $requerimientos_e->save();
+        $contador_transportes = count((is_countable($request->tipo_transporte) ? $request->tipo_transporte : []));
+        // $requerimiento->responsable_registro = $request->usuario;
+        if ($contador_transportes > 1) {
+            $requerimiento->transporte_requerido = "CONVOY";
+        } else {
+            $requerimiento->transporte_requerido = $request->tipo_transporte[0];
+        }
+        $requerimiento->save();
 
-        $delete_equipos_requerimiento = RequerimientoTransporte::where('id_requerimiento', $requerimiento_id);
+        $id_requerimiento = $requerimiento->id;
+
+        $delete_equipos_requerimiento = RequerimientoTransporte::where('id_requerimiento', $request->id_requerimiento);
         $delete_equipos_requerimiento->delete();
 
-        $contador_equipos = count($request->nombre_equipo);
-
-        for ($i = 0; $i < $contador_equipos; $i++) {
-            $requerimiento_equipos = new RequerimientoTransporte;
-            $requerimiento_equipos->nombre = $request->nombre_equipo[$i];
-            $requerimiento_equipos->capacidad = $request->capacidad_equipo[$i];
-            $requerimiento_equipos->cantidad = $request->cantidad_equipo[$i];
-            $requerimiento_equipos->tiempo = $request->tiempo_equipo[$i];
-            $requerimiento_equipos->servicio = $tipo_servicio;
-            $requerimiento_equipos->id_requerimiento = $requerimiento_id;
-            $requerimiento_equipos->division = $request->division[$i];
-            $requerimiento_equipos->save();
+        for ($i = 0; $i < $contador_transportes; $i++) {
+            $transportes = new RequerimientoTransporte;
+            $transportes->tipo = $request->tipo_transporte[$i];
+            $transportes->cantidad_ejes = $request->cantidad_ejes[$i];
+            $transportes->id_requerimiento = $id_requerimiento;
+            $transportes->cantidad = $request->cantidad[$i];
+            $transportes->parte_carga = $request->parte_carga[$i];
+            $transportes->save();
         }
 
         $notification = array(

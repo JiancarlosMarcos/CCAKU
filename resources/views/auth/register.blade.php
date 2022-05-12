@@ -63,7 +63,9 @@
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
-
+        <input type="text" value="" class="alerta_1 oculto" id="errores"
+            style="font-size:14px;background:transparent;border:0px solid transparent;width:100%;color:#be1e37"
+            disabled>
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
@@ -86,7 +88,7 @@
                 <x-jet-label for="ruc" value="{{ __('RUC de la empresa') }}" />
                 <div class="validar_ruc">
                     <x-jet-input id="ruc" class="block mt-1 w-full" type="number" name="ruc" onkeyup="cambio_dni_ruc()"
-                        required />
+                        required value="{{ old('ruc') }}" />
                     <a class="boton" title="Validar Empresa" onclick="validar_cliente()">✔</a>
                 </div>
 
@@ -101,13 +103,14 @@
 
             <div class="mt-4 oculto" id="nombre_empresa">
                 <x-jet-label for="ruc" value="{{ __('Nombre de la Empresa') }}" />
-                <x-jet-input id="empresa" class="block mt-1 w-full" type="text" name="empresa" required />
+                <x-jet-input id="empresa" class="block mt-1 w-full" type="text" name="empresa" required
+                    value="{{ old('empresa') }}" />
             </div>
 
             <div class="mt-4">
                 <x-jet-label for="password" value="{{ __('Contraseña') }}" />
                 <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                    autocomplete="new-password" />
+                    autocomplete="new-password" value="{{ old('password') }}" />
             </div>
 
             <div class="mt-4">
@@ -138,7 +141,7 @@
                     {{ __('Ya esta registrado?') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <x-jet-button class="ml-4" onclick="validarboton()">
                     {{ __('Registrarse') }}
                 </x-jet-button>
             </div>
@@ -147,7 +150,19 @@
 </x-guest-layout>
 
 <script>
+    let validado = false;
+
+    function validarboton() {
+        $('#errores').addClass('oculto');
+        if (validado == false) {
+            $('#valida_dni_ruc_1').removeClass('oculto');
+            $('#valida_dni_ruc_1').css("color", "#FF2D00");
+            $('#valida_dni_ruc_1').val("Validar RUC");
+        }
+    }
+
     function validar_cliente() {
+        validado = true;
         $('#valida_dni_ruc_1').removeClass('oculto');
         var dni_ruc = document.getElementById('ruc').value;
         var nombre_empresa = document.getElementById('empresa');
@@ -162,7 +177,7 @@
 
                 $.each(empresas, function(index, value) {
                     $('#valida_dni_ruc_1').css("color", "#35993A");
-                    $('#valida_dni_ruc_1').val("Empresa existente");
+                    $('#valida_dni_ruc_1').val("RUC registrado en el sistema");
                     $('#nombre_empresa').addClass('oculto');
                     $('#empresa').removeAttr('required');
                 })
@@ -170,7 +185,7 @@
             }).fail(function() {
 
                 $('#valida_dni_ruc_1').css("color", "#35993A");
-                $('#valida_dni_ruc_1').val("Este DNI o RUC no se encuentra registrado");
+                $('#valida_dni_ruc_1').val("Este RUC no se encuentra registrado");
                 $('#nombre_empresa').removeClass('oculto');
                 $('#empresa').prop('required', true);
 
@@ -182,10 +197,13 @@
     }
 
     function cambio_dni_ruc() {
-        $('.validacion').addClass('oculto');
-        $('#valida_dni_ruc_1').addClass('oculto');
-        $('#valida_dni_ruc_1').val("");
-        $('#nombre_empresa').addClass('oculto');
-        $('#empresa').removeAttr('required');
+        validado = false;
+        if (validado == false) {
+            $('.validacion').addClass('oculto');
+            $('#empresa').prop('required', true);
+            $('#valida_dni_ruc_1').addClass('oculto');
+            $('#valida_dni_ruc_1').val("");
+            $('#nombre_empresa').addClass('oculto');
+        }
     }
 </script>

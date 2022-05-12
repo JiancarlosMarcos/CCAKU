@@ -42,8 +42,9 @@
     <div class="row" style="margin-bottom:0px">
         <div class="col-md-3">
             <div class="form-group">
+                <input type="hidden" name="id_requerimiento" value="{{ $requerimiento->id }}">
                 <label class="control-label " style="font-weight:600;color:#777"> Registro de requerimiento:</label>
-                <input class="form-control" type="text" id="fecha_transporte" name="fecha_transporte" disabled
+                <input class="form-control" type="text" id="fecha_registro" name="fecha_registro" disabled
                     style="font-weight:600;text-align:center"
                     value="{{ $requerimiento->created_at->format('d/m/Y') }}">
             </div>
@@ -58,7 +59,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label" style="font-weight:600;color:#777"> Responsable de registro:</label>
-                <input type="text" id="estado" class="form-control " name="estado"
+                <input type="text" id="responsable_registro" class="form-control " name="responsable_registro"
                     style="font-weight:600;text-align:center" disabled
                     value="{{ $requerimiento->responsable_registro }}">
             </div>
@@ -66,7 +67,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label" style="font-weight:600;color:#777"> Atendido por:</label>
-                <input type="text" id="estado" class="form-control " name="atendido"
+                <input type="text" id="atendido" class="form-control " name="atendido"
                     style="font-weight:600;text-align:center" disabled value="">
             </div>
         </div>
@@ -88,7 +89,7 @@
                 <label class="control-label" style="font-weight:600;color:#777"> Empresa:</label>
                 @foreach ($clientes as $cliente)
                     @if ($cliente->id == $requerimiento->id_cliente)
-                        <input type="text" id="estado" class="form-control " name="empresa" style="font-weight:600"
+                        <input type="text" id="empresa" class="form-control " name="empresa" style="font-weight:600"
                             value="Nombre: {{ $cliente->nombre }} || Ruc: {{ $cliente->dni_ruc }}" readonly>
                     @endif
                 @endforeach
@@ -98,7 +99,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="control-label" style="font-weight:600;color:#777"> Contacto:</label>
-                <input type="text" id="estado" class="form-control " name="empresa" style="font-weight:600"
+                <input type="text" id="contacto" class="form-control " name="contacto" style="font-weight:600"
                     value="{{ $contacto->nombre }}" readonly>
             </div>
         </div>
@@ -121,95 +122,6 @@
                 </select>
             </div>
         </div>
-
-        <div class="col-md-12 nueva_carga hidden">
-            <h5>Datos de la Carga<b style="color:#B61A1A">(*)</b>:</h5>
-        </div>
-        <div class="col-md-3 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA: </b>
-                    <b style="color:#B61A1A">(*)</b></label>
-                <input class="form-control estilo_campo required_carga_nueva" name="tipo_carga_cliente_existente"
-                    type="text" value="{{ old('tipo_carga_cliente_existente') }}" autocomplete="off"
-                    placeholder="Tipo de carga" />
-            </div>
-        </div>
-        <div class="col-md-2 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>MARCA: </b>
-                </label>
-                <input class="form-control estilo_campo " name="marca_carga_cliente_existente" type="text"
-                    value="{{ old('marca_carga_cliente_existente') }}" autocomplete="off" placeholder="Marca" />
-            </div>
-        </div>
-        <div class="col-md-2 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>MODELO </b></label>
-                <input class="form-control estilo_campo" name="modelo_carga_cliente_existente" type="text"
-                    value="{{ old('modelo_carga_cliente_existente') }}" autocomplete="off" placeholder="Modelo" />
-            </div>
-        </div>
-
-        <div class="col-md-3 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>PLACA: </b></label>
-                <input class="form-control estilo_campo" name="placa_carga_cliente_existente" type="text"
-                    value="{{ old('placa_carga_cliente_existente') }}" autocomplete="off" placeholder="Placa" />
-            </div>
-        </div>
-
-        <div class="col-md-2 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>VOLUMEN: </b></label>
-                <input class="form-control estilo_campo" name="volumen_carga_cliente_existente" type="text"
-                    value="{{ old('volumen_carga_cliente_existente') }}" autocomplete="off" placeholder="Volumen" />
-            </div>
-        </div>
-
-
-        <div class="col-md-2  nueva_carga hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>LARGO:</b></label>
-                <input class="form-control estilo_campo " name="largo_carga_cliente_existente" type="text"
-                    value="{{ old('largo_carga_cliente_existente') }}" autocomplete="off" placeholder="Largo" />
-            </div>
-        </div>
-
-        <div class="col-md-2 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>ANCHO:</b></label>
-                <input class="form-control estilo_campo " name="ancho_carga_cliente_existente" type="text"
-                    value="{{ old('ancho_carga_cliente_existente') }}" autocomplete="off" placeholder="Ancho" />
-            </div>
-        </div>
-
-        <div class="col-md-2 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>ALTURA:</b></label>
-                <input class="form-control estilo_campo " name="altura_carga_cliente_existente" type="text"
-                    value="{{ old('altura_carga_cliente_existente') }}" autocomplete="off" placeholder="Altura" />
-            </div>
-        </div>
-
-        <div class="col-md-1 nueva_carga  hidden">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>PESO:</b></label>
-                <input class="form-control estilo_campo " name="peso_carga_cliente_existente" type="text"
-                    value="{{ old('peso') }}" autocomplete="off" placeholder="Peso" />
-            </div>
-        </div>
-
-        <div class="col-md-2 nueva_carga hidden">
-            <div class="form-group ">
-                <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MEDIDA</b>:</label>
-                <select name="medida_carga_cliente_existente" class="form-control form_nuevo estilo_campo ">
-                    <option value="" selected disabled>Seleccionar Medida</option>
-                    <option value="kg">Kilogramo</option>
-                    <option value="t">Tonelada</option>
-                </select>
-            </div>
-        </div>
-
     </div>
 
 
@@ -217,7 +129,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label " style="font-weight:600;color:#777">Fecha de Transporte:</label>
-                <input class="form-control" type="date" id="fecha_transporte" name="fecha_transporte"
+                <input class="form-control" type="date" id="fecha_transporte" name="fecha"
                     style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha }}">
             </div>
         </div>
@@ -228,7 +140,7 @@
                     style="width:100%">
                     @foreach ($departamentos as $departamento)
                         @if ($departamento->departamento == $requerimiento->origen)
-                            <option value="{{ $departamento->id }}" selected disabled>
+                            <option value="{{ $departamento->departamento }}" selected>
                                 {{ $requerimiento->origen }}</option>
                             </option>
                         @endif
@@ -248,7 +160,7 @@
                     style="width:100%">
                     @foreach ($departamentos as $departamento)
                         @if ($departamento->departamento == $requerimiento->destino)
-                            <option value="{{ $departamento->id }}" selected disabled>
+                            <option value="{{ $departamento->departamento }}" selected>
                                 {{ $requerimiento->destino }}
                             </option>
                         @endif
@@ -304,7 +216,8 @@
                 <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
                     class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
 
-                <select name="tipo_t[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710" required>
+                <select name="tipo_transporte[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710"
+                    required>
                     <option value="{{ $transportes[$j]->tipo }}">
                         {{ $transportes[$j]->tipo }}</option>
                     <option value="Camion Plataforma">Camion Plataforma</option>
@@ -324,7 +237,7 @@
                     style="background:#77777710" value="{{ $transportes[$j]->cantidad }}">
             </td>
             <td>
-                <input type="text" name="ejes_t[]" autocomplete="off" class="form-control"
+                <input type="text" name="cantidad_ejes[]" autocomplete="off" class="form-control"
                     style="background:#77777710" value="{{ $transportes[$j]->cantidad_ejes }}">
             </td>
 
