@@ -25,7 +25,8 @@
     Cargando...
 </div>
 
-
+<br>
+<br>
 
 <div class="app-title contenido">
     <div>
@@ -41,12 +42,12 @@
 
 
 
-    <input type="text" id="fecha_reporte" name="fecha_reporte" readonly style="font-weight:600;text-align:center">
+    <input type="hidden" id="fecha_reporte" name="fecha_reporte" readonly style="font-weight:600;text-align:center">
 
-    <h5> Fecha:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
+    <h5> Fecha de Transporte:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
 
-    <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control" style="width:140px"
-        onchange="validar_fecha_cotizacion();">
+    <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control fecha" style="width:200px"
+        required>
     <br>
     <h5> Seleccionar Origen y Destino de la Carga:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
     <div class="row" style="margin-bottom:0px">
@@ -55,7 +56,7 @@
                 <label class="control-label" style="font-weight:600;color:#777"><b>ORIGEN</b><b
                         style="color:#B61A1A">(*)</b>:</label>
                 <select id="origen" name="origen" class="form-control buscador_origen form_nuevo estilo_campo "
-                    style="width:100%">
+                    style="width:100%" required>
                     <option value="" selected disabled> ⬆ Seleccionar</option>
                     @foreach ($departamentos as $departamento)
                         <option value="{{ $departamento->departamento }}"
@@ -70,7 +71,7 @@
                 <label class="control-label" style="font-weight:600;color:#777"><b>DESTINO</b><b
                         style="color:#B61A1A">(*)</b>:</label>
                 <select id="destino" name="destino" class="form-control buscador_destino form_nuevo estilo_campo "
-                    style="width:100%">
+                    style="width:100%" required>
                     <option value="" selected disabled> ⬇ Seleccionar</option>
                     @foreach ($departamentos as $departamento)
                         <option value="{{ $departamento->departamento }}"
@@ -226,7 +227,7 @@
     function funciones_inicio() {
         $('#onload').fadeOut();
         $('.contenido').removeClass('hidden');
-        fecha();
+
 
         @error('dni_ruc')
             validacion_dni_ruc();
@@ -244,88 +245,11 @@
     }
 </script>
 
-<script>
-    function fecha() {
 
-        var fechaa = new Date();
-        var hoy = fechaa.getDate();
-        var mesActual = fechaa.getMonth() + 1;
-        var anio = fechaa.getFullYear();
-        var numero_dia = fechaa.getDay();
-        var dia_reporte;
-        var mes_reporte;
-
-        let nombres_dia;
-        nombres_dia = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-        let nombres_mes;
-        nombres_mes = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-            'Octubre', 'Noviembre', 'Diciembre'
-        ];
-
-        dia_reporte = nombres_dia[numero_dia];
-        mes_reporte = nombres_mes[mesActual];
-
-        fecha_reporte = dia_reporte + ", " + hoy + " de " + mes_reporte + " del " + anio;
-
-        document.getElementById("fecha_reporte").value = fecha_reporte;
-
-
-        var nuevohoy;
-        if (hoy < 10) {
-            hoy = '0' + hoy;
-        }
-        if (mesActual < 10) {
-            mesActual = '0' + mesActual;
-        }
-        fecha_cotizacion = anio + "-" + mesActual + "-" + hoy;
-        document.getElementById("fecha_cotizacion").value = fecha_cotizacion;
-
-    }
-</script>
 <script>
     window.onload = funciones_inicio();
 </script>
-<script>
-    function validar_fecha_cotizacion() {
-        var fecha_cotizacion = $('#fecha_cotizacion').val();
-        let arr = fecha_cotizacion.split('-');
-        var fechaa = new Date(arr[0], arr[1] - 1, arr[2]);
-        var hoy = fechaa.getDate();
-        var mesActual = fechaa.getMonth() + 1;
-        var anio = fechaa.getFullYear();
-        var numero_dia = fechaa.getDay();
-        var dia_reporte;
-        var mes_reporte;
-        var fecha_cotizacion = $('#fecha_cotizacion').val();
 
-
-        let nombres_dia;
-        nombres_dia = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-        let nombres_mes;
-        nombres_mes = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-            'Octubre', 'Noviembre', 'Diciembre'
-        ];
-
-        dia_reporte = nombres_dia[numero_dia];
-        mes_reporte = nombres_mes[mesActual];
-
-        fecha_reporte = dia_reporte + ", " + hoy + " de " + mes_reporte + " del " + anio;
-
-        document.getElementById("fecha_reporte").value = fecha_reporte;
-
-
-        var nuevohoy;
-        if (hoy < 10) {
-            hoy = '0' + hoy;
-        }
-        if (mesActual < 10) {
-            mesActual = '0' + mesActual;
-        }
-        fecha_cotizacion = anio + "-" + mesActual + "-" + hoy;
-        //document.getElementById("fecha_cotizacion").value=fecha_cotizacion;
-
-    }
-</script>
 <script>
     $('#add_requerimientos').on('submit', function(evt) {
 
@@ -413,13 +337,7 @@
     }
 </script>
 
-<script>
-    $(document).ready(function() {
-        $('.buscador_clientes').select2();
-        $('.buscador_contactos').select2();
-        $('.buscardor_cargas').select2();
-    });
-</script>
+
 
 
 <script>
@@ -469,60 +387,16 @@
         }
     }
 </script>
-<script>
-    let cont = 0;
 
-    function valida_nueva_carga() {
-        var id_carga = document.getElementById("buscador_carga").value;
-
-        if (id_carga == "nueva_carga") {
-            $(".nueva_carga").removeClass("hidden");
-            $(".required_carga_nueva").prop("required", true);
-        } else {
-            $(".nueva_carga").removeClass("hidden");
-            if ($.trim(id_carga) != '') {
-                $.get('../consulta_carga', {
-                    id_carga: id_carga
-                }, function(datos) {
-                    var id_carga = datos["id"];
-                    var tipo = datos["tipo"];
-                    var marca = datos["marca"];
-                    var modelo = datos["modelo"];
-                    var placa = datos["placa"];
-                    var peso = datos["peso"];
-
-                    // $(".nueva_carga").addClass("hidden");
-                    $(".carga_existente").attr("id", "'carga" + cont + "'");
-                    $(".carga_existente").removeClass("hidden");
-                    $("#tipo_c").val(tipo);
-                    $("#marca_c").val(marca);
-                    $("#modelo_c").val(modelo);
-                    $("#placa_c").val(placa);
-                    $("#peso_c").val(peso);
-                    console.log(id_carga);
-                    $(".required_carga_nueva").prop("required", false);
-                    cont++;
-                }).fail(function() {
-                    console.log("Hay un error")
-                }).then(function(data) {
-                    console.log(data);
-                });
-            }
-
-
-
-
-        }
-    }
-</script>
 <script>
     function mostrar_contactos_clientes() {
+        $('.select_carga').removeClass('hidden');
         $('#buscador_contacto').empty();
         $('#buscador_contacto').append(
             "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
-        $('#buscador_carga').empty();
-        $('#buscador_carga').append(
-            "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
+        // $('#buscador_carga').empty();
+        // $('#buscador_carga').append(
+        //     "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
         var id_cliente = document.getElementById("buscador_cliente").value;
 
 
@@ -562,40 +436,40 @@
 
             });
         }
-        if ($.trim(id_cliente) != '') {
-            $.get('../consulta_cargas', {
-                id_cliente: id_cliente
-            }, function(datos) {
-                var id_carga = datos["id"];
-                var tipo = datos["tipo"];
-                var marca = datos["marca"];
-                var modelo = datos["modelo"];
-                var placa = datos["placa"];
-                var peso = datos["peso"];
+        // if ($.trim(id_cliente) != '') {
+        //     $.get('../consulta_cargas', {
+        //         id_cliente: id_cliente
+        //     }, function(datos) {
+        //         var id_carga = datos["id"];
+        //         var tipo = datos["tipo"];
+        //         var marca = datos["marca"];
+        //         var modelo = datos["modelo"];
+        //         var placa = datos["placa"];
+        //         var peso = datos["peso"];
 
-                $('#buscador_carga').empty();
-                $('#buscador_carga').append(
-                    "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
-                var z = 0;
-                $.each(datos["tipo"], function(index, value) {
-                    $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
-                        tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
-                        " || PLACA: " + placa[z] + " || PESO: " + peso[z] + "</option>");
-                    z++;
+        //         $('#buscador_carga').empty();
+        //         $('#buscador_carga').append(
+        //             "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
+        //         var z = 0;
+        //         $.each(datos["tipo"], function(index, value) {
+        //             $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
+        //                 tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
+        //                 " || PLACA: " + placa[z] + " || PESO: " + peso[z] + "</option>");
+        //             z++;
 
-                })
-                $('#buscador_carga').append(
-                    "<option value='nueva_carga'>++ Agregar Nueva Carga </option>");
-            }).fail(function() {
-                $('#buscador_carga').empty();
-                $('#buscador_carga').append(
-                    "<option value='' selected disabled> ❌ El cliente no tiene cargas registradas</option>");
-                $('#buscador_carga').append(
-                    "<option value='nueva_carga'>++ Agregar Nueva Carga </option>");
-            }).then(function(data) {
+        //         })
 
-            });
-        }
+
+        //     }).fail(function() {
+        //         $('#buscador_carga').empty();
+        //         $('#buscador_carga').append(
+        //             "<option value='' selected disabled> ❌ El cliente no tiene cargas registradas</option>");
+
+
+        //     }).then(function(data) {
+
+        //     });
+        // }
     }
 </script>
 <script>

@@ -79,12 +79,12 @@
                                     data-column="2" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="destino"
                                     data-column="3" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="carga"
-                                    data-column="4" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="marca"
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="carga"
+                                    data-column="4" /></td> --}}
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="marca"
                                     data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="modelo"
-                                    data-column="6" /></td>
+                                    data-column="6" /></td> --}}
                             {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="volumen"
                                     data-column="7" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="peso"
@@ -97,9 +97,9 @@
                                     id="observaciones" data-column="11" /></td> --}}
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="estado"
                                     data-column="12" /></td>
-                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_creacion" data-column="13" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
+                                    id="fecha_creacion" data-column="13" /></td>
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input"
                                     id="fecha_modificacion" data-column="14" /></td> --}}
 
 
@@ -114,17 +114,17 @@
                             <th>Fecha</th>
                             <th>Origen</th>
                             <th>Destino</th>
-                            <th>Carga</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
+                            {{-- <th>Carga</th> --}}
+                            {{-- <th>Marca</th>
+                            <th>Modelo</th> --}}
                             {{-- <th>Volumen</th>
                             <th>Peso</th>
                             <th>Unidad Medidad</th> --}}
                             {{-- <th>Transporte<br>Requerido</th> --}}
                             {{-- <th>Observaciones</th> --}}
                             <th>Estado</th>
-                            {{-- <th>Fecha de<br>Creacion</th>
-                            <th>Fecha de<br>Modificacion</th> --}}
+                            <th>Fecha de<br>Creacion</th>
+                            {{-- <th>Fecha de<br>Modificacion</th> --}}
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -158,15 +158,15 @@
                 {
                     data: 'destino'
                 },
-                {
-                    data: 'carga'
-                },
-                {
-                    data: 'marca'
-                },
-                {
-                    data: 'modelo'
-                },
+                // {
+                //     data: 'carga'
+                // },
+                // {
+                //     data: 'marca'
+                // },
+                // {
+                //     data: 'modelo'
+                // },
                 // {
                 //     data: 'volumen'
                 // },
@@ -185,9 +185,9 @@
                 {
                     data: 'estado'
                 },
-                // {
-                //     data: 'created_at'
-                // },
+                {
+                    data: 'created_at'
+                },
                 // {
                 //     data: 'updated_at'
                 // },
@@ -237,17 +237,13 @@
         // document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
         document.getElementById("origen").value = ' ';
         document.getElementById("destino").value = ' ';
-        document.getElementById("carga").value = ' ';
-        document.getElementById("marca").value = ' ';
-        document.getElementById("modelo").value = ' ';
-        document.getElementById("volumen").value = ' ';
-        document.getElementById("peso").value = ' ';
-        document.getElementById("unidad").value = ' ';
+        // document.getElementById("carga").value = ' ';
+
         // document.getElementById("transporte").value = ' ';
         document.getElementById("observaciones").value = ' ';
         document.getElementById("estado").value = ' ';
         document.getElementById("fecha_creacion").value = ' ';
-        document.getElementById("fecha_modificacion").value = ' ';
+        // document.getElementById("fecha_modificacion").value = ' ';
     }
 </script>
 

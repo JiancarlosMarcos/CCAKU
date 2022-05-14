@@ -13,6 +13,8 @@ use App\Models\Ubicacion;
 use App\Models\User;
 use App\Models\Requerimiento;
 use App\Models\RequerimientoTransporte;
+use App\Models\RequerimientoCarga;
+use App\Models\VistaRequerimientoCarga;
 
 class RequerimientoController extends Controller
 {
@@ -44,15 +46,6 @@ class RequerimientoController extends Controller
             'fecha',
             'origen',
             'destino',
-            'carga',
-            'marca',
-            'modelo',
-            'volumen',
-            'largo',
-            'ancho',
-            'altura',
-            'peso',
-            'unidad_medida_peso',
             'observaciones',
             'estado',
             'created_at',
@@ -93,11 +86,13 @@ class RequerimientoController extends Controller
             $cargas = Carga::where('id_cliente', $request->id_cliente)->get();
             foreach ($cargas as $carga) {
 
-                $tipoArray[] = $carga->tipo;
-                $marcaArray[] = $carga->marca;
-                $modeloArray[] = $carga->modelo;
-                $placaArray[] = $carga->placa;
-                $pesoArray[] = $carga->peso;
+                $tipoArray[] = (isset($carga->tipo)) ? $carga->tipo : '';
+                $marcaArray[] = (isset($carga->marca)) ? $carga->marca : '';
+                $modeloArray[] = (isset($carga->modelo)) ? $carga->modelo : '';
+                $placaArray[] = (isset($carga->placa)) ? $carga->placa : '';
+                $pesoArray[] = (isset($carga->peso)) ? $carga->peso : '';
+                $volumenArray[] = (isset($carga->volumen)) ? $carga->volumen : '';
+                $medidaArray[] = (isset($carga->unidad_medida_peso)) ? $carga->unidad_medida_peso : '';
                 $idArray[] = $carga->id;
             }
             return response()->json([
@@ -106,6 +101,8 @@ class RequerimientoController extends Controller
                 'modelo' => $modeloArray,
                 'placa' => $placaArray,
                 'peso' => $pesoArray,
+                'volumen' => $volumenArray,
+                'medida' => $medidaArray,
                 'id' => $idArray,
             ]);
         }
@@ -120,6 +117,8 @@ class RequerimientoController extends Controller
             $modeloArray = $carga->modelo;
             $placaArray = $carga->placa;
             $pesoArray = $carga->peso;
+            $volumenArray = $carga->volumen;
+            $medidaArray = $carga->unidad_medida_peso;
             $idArray = $carga->id;
 
             return response()->json([
@@ -128,6 +127,8 @@ class RequerimientoController extends Controller
                 'modelo' => $modeloArray,
                 'placa' => $placaArray,
                 'peso' => $pesoArray,
+                'volumen' => $volumenArray,
+                'medida' => $medidaArray,
                 'id' => $idArray,
             ]);
         }
@@ -140,6 +141,7 @@ class RequerimientoController extends Controller
         $requerimientos->origen = $request->origen;
         $requerimientos->destino = $request->destino;
         $requerimientos->observaciones = $request->observaciones;
+        $requerimientos->responsable_registro = $request->usuario;
         $requerimientos->estado = 'No atendido';
 
         ///TIPO CLIENTE -> NUEVO O EXISTENTE
@@ -159,7 +161,7 @@ class RequerimientoController extends Controller
             $cliente->id_tipo = $tipo_empresa;
             $cliente->save();
 
-            $id_cliente = $cliente->id;
+
 
             //REGISTRAR CONTACTO NUEVO PARA CLIENTE NUEVO
             $cliente_contacto = new ContactoCliente;
@@ -168,33 +170,36 @@ class RequerimientoController extends Controller
             $cliente_contacto->celular = $request->celular_contacto;
             $cliente_contacto->correo = $request->correo_contacto;
             $cliente_contacto->cargo = $request->cargo_contacto;
-            $cliente_contacto->id_cliente = $id_cliente;
+            $cliente_contacto->id_cliente = $cliente->id;
             $cliente_contacto->save();
 
-            //REGISTRAR CARGA NUEVA PARA CLIENTE NUEVO
-
-            $cargas = new Carga;
-            $cargas->tipo = $request->tipo_carga;
-            $cargas->marca = $request->marca_carga;
-            $cargas->modelo = $request->modelo_carga;
-            $cargas->placa = $request->placa_carga;
-            $cargas->volumen = $request->volumen_carga;
-            $cargas->largo = $request->largo_carga;
-            $cargas->ancho = $request->ancho_carga;
-            $cargas->altura = $request->altura_carga;
-            $cargas->peso = $request->peso_carga;
-            $cargas->unidad_medida_peso = $request->medida_peso_carga;
-            $ubicacion_carga = Ubicacion::where('departamento', $request->origen)->get();
-            $cargas->id_ubicacion = $ubicacion_carga->id;
-            $cargas->id_cliente = $id_cliente;
-            $cargas->save();
 
             //ID Carga Cliente
-            $requerimientos->id_cliente = $id_cliente;
+            $requerimientos->id_cliente = $cliente->id;
             //ID CONTACTO
             $requerimientos->id_contacto = $cliente_contacto->id;
-            //ID CARGA
-            $requerimientos->id_carga_cliente = $cargas->id;
+            $requerimientos->save();
+            //REGISTRAR CARGAS NUEVAS PARA CLIENTES NUEVOS
+            $contador_cargas = count((is_countable($request->tipo_c_n) ? $request->tipo_c_n : []));
+            for ($i = 0; $i < $contador_cargas; $i++) {
+                $cargas = new Carga;
+                $cargas->tipo = $request->tipo_c_n[$i];
+                $cargas->marca = $request->marca_c_n[$i];
+                $cargas->modelo = $request->modelo_c_n[$i];
+                $cargas->placa = $request->placa_c_n[$i];
+                $cargas->volumen = $request->volumen_c_n[$i];
+                $cargas->peso = $request->peso_c_n[$i];
+                $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
+                $cargas->id_ubicacion = $ubicacion->id;
+                $cargas->unidad_medida_peso = $request->medida_peso_c_n[$i];
+                $cargas->id_cliente = $cliente->id;
+                $cargas->save();
+                //ID CARGA PARA REGISTRAR EN REQUERIMIENTO_CARGA
+                $requerimiento_carga = new RequerimientoCarga;
+                $requerimiento_carga->id_carga_cliente = $cargas->id;
+                $requerimiento_carga->id_requerimiento = $requerimientos->id;
+                $requerimiento_carga->save();
+            }
         }
         //EXISTENTE
         if ($select_cliente == '2') {
@@ -222,38 +227,34 @@ class RequerimientoController extends Controller
                 $requerimientos->id_contacto = $request->id_contacto;
             }
             $requerimientos->id_cliente = $id_cliente;
-
-
-            ///REGISTRAR CARGA -> NUEVO O EXISTENTE
-            $select_carga = $request->id_carga;
-            ///NUEVO
-            if ($select_carga == "nueva_carga") {
-                $departamento = $request->origen;
-                $nombre_departamento = '';
-                if ($departamento != NULL) {
-                    $nombre_departamento = $departamento;
+            $requerimientos->save();
+            $contador_cargas = count((is_countable($request->tipo_c_e) ? $request->tipo_c_e : []));
+            for ($i = 0; $i < $contador_cargas; $i++) {
+                if ($request->id_c_e[$i] == "0") {
+                    $cargas = new Carga;
+                    $cargas->tipo = $request->tipo_c_e[$i];
+                    $cargas->marca = $request->marca_c_e[$i];
+                    $cargas->modelo = $request->modelo_c_e[$i];
+                    $cargas->placa = $request->placa_c_e[$i];
+                    $cargas->volumen = $request->volumen_c_e[$i];
+                    $cargas->peso = $request->peso_c_e[$i];
+                    $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
+                    $cargas->id_ubicacion = $ubicacion->id;
+                    $cargas->unidad_medida_peso = $request->medida_peso_c_e[$i];
+                    $cargas->id_cliente = $id_cliente;
+                    $cargas->save();
+                } else {
+                    $cargas = Carga::find($request->id_c_e[$i]);
+                    $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
+                    $cargas->id_ubicacion = $ubicacion->id;
+                    $cargas->save();
                 }
-                $cargas = new Carga;
-                $cargas->tipo = $request->tipo_carga_cliente_existente;
-                $cargas->marca = $request->marca_carga_cliente_existente;
-                $cargas->modelo = $request->modelo_carga_cliente_existente;
-                $cargas->placa = $request->placa_carga_cliente_existente;
-                $cargas->volumen = $request->volumen_carga_cliente_existente;
-                $cargas->largo = $request->largo_carga_cliente_existente;
-                $cargas->ancho = $request->ancho_carga_cliente_existente;
-                $cargas->altura = $request->altura_carga_cliente_existente;
-                $cargas->peso = $request->peso_carga_cliente_existente;
-                $cargas->unidad_medida_peso = $request->medida_carga_cliente_existente;
-                $ubicacion = Ubicacion::where('departamento', $nombre_departamento)->first();
-                $cargas->id_ubicacion = $ubicacion->id;
-                $cargas->id_cliente = $requerimientos->id_cliente;
-
-                $cargas->save();
-                $requerimientos->id_carga_cliente = $cargas->id;
-            } else {
-                $requerimientos->id_carga_cliente = $request->id_carga;
+                //ID CARGA PARA REGISTRAR EN REQUERIMIENTO_CARGA
+                $requerimiento_carga = new RequerimientoCarga;
+                $requerimiento_carga->id_carga_cliente = $cargas->id;
+                $requerimiento_carga->id_requerimiento = $requerimientos->id;
+                $requerimiento_carga->save();
             }
-            ///EXISTENTE
         }
 
         $contador_transportes = count((is_countable($request->tipo_transporte) ? $request->tipo_transporte : []));
@@ -263,7 +264,7 @@ class RequerimientoController extends Controller
         } else {
             $requerimientos->transporte_requerido = $request->tipo_transporte[0];
         }
-        $requerimientos->save();
+        // $requerimientos->save();
 
         $id_requerimiento = $requerimientos->id;
 
@@ -357,6 +358,7 @@ class RequerimientoController extends Controller
         $requerimiento = Requerimiento::find($request->id);
         $clientes = Cliente::all();
         $contacto = ContactoCliente::where('id', $requerimiento->id_contacto)->first();
+        $cargas_reqs[] = VistaRequerimientoCarga::where('id_requerimiento', $request->id)->get();
         $cargas = Carga::where('id_cliente', $requerimiento->id_cliente)->get();
         $departamentos = Ubicacion::all();
         $transportes[] = RequerimientoTransporte::where('id_requerimiento', $request->id)->get();
@@ -366,6 +368,7 @@ class RequerimientoController extends Controller
             'clientes' => $clientes,
             'contacto' => $contacto,
             'cargas' => $cargas,
+            'cargas_reqs' => $cargas_reqs[0],
             'departamentos' => $departamentos,
             'transportes' => $transportes[0]
         ]);
@@ -383,8 +386,8 @@ class RequerimientoController extends Controller
         $requerimiento->observaciones = $request->observaciones;
         // $requerimientos_e->id_cliente = $request->id_empresa;
         // $requerimientos_e->id_contacto = $request->id_contacto;
-        $requerimiento->id_carga_cliente = $request->id_carga;
-        $requerimiento->fecha = $request->fecha;
+        // $requerimiento->id_carga_cliente = $request->id_carga;
+        $requerimiento->fecha = $request->fecha_transporte;
         $requerimiento->origen = $request->origen;
         $requerimiento->destino = $request->destino;
 
@@ -399,7 +402,46 @@ class RequerimientoController extends Controller
         }
         $requerimiento->save();
 
+
+
+
         $id_requerimiento = $requerimiento->id;
+
+        $delete_cargas_requerimiento = RequerimientoCarga::where('id_requerimiento', $request->id_requerimiento);
+        $delete_cargas_requerimiento->delete();
+
+        $contador_cargas = count((is_countable($request->tipo_c) ? $request->tipo_c : []));
+        for ($i = 0; $i < $contador_cargas; $i++) {
+            if ($request->id_carga[$i] == "0") {
+                $cargas = new Carga;
+                $cargas->tipo = $request->tipo_c[$i];
+                $cargas->marca = $request->marca_c[$i];
+                $cargas->modelo = $request->modelo_c[$i];
+                $cargas->placa = $request->placa_c[$i];
+                $cargas->volumen = $request->volumen_c[$i];
+                $cargas->peso = $request->peso_c[$i];
+                $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
+                $cargas->id_ubicacion = $ubicacion->id;
+                $cargas->unidad_medida_peso = $request->medida_peso_c[$i];
+                $cargas->id_cliente = $requerimiento->id_cliente;
+                $cargas->save();
+            } else {
+                $cargas = Carga::where('id', $request->id_carga[$i])->first();
+                $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
+                $cargas->id_ubicacion = $ubicacion->id;
+                $cargas->save();
+            }
+            //ID CARGA PARA REGISTRAR EN REQUERIMIENTO_CARGA
+            $requerimiento_carga = new RequerimientoCarga;
+            $requerimiento_carga->id_carga_cliente = $cargas->id;
+            $requerimiento_carga->id_requerimiento = $id_requerimiento;
+            $requerimiento_carga->save();
+        }
+
+
+
+
+
 
         $delete_equipos_requerimiento = RequerimientoTransporte::where('id_requerimiento', $request->id_requerimiento);
         $delete_equipos_requerimiento->delete();

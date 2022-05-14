@@ -26,7 +26,8 @@
 </div>
 
 
-
+<br>
+<br>
 <div class="app-title contenido">
     <div>
         <h1> Detalles del Requerimiento de Transporte || Cod. {{ $requerimiento->id }}</h1>
@@ -38,6 +39,16 @@
     class="contenido " name="add_requerimientos">
     @csrf
     @include('notificacion')
+
+    {{-- OCULTO --}}
+    <?php $contador_t = count($transportes); ?>
+    <?php $contador_c = count($cargas_reqs); ?>
+    <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
+        value="{{ auth()->user()->name }}" autocomplete="off" />
+    <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="<?php echo $contador_t; ?>" value="0"
+        autocomplete="off" />
+
+
 
     <div class="row" style="margin-bottom:0px">
         <div class="col-md-3">
@@ -71,24 +82,16 @@
                     style="font-weight:600;text-align:center" disabled value="">
             </div>
         </div>
-    </div>
-
-    <!--CLIENTES EXISTENTES-->
-
-
-    <?php $contador_t = count($transportes); ?>
-    <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="<?php echo $contador_t; ?>" value="0"
-        autocomplete="off" />
-
-
-    <div class="row vista_clientes_existentes ">
 
         <div class="col-md-6">
             <div class="form-group">
 
                 <label class="control-label" style="font-weight:600;color:#777"> Empresa:</label>
+
                 @foreach ($clientes as $cliente)
                     @if ($cliente->id == $requerimiento->id_cliente)
+                        <input type="hidden" id="buscador_cliente" class="form-control " name="id_cliente"
+                            value="{{ $cliente->id }}">
                         <input type="text" id="empresa" class="form-control " name="empresa" style="font-weight:600"
                             value="Nombre: {{ $cliente->nombre }} || Ruc: {{ $cliente->dni_ruc }}" readonly>
                     @endif
@@ -103,33 +106,15 @@
                     value="{{ $contacto->nombre }}" readonly>
             </div>
         </div>
-
-
-        <div class="col-md-12">
-            <div class="form-group">
-                <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
-                <select class="form-control buscador_cargas required_cliente_existente" onchange="valida_nueva_carga();"
-                    id="buscador_carga" name="id_carga" style="width:100%">
-                    @foreach ($cargas as $carga)
-                        @if ($carga->id == $requerimiento->id_carga_cliente)
-                            <option value="{{ $carga->id }}" selected>Tipo: {{ $carga->tipo }} || Marca:
-                                {{ $carga->marca }} || Modelo: {{ $carga->modelo }}</option>
-                        @else
-                            <option value="{{ $carga->id }}">Tipo: {{ $carga->tipo }} || Marca:
-                                {{ $carga->marca }} || Modelo: {{ $carga->modelo }}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
-        </div>
     </div>
+
 
 
     <div class="row" style="margin-bottom:0px">
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label " style="font-weight:600;color:#777">Fecha de Transporte:</label>
-                <input class="form-control" type="date" id="fecha_transporte" name="fecha"
+                <input class="form-control" type="date" id="fecha_transporte" name="fecha_transporte"
                     style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha }}">
             </div>
         </div>
@@ -176,96 +161,183 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label " style="font-weight:600;color:#777">Contacto de destino:</label>
-                <input class="form-control" type="text" id="fecha_transporte" name="fecha_transporte"
+                <input class="form-control" type="text" id="contacto_destino" name="contacto_destino"
                     style="font-weight:600;text-align:center" value="">
             </div>
         </div>
+
+        <div class="col-md-12 ">
+            <div class="form-group">
+                <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <a class="form-control btn" name="add_carga_e" id="add_carga_e"
+                    style="font-weight:700;font-size:14px;background:#ECDCC2;border-color:#777">Agregar Carga Nueva</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <a class="form-control btn" id="carga_existente" onclick="select_carga_existente();"
+                    style="font-weight:700;font-size:14px;background:#ECDCC2;border-color:#777">Agregar Carga
+                    Existente</a>
+            </div>
+        </div>
+
     </div>
 
-    {{-- <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control"
-        value="{{ $requerimiento->fecha }}" style="width:140px" onchange="validar_fecha_cotizacion();"> --}}
-    <br>
-
-    <br>
-    <br>
-    <h5>Lista de Transportes Requeridos:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
-    <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="0" autocomplete="off" />
-    <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
-
-        <thead>
-            <tr>
-                <td>Tipo(*)</td>
-                <td>Cantidad(*)</td>
-                <td>Cantidad Ejes</td>
-                <td>Parte de la Carga(*)</td>
-                {{-- <td>Tiempo(*)</td> --}}
-                <td style="text-align:center">Eliminar</td>
-            </tr>
-        </thead>
-        <?php 
 
 
-        for($j=0;$j<$contador_t;$j++){
+
+
+    <div class="col-md-12 nueva_carga">
+        <h5>Lista de Cargas:</h5>
+
+        <input class="form-control" name="contador_c" id="contador_c" type="hidden" value="0" autocomplete="off" />
+
+        <table class="table table-bordered" id="tabla_carga_e" style="border: 1px solid #123;background:#fff">
+
+            <thead>
+                <tr>
+                    <td style="width:15%">Tipo de Carga<b style="color:#B61A1A">(*)</b>:</td>
+                    <td style="width:10%">Marca</td>
+                    <td style="width:10%">Modelo</td>
+                    <td style="width:10%">Placa</td>
+                    <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto)</td>
+                    <td style="width:10%">Peso</td>
+                    <td style="width:10%">Unidad Medida</td>
+                    <td style="text-align:center;width:6%">Eliminar</td>
+                </tr>
+            </thead>
+            <?php 
+
+        for($j=0;$j<$contador_c;$j++){
      ?>
-        <tr id="transporte<?php echo $j; ?>" class="transportes">
-            <td>
-                {{-- <input type="text" autocomplete="off" class="form-control" style="background:#77777710"
-                        value="{{ $transportes[$j]->tipo }}"> --}}
+            <tr id="carga<?php echo $j; ?>" class="cargas">
+                <td>
+                    <input type="text" name="tipo_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->tipo }}">
+                    <input type="hidden" name="id_carga[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->id }}">
+                </td>
+
+                <td>
+                    <input type="text" name="marca_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->marca }}">
+                </td>
+
+                <td>
+                    <input type="text" name="modelo_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->modelo }}">
+                </td>
+
+                <td>
+                    <input type="text" name="placa_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->placa }}">
+                </td>
+
+                <td>
+                    <input type="text" name="volumen_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->volumen }}">
+                </td>
+                <td>
+                    <input type="text" name="peso_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->peso }}">
+                </td>
+
+                <td>
+                    <input type="text" name="medida_peso_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->unidad_medida_peso }}">
+                </td>
+
+                <td style="text-align:center">
+                    <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_c">X</button>
+                </td>
+            </tr>
+            <?php }?>
+        </table>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <div class="col-md-12">
+        <h5>Lista de Transportes Requeridos:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
+        <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="0" autocomplete="off" />
+        <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
+
+            <thead>
+                <tr>
+                    <td>Tipo(*)</td>
+                    <td>Cantidad(*)</td>
+                    <td>Cantidad Ejes</td>
+                    <td>Parte de la Carga(*)</td>
+                    <td style="text-align:center">Eliminar</td>
+                </tr>
+            </thead>
+            <?php 
+    
+    
+            for($j=0;$j<$contador_t;$j++){
+         ?>
+            <tr id="transporte<?php echo $j; ?>" class="transportes">
+                <td>
+
+                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
+                        class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
+
+                    <select name="tipo_transporte[]" class="form-control " id="tipo_t'+i+'"
+                        style="background:#77777710" required>
+                        <option value="{{ $transportes[$j]->tipo }}">
+                            {{ $transportes[$j]->tipo }}</option>
+                        <option value="Camion Plataforma">Camion Plataforma</option>
+                        <option value="Camion Rebatible">Camion Rebatible</option>
+                        <option value="Camion Normal">Camion Normal</option>
+                        <option value="Camacuna">Camacuna</option>
+                        <option value="Camabaja">Camabaja</option>
+                        <option value="Tracto">Tracto</option>
+                        <option value="Modulares">Modulares</option>
+                    </select>
 
 
-                <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
-                    class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
+                </td>
 
-                <select name="tipo_transporte[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710"
-                    required>
-                    <option value="{{ $transportes[$j]->tipo }}">
-                        {{ $transportes[$j]->tipo }}</option>
-                    <option value="Camion Plataforma">Camion Plataforma</option>
-                    <option value="Camion Rebatible">Camion Rebatible</option>
-                    <option value="Camion Normal">Camion Normal</option>
-                    <option value="Camacuna">Camacuna</option>
-                    <option value="Camabaja">Camabaja</option>
-                    <option value="Tracto">Tracto</option>
-                    <option value="Modulares">Modulares</option>
-                </select>
+                <td>
+                    <input type="text" name="cantidad[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->cantidad }}">
+                </td>
+                <td>
+                    <input type="text" name="cantidad_ejes[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->cantidad_ejes }}">
+                </td>
 
+                <td>
+                    <input type="text" name="parte_carga[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $transportes[$j]->parte_carga }}">
+                </td>
 
-            </td>
+                <td style="text-align:center">
+                    <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_t">X</button>
 
-            <td>
-                <input type="text" name="cantidad[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $transportes[$j]->cantidad }}">
-            </td>
-            <td>
-                <input type="text" name="cantidad_ejes[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $transportes[$j]->cantidad_ejes }}">
-            </td>
-
-            <td>
-                <input type="text" name="parte_carga[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $transportes[$j]->parte_carga }}">
-            </td>
-
-            <td>
-                <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_t">X</button>
-
-            </td>
-        </tr>
-        <?php }?>
+                </td>
+            </tr>
+            <?php }?>
 
 
-    </table>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <a class="btn btn-primary" name="add" id="add" style="margin-rigth:auto;width:180px;font-weight:700;
-                        font-size:14px;background:#ECDCC2;border-color:#777">
-                ++ Agregar Equipo </a>
+        </table>
+        <div class="col-md-3">
+            <div class="form-group">
+                <a class="btn btn-primary" name="add" id="add" style="margin-rigth:auto;width:180px;font-weight:700;
+                            font-size:14px;background:#ECDCC2;border-color:#777">
+                    ++ Agregar Equipo </a>
+            </div>
         </div>
     </div>
-
     <div class="row" style="margin-bottom:5px">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <h5>Observaciones:</h5>
                 <textarea rows="6" class="form-control" name="observaciones"></textarea>
@@ -273,10 +345,7 @@
         </div>
     </div>
 
-
-    <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
-        value="{{ auth()->user()->name }}" autocomplete="off" />
-
+    {{-- BOTONES --}}
     <a class="btn btn-primary btn-sm" href="{{ route('cotizaciones.mostrar') }}"
         style="background:#123;color:#fff;border-color:#777">
         <i class="fa fa-file-text"></i>Realizar Cotización</a>
@@ -292,17 +361,6 @@
         <i class="fa-solid fa-arrows-retweet"></i>Actualizar Requerimiento</button>
 </form>
 <br>
-
-@endsection
-
-@section('css')
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-@stop
-@section('js')
 
 <script>
     $(document).ready(function() {
@@ -339,10 +397,6 @@
                 'class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                // '<td>' +
-                // '<input type="text" name="tiempo_equipo[]" ' +
-                // ' class="form-control" style="background:#77777710" >' +
-                // '</td>' +
 
                 '<td style="text-align:center">' +
                 '<button type="button" id="' + i +
@@ -364,45 +418,102 @@
         });
 
     })
-</script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("table").keypress(function(e) {
-            if (e.which == 13) {
-                return false;
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('input[type=text]').forEach(node => node.addEventListener('keypress', e => {
-            if (e.keyCode == 13) {
-                e.preventDefault();
-            }
-        }))
-    });
-</script>
+    function valida_nueva_carga(j) {
+        //tabla_carga_existente' + j + ' ES LA CLASE DE LOS INPUT OCULTOS CUANDO SE SELECCIONA AGREGAR CARGAR EXISTENTE
+        $('.tabla_carga_existente' + j + '').removeClass('hidden');
+        $('#buscador_carga_tabla' + j).addClass('hidden');
+        var data_buscador = $('#buscador_carga_tabla' + j).val();
+        console.log(data_buscador);
+        const dataArray = data_buscador.split("__");
+        console.log(dataArray[0]);
+        $('#id_carga' + j).val(dataArray[0]);
+        $('#tipo' + j).val(dataArray[1]);
+        $('#marca' + j).val(dataArray[2]);
+        $('#modelo' + j).val(dataArray[3]);
+        $('#placa' + j).val(dataArray[4]);
+        $('#peso' + j).val(dataArray[5]);
+        $('#medida' + j).val(dataArray[6]);
+        $('#volumen' + j).val(dataArray[7]);
+    }
 
-<script>
-    function enviar_form() {
+    function select_carga_existente() {
 
-        //var nueva= "add_requerimientos";
+        var id_cliente = $('#buscador_cliente').val();
+        // buscar_carga_cliente(id_cliente, j);
+        $('#tabla_carga_e').append(
 
-        //document.forms[nueva].submit();
-        $('#onload').fadeIn();
-        $('.contenido').addClass('hidden');
+            '<tr id="carga_e' + j + '" class="cargas_e" >' +
+
+            '<td>' +
+            '<select class="form-control buscador_cargas required_cliente_existente"' +
+            'onchange="valida_nueva_carga(' + j + ');" id="buscador_carga_tabla' + j +
+            '" name="select  style="width:100%">' +
+            '<option value="" disabled selected>Seleccionar</option>' +
+            @foreach ($cargas as $carga)
+                "<option value='{{ $carga->id }}__{{ $carga->tipo }}__{{ $carga->marca }}__{{ $carga->modelo }}__{{ $carga->placa }}__{{ $carga->peso }}__{{ $carga->unidad_medida_peso }}__{{ $carga->volumen }}'>📌TIPO: {{ $carga->tipo }} || MARCA: {{ $carga->marca }} || MODELO: {{ $carga->modelo }} || PLACA: {{ $carga->placa }} ||</option>" +
+            @endforeach
+            '</select>' +
+
+
+            '<input readonly type="text"  id="tipo' + j + '" name="tipo_c[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+            'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710">' +
+            '<input readonly type="hidden"  id="id_carga' + j + '" name="id_carga[]" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="marca' + j + '"  name="marca_c[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly' +
+            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="modelo' + j + '" name="modelo_c[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly ' +
+            'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="placa' + j + '" name="placa_c[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly ' +
+            'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="volumen' + j + '"  name="volumen_c[]" ' +
+            'autocomplete="off" readonly style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="peso' + j + '"  name="peso_c[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control tabla_carga_existente' +
+            j +
+            ' hidden" readonly  >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="medida' + j + '"  name="medida_peso_c[]" ' +
+            'autocomplete="off" readonly style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td style="text-align:center">' +
+            '<button type="button" onclick="eliminar_fila(' + j +
+            ')" class="btn btn-danger btn_remove_c">X</button>' +
+            '</td>' +
+            '</tr>'
+        );
+        j++;
     }
 </script>
-
-
 
 <script>
     function funciones_inicio() {
         $('#onload').fadeOut();
         $('.contenido').removeClass('hidden');
-        fecha();
+
 
         @error('dni_ruc')
             validacion_dni_ruc();
@@ -421,290 +532,89 @@
 </script>
 
 <script>
-    function fecha() {
-
-        var fechaa = new Date();
-        var hoy = fechaa.getDate();
-        var mesActual = fechaa.getMonth() + 1;
-        var anio = fechaa.getFullYear();
-        var numero_dia = fechaa.getDay();
-        var dia_reporte;
-        var mes_reporte;
-
-        let nombres_dia;
-        nombres_dia = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-        let nombres_mes;
-        nombres_mes = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-            'Octubre', 'Noviembre', 'Diciembre'
-        ];
-
-        dia_reporte = nombres_dia[numero_dia];
-        mes_reporte = nombres_mes[mesActual];
-
-        fecha_reporte = dia_reporte + ", " + hoy + " de " + mes_reporte + " del " + anio;
-
-        document.getElementById("fecha_reporte").value = fecha_reporte;
-
-
-        var nuevohoy;
-        if (hoy < 10) {
-            hoy = '0' + hoy;
-        }
-        if (mesActual < 10) {
-            mesActual = '0' + mesActual;
-        }
-        fecha_cotizacion = anio + "-" + mesActual + "-" + hoy;
-        document.getElementById("fecha_cotizacion").value = fecha_cotizacion;
-
-    }
-</script>
-<script>
     window.onload = funciones_inicio();
 </script>
-<script>
-    function validar_fecha_cotizacion() {
-        var fecha_cotizacion = $('#fecha_cotizacion').val();
-        let arr = fecha_cotizacion.split('-');
-        var fechaa = new Date(arr[0], arr[1] - 1, arr[2]);
-        var hoy = fechaa.getDate();
-        var mesActual = fechaa.getMonth() + 1;
-        var anio = fechaa.getFullYear();
-        var numero_dia = fechaa.getDay();
-        var dia_reporte;
-        var mes_reporte;
-        var fecha_cotizacion = $('#fecha_cotizacion').val();
-
-
-        let nombres_dia;
-        nombres_dia = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-        let nombres_mes;
-        nombres_mes = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-            'Octubre', 'Noviembre', 'Diciembre'
-        ];
-
-        dia_reporte = nombres_dia[numero_dia];
-        mes_reporte = nombres_mes[mesActual];
-
-        fecha_reporte = dia_reporte + ", " + hoy + " de " + mes_reporte + " del " + anio;
-
-        document.getElementById("fecha_reporte").value = fecha_reporte;
-
-
-        var nuevohoy;
-        if (hoy < 10) {
-            hoy = '0' + hoy;
-        }
-        if (mesActual < 10) {
-            mesActual = '0' + mesActual;
-        }
-        fecha_cotizacion = anio + "-" + mesActual + "-" + hoy;
-        //document.getElementById("fecha_cotizacion").value=fecha_cotizacion;
-
-    }
-</script>
-<script>
-    $('#add_requerimientos').on('submit', function(evt) {
-
-        // var servicio_select = document.getElementById("valor_tipo_coti").value;
-        var cliente_select = document.getElementById("select_tipo_cliente").value;
-        var proyecto_select = document.getElementById("valida_select_proyecto").value;
-        var count_transportes = $('.transportes').length;
-
-
-        // if (servicio_select == 0) {
-        //     alert('No has seleccionado ningun tipo de servicio');
-        //     evt.preventDefault();
-        //     return;
-        // }
-
-        if (cliente_select == 0) {
-            alert('No has seleccionado ningun tipo de cliente');
-            evt.preventDefault();
-            return;
-        }
-
-        // if (proyecto_select == 0) {
-        //     alert('No has seleccionado ningun proyecto');
-        //     evt.preventDefault();
-        //     return;
-        // }
-
-        if (count_transportes == 0) {
-            alert('No has agregado ningun transporte');
-            evt.preventDefault();
-            return;
-        }
-
-        $('#onload').fadeIn();
-        $('.contenido').addClass('hidden');
-
-    });
-</script>
 
 <script>
-    /////CLIENTE NUEVO
-    function select_cliente_nuevo() {
-        $(".required_contacto_nuevo").prop("required", false);
-        document.getElementById("select_tipo_cliente").value = "1";
-        quitar_select_existente();
-        $('.vista_clientes_existentes').addClass('hidden');
-        $('.vista_clientes_nuevos').removeClass('hidden');
-        $('.required_cliente_nuevo').prop('required', true);
-        $('.required_cliente_existente').prop('required', false);
-        var cliente = document.getElementById("cliente_nuevo");
-        cliente.style.background = "#FFB21B";
-        cliente.style.color = "#000";
-        cliente.style.border = "1px solid #777";
-
-    }
-
-    /////CLIENTE EXISTENTE
-    function select_cliente_existente() {
-
-        document.getElementById("select_tipo_cliente").value = "2";
-        quitar_select_nuevo();
-        $('.vista_clientes_nuevos').addClass('hidden');
-        $('.vista_clientes_existentes').removeClass('hidden');
-        $('.required_cliente_existente').prop('required', true);
-        $('.required_cliente_nuevo').prop('required', false);
-        var cliente = document.getElementById("cliente_existente");
-        cliente.style.background = "#FFB21B";
-        cliente.style.color = "#000";
-        cliente.style.border = "1px solid #777";
-    }
-
-
-    function quitar_select_nuevo() {
-        var cliente = document.getElementById("cliente_nuevo");
-        cliente.style.background = "#fff";
-        cliente.style.color = "#000";
-        cliente.style.border = " ";
-    }
-
-    function quitar_select_existente() {
-        var cliente = document.getElementById("cliente_existente");
-        cliente.style.background = "#fff";
-        cliente.style.color = "#000";
-        cliente.style.border = " ";
-    }
-</script>
-
-<script>
+    var j = $(".cargas_e").length;
     $(document).ready(function() {
-        $('.buscador_clientes').select2();
-        $('.buscador_contactos').select2();
-        $('.buscardor_cargas').select2();
-    });
-</script>
 
 
-<script>
-    function validar_cliente() {
+        $('#add_carga_e').click(function() {
 
-        var dni_ruc = document.getElementById('dni_ruc').value;
+            $('#tabla_carga_e').append(
 
-        if ($.trim(dni_ruc) != '') {
-            $.get('../consulta_clientes', {
-                dni_ruc: dni_ruc
-            }, function(clientes) {
+                '<tr id="carga_e' + j + '" class="cargas_e" >' +
 
-                $.each(clientes, function(index, value) {
+                '<td>' +
+                '<input type="hidden"  name="id_carga[]" autocomplete="off"  style="background:#77777710" value ="0">' +
+                '<input type="text"  name="tipo_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" required>' +
+                '</td>' +
 
-                    // $('.nombre_contacto').addClass('hidden');
-                    $('#valida_dni_ruc').css("color", "#be1e37");
-                    $('#valida_dni_ruc').val("Este es un cliente existente: " + value);
-                })
+                '<td>' +
+                '<input type="text"  name="marca_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
 
-            }).fail(function() {
-                console.log("Hay un error")
-                $('#valida_dni_ruc').css("color", "#35993A");
-                $('#valida_dni_ruc').val("Este DNI o RUC no se encuentra registrado");
 
-            }).then(function(data) {
-                // console.log(data);
-                // console.log("--__"+data[0]);
-            });
-        }
+                '<td>' +
+                '<input type="text" name="modelo_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="peso_c[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<select name="medida_peso_c[]" class="form-control "' +
+                '>' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="TN">TN</option>' +
+                '<option value="KG">KG</option>' +
+                '</select>' +
+                '</td>' +
+
+
+                '<td style="text-align:center">' +
+                '<button type="button" onclick="eliminar_fila(' + j +
+                ')" class="btn btn-danger btn_remove_c">X</button>' +
+                '</td>' +
+                '</tr>'
+            );
+            j++;
+            document.getElementById("contador_c").value++;
+        });
+
+
+
+    })
+
+    function eliminar_fila(id) {
+        if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
+
+        $('#carga_e' + id).remove();
+        document.getElementById("contador_c").value--;
 
     }
 </script>
 
 
-
-
-<script>
-    function valida_nuevo_contacto() {
-        var data_buscador_contacto = document.getElementById("buscador_contacto").value;
-
-        if (data_buscador_contacto == "nuevo_contacto") {
-            $(".nuevo_contacto").removeClass("hidden");
-            $(".required_contacto_nuevo").prop("required", true);
-        } else {
-            $(".nuevo_contacto").addClass("hidden");
-            $(".required_contacto_nuevo").prop("required", false);
-        }
-    }
-</script>
-<script>
-    function valida_nueva_carga() {
-        var data_buscador_carga = document.getElementById("buscador_carga").value;
-
-        if (data_buscador_carga == "nueva_carga") {
-            $(".nueva_carga").removeClass("hidden");
-            $(".required_carga_nueva").prop("required", true);
-        } else {
-            $(".nueva_carga").addClass("hidden");
-            $(".required_carga_nueva").prop("required", false);
-        }
-    }
-</script>
-<script>
-    function mostrar_contactos_clientes() {
-        $('#buscador_contacto').empty();
-        $('#buscador_contacto').append(
-            "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
-        $('#buscador_carga').empty();
-        $('#buscador_carga').append(
-            "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
-        var id_cliente = document.getElementById("buscador_cliente").value;
-
-
-        if ($.trim(id_cliente) != '') {
-            $.get('../consulta_contactos', {
-                id_cliente: id_cliente
-            }, function(datos) {
-                var nombres = datos["nombre"];
-                var dni = datos["dni"];
-                var celular = datos["celular"];
-                var cargo = datos["cargo"];
-                var correo = datos["correo"];
-                var id_contacto = datos["id"];
-
-                $('#buscador_contacto').empty();
-                $('#buscador_contacto').append(
-                    "<option value='' selected disabled> ✔ Seleccionar un Contacto</option>");
-                var z = 0;
-                $.each(datos["nombre"], function(index, value) {
-                    $('#buscador_contacto').append("<option value=" + id_contacto[z] + "> 📌 " +
-                        nombres[z] + " || 📱 " + celular[z] + " || &#x2709; " + correo[z] +
-                        " || 💼 " + cargo[z] + " " + "</option>");
-                    z++;
-
-                })
-
-                $('#buscador_contacto').append(
-                    "<option value='nuevo_contacto'>++ Agregar Nuevo Contacto </option>");
-
-            }).fail(function() {
-                $('#buscador_contacto').empty();
-                $('#buscador_contacto').append(
-                    "<option value='' selected disabled> ❌ El cliente no tiene contactos</option>");
-                $('#buscador_contacto').append(
-                    "<option value='nuevo_contacto'>++ Agregar Nuevo Contacto </option>");
-            }).then(function(data) {
-
-            });
-        }
+{{-- <script>
+    function buscar_carga_cliente(id_cliente, j) {
         if ($.trim(id_cliente) != '') {
             $.get('../consulta_cargas', {
                 id_cliente: id_cliente
@@ -715,81 +625,65 @@
                 var modelo = datos["modelo"];
                 var placa = datos["placa"];
                 var peso = datos["peso"];
+                var medida = datos["medida"];
+                var volumen = datos["volumen"];
+                // $('#buscador_carga_tabla').append('<option>' + tipo + '</option>');
 
-                $('#buscador_carga').empty();
-                $('#buscador_carga').append(
+                $('#buscador_carga_tabla' + j).empty();
+                $('#buscador_carga_tabla' + j).append(
                     "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
                 var z = 0;
                 $.each(datos["tipo"], function(index, value) {
-                    $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
+                    $('#buscador_carga_tabla' + j).append("<option value=" + id_carga[z] +
+                        "__" + tipo[z] + "__" + marca[z] + "__" + modelo[z] + "__" + placa[z] +
+                        "__" + peso[z] + "__" + medida[z] + "__" + volumen[z] + "__" + "> 📌 " +
                         tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
-                        " || PLACA: " + placa[z] + " || PESO: " + peso[z] + "</option>");
+                        " || MEDIDA: " + volumen[z] +
+                        " || PLACA: " + placa[z] + " || PESO: " + peso[z] + " || MEDIDA: " + medida[
+                            z] + "</option>");
                     z++;
 
                 })
 
-                $('#buscador_carga').append(
-                    "<option value='nueva_carga'>++ Agregar Nueva Carga</option>");
 
             }).fail(function() {
-                $('#buscador_carga').empty();
-                $('#buscador_carga').append(
-                    "<option value='' selected disabled> ❌ El cliente no tiene cargas registradas</option>");
-                $('#buscador_carga').append(
-                    "<option value='nueva_carga'>++ Agregar Nueva Carga </option>");
-            }).then(function(data) {
+                console.log("Hay un error")
 
+            }).then(function(data) {
+                console.log(data);
             });
+
         }
     }
+</script> --}}
+<script>
+    $(document).on('click', '.btn_remove_data_c', function() {
+        if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
+
+        var id_c = $(this).attr('id');
+        var data_id_c = $('#id_carga' + id_c).val();
+        lista_eliminados_c(data_id_c);
+        $('#carga' + id_c).remove();
+        document.getElementById("contador_c").value--;
+    });
 </script>
 <script>
-    /////CLIENTE NUEVO
-    function select_cliente_nuevo() {
-        $(".required_contacto_nuevo").prop("required", false);
-        document.getElementById("select_tipo_cliente").value = "1";
-        quitar_select_existente();
-        $('.vista_clientes_existentes').addClass('hidden');
-        $('.vista_clientes_nuevos').removeClass('hidden');
-        $('.required_cliente_nuevo').prop('required', true);
-        $('.required_cliente_existente').prop('required', false);
-        var cliente = document.getElementById("cliente_nuevo");
-        cliente.style.background = "#FFB21B";
-        cliente.style.color = "#000";
-        cliente.style.border = "1px solid #777";
+    let array_lista_c = [];
 
-    }
+    function lista_eliminados_c(data) {
 
-    /////CLIENTE EXISTENTE
-    function select_cliente_existente() {
+        array_lista_c.push(data);
+        console.log(array_lista_c);
+        $('#ids_eliminar_c').val(array_lista_c);
 
-        document.getElementById("select_tipo_cliente").value = "2";
-        quitar_select_nuevo();
-        $('.vista_clientes_nuevos').addClass('hidden');
-        $('.vista_clientes_existentes').removeClass('hidden');
-        $('.required_cliente_existente').prop('required', true);
-        $('.required_cliente_nuevo').prop('required', false);
-        var cliente = document.getElementById("cliente_existente");
-        cliente.style.background = "#FFB21B";
-        cliente.style.color = "#000";
-        cliente.style.border = "1px solid #777";
-    }
-
-
-    function quitar_select_nuevo() {
-        var cliente = document.getElementById("cliente_nuevo");
-        cliente.style.background = "#fff";
-        cliente.style.color = "#000";
-        cliente.style.border = " ";
-    }
-
-    function quitar_select_existente() {
-        var cliente = document.getElementById("cliente_existente");
-        cliente.style.background = "#fff";
-        cliente.style.color = "#000";
-        cliente.style.border = " ";
     }
 </script>
 
+
+@endsection
+
+@section('css')
+
+@include('admin.datatable')
 
 @stop

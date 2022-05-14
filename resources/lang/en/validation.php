@@ -83,8 +83,8 @@ return [
     'mimes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'mimetypes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'min' => [
-        'numeric' => 'El campo :attribute must be at least :min.',
-        'file' => 'El campo :attribute must be at least :min kilobytes.',
+        'numeric' => 'El campo :attribute debe tener al menos :min.',
+        'file' => 'El campo :attribute debe tener al menos :min kilobytes.',
         'string' => 'El campo :attribute debe tener al menos :min caracteres.',
         'array' => 'El campo :attribute must have at least :min items.',
     ],

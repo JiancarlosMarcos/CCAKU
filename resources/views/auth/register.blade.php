@@ -71,13 +71,13 @@
 
             <div>
                 <x-jet-label for="name" value="{{ __('Nombre') }}" />
-                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('Nombre')" required
+                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
                     autofocus autocomplete="name" />
             </div>
 
             <div class="mt-4">
                 <x-jet-label for="email" value="{{ __('Correo') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('Correo')" required />
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
             <div class="mt-4">
@@ -89,7 +89,7 @@
                 <div class="validar_ruc">
                     <x-jet-input id="ruc" class="block mt-1 w-full" type="number" name="ruc" onkeyup="cambio_dni_ruc()"
                         required value="{{ old('ruc') }}" />
-                    <a class="boton" title="Validar Empresa" onclick="validar_cliente()">✔</a>
+                    {{-- <a class="boton" title="Validar Empresa" onclick="validar_cliente()">✔</a> --}}
                 </div>
 
             </div>
@@ -104,13 +104,13 @@
             <div class="mt-4 oculto" id="nombre_empresa">
                 <x-jet-label for="ruc" value="{{ __('Nombre de la Empresa') }}" />
                 <x-jet-input id="empresa" class="block mt-1 w-full" type="text" name="empresa" required
-                    value="{{ old('empresa') }}" />
+                    :value="old('empresa')" />
             </div>
 
             <div class="mt-4">
                 <x-jet-label for="password" value="{{ __('Contraseña') }}" />
                 <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                    autocomplete="new-password" value="{{ old('password') }}" />
+                    autocomplete="new-password" :value="old('password')" />
             </div>
 
             <div class="mt-4">
@@ -153,16 +153,50 @@
     let validado = false;
 
     function validarboton() {
-        $('#errores').addClass('oculto');
-        if (validado == false) {
-            $('#valida_dni_ruc_1').removeClass('oculto');
-            $('#valida_dni_ruc_1').css("color", "#FF2D00");
-            $('#valida_dni_ruc_1').val("Validar RUC");
-        }
+        // $('#errores').addClass('oculto');
+        // if (validado == false) {
+        //     $('#valida_dni_ruc_1').removeClass('oculto');
+        //     $('#valida_dni_ruc_1').css("color", "#FF2D00");
+        //     $('#valida_dni_ruc_1').val("Validar RUC");
+        // }
     }
 
     function validar_cliente() {
-        validado = true;
+        // validado = true;
+        // $('#valida_dni_ruc_1').removeClass('oculto');
+        // var dni_ruc = document.getElementById('ruc').value;
+        // var nombre_empresa = document.getElementById('empresa');
+        // if ($.trim(dni_ruc) != '') {
+        //     $.get('../consulta_clientes', {
+        //         dni_ruc: dni_ruc
+        //     }, function(empresas) {
+
+        //         var data_nombre_empresa = empresas["nombre_empresa"];
+        //         var data_dni_ruc_empresa = empresas["dni_ruc_empresa"];
+
+
+        //         $.each(empresas, function(index, value) {
+        //             $('#valida_dni_ruc_1').css("color", "#35993A");
+        //             $('#valida_dni_ruc_1').val("RUC registrado en el sistema");
+        //             $('#nombre_empresa').addClass('oculto');
+        //             $('#empresa').removeAttr('required');
+        //         })
+
+        //     }).fail(function() {
+
+        //         $('#valida_dni_ruc_1').css("color", "#35993A");
+        //         $('#valida_dni_ruc_1').val("Este RUC no se encuentra registrado");
+        //         $('#nombre_empresa').removeClass('oculto');
+        //         $('#empresa').prop('required', true);
+
+        //     }).then(function(data) {
+        //         // console.log(data);
+        //         // console.log("--__"+data[0]);
+        //     });
+        // }
+    }
+
+    function cambio_dni_ruc() {
         $('#valida_dni_ruc_1').removeClass('oculto');
         var dni_ruc = document.getElementById('ruc').value;
         var nombre_empresa = document.getElementById('empresa');
@@ -177,7 +211,7 @@
 
                 $.each(empresas, function(index, value) {
                     $('#valida_dni_ruc_1').css("color", "#35993A");
-                    $('#valida_dni_ruc_1').val("RUC registrado en el sistema");
+                    $('#valida_dni_ruc_1').val("RUC registrado en el sistema: " + data_nombre_empresa);
                     $('#nombre_empresa').addClass('oculto');
                     $('#empresa').removeAttr('required');
                 })
@@ -194,16 +228,16 @@
                 // console.log("--__"+data[0]);
             });
         }
-    }
 
-    function cambio_dni_ruc() {
-        validado = false;
-        if (validado == false) {
-            $('.validacion').addClass('oculto');
-            $('#empresa').prop('required', true);
-            $('#valida_dni_ruc_1').addClass('oculto');
-            $('#valida_dni_ruc_1').val("");
-            $('#nombre_empresa').addClass('oculto');
-        }
+
+
+        // validado = false;
+        // if (validado == false) {
+        //     $('.validacion').addClass('oculto');
+        //     $('#empresa').prop('required', true);
+        //     $('#valida_dni_ruc_1').addClass('oculto');
+        //     $('#valida_dni_ruc_1').val("");
+        //     $('#nombre_empresa').addClass('oculto');
+        // }
     }
 </script>

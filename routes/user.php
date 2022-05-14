@@ -10,8 +10,8 @@ Route::get('/lista_requerimientos/{usuario}', [RequerimientoClienteController::c
 ///MOSTRAR////////////
 Route::get('/vista_requerimientos_cliente', [RequerimientoClienteController::class, 'mostrar_requerimientos'])->name('requerimientos.mostrar');
 //AGREGAR REQUERIMIENTO 
-Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'form_agregar_requerimiento'])->middleware('can:cliente')->name('requerimiento_simple');
-
+// middelware para 2 roles
+Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'form_agregar_requerimiento'])->name('requerimiento_simple');
 
 
 

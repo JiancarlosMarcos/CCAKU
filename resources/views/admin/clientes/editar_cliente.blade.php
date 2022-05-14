@@ -107,6 +107,7 @@
         <tr id="row<?php echo $i; ?>" class="contactos">
             <td>
                 <input type="text" name="nombre_contacto[]" id="nombre_contacto'+i+'" autocomplete="off"
+                    style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                     class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}">
 
                 <input type="hidden" name="id_contacto[]" id="id_contacto<?php echo $i; ?>" autocomplete="off"
@@ -125,6 +126,7 @@
 
             <td>
                 <input type="text" name="cargo[]" autocomplete="off" class="form-control" style="background:#77777710"
+                    style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                     value="{{ $contactos[$i]->cargo }}">
             </td>
 
@@ -158,14 +160,13 @@
             <thead>
                 <tr>
                     <td style="width:15%">Tipo de Carga</td>
-                    <td style="width:8%">Volumen</td>
-                    <td style="width:12%">Peso</td>
-                    <td style="width:12%">Unidad Medida</td>
-                    <td style="width:12%">Ubicacion</td>
                     <td style="width:10%">Marca</td>
                     <td style="width:12%">Modelo</td>
                     <td style="width:12%">Placa</td>
-                    {{-- <td style="width:8%">Año</td> --}}
+                    <td style="width:8%">Dimensiones<br>(Largo x Ancho x Alto)</td>
+                    <td style="width:12%">Peso</td>
+                    <td style="width:12%">Unidad Medida</td>
+                    <td style="width:12%">Ubicacion</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -177,7 +178,8 @@
             <tr id="carga<?php echo $j; ?>" class="cargas">
                 <td>
                     <input type="text" name="tipo_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->tipo }}">
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->tipo }}">
 
 
                     <input type="hidden" name="id_carga[]" id="id_carga<?php echo $j; ?>" autocomplete="off"
@@ -187,18 +189,48 @@
                 </td>
 
                 <td>
-                    <input type="text" name="volumen_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->volumen }}">
+                    <input type="text" name="marca_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->marca }}">
                 </td>
+
+
+
                 <td>
-                    <input type="text" name="peso_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->peso }}">
+                    <input type="text" name="modelo_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->modelo }}">
                 </td>
 
                 <td>
-                    <input type="text" name="medida_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->medida }}">
+                    <input type="text" name="placa_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->placa }}">
                 </td>
+
+                <td>
+                    <input type="text" name="volumen_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->volumen }}">
+                </td>
+                <td>
+                    <input type="text" name="peso_c[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->peso }}">
+                </td>
+
+                <td>
+                    <select name="medida_c[]" class="form-control">
+                        <option value="{{ $cargas[$j]->unidad_medida_peso }}">
+                            {{ $cargas[$j]->unidad_medida_peso }}</option>
+                        <option value="KG">KG</option>
+                        <option value="TN">TN</option>
+
+                    </select>
+
+                </td>
+
+
 
                 <td>
                     <select name="id_ubicacion_c[]" class="form-control " style="background:#77777710">
@@ -214,27 +246,7 @@
                     </select>
                 </td>
 
-                <td>
-                    <input type="text" name="marca_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->marca }}">
-                </td>
 
-
-
-                <td>
-                    <input type="text" name="modelo_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->modelo }}">
-                </td>
-
-                <td>
-                    <input type="text" name="placa_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $cargas[$j]->placa }}">
-                </td>
-
-                {{-- <td>
-                <input type="text" name="anio_t[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $contactos[$i]->anio_t }}">
-            </td> --}}
                 <td>
                     <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_c">X</button>
 
@@ -294,27 +306,27 @@
 
                 '<td>' +
                 '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="dni[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="celular[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text" name="cargo[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text" name="correo[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off"  class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td style="text-align:center">' +
@@ -356,48 +368,56 @@
 
                 '<td>' +
                 '<input type="text"  name="tipo_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="marca_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<input type="text" name="modelo_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="volumen_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="peso_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
+
                 '<td>' +
-                '<input type="text"  name="medida_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '<select name="medida_peso_c[]" class="form-control "' +
+                '>' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="TN">TN</option>' +
+                '<option value="KG">KG</option>' +
+                '</select>' +
                 '</td>' +
 
                 '<td>' +
                 '<select name="id_ubicacion_c[]" " class="form-control " >' +
                 '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
                 @foreach ($ubicaciones as $ubicacion)
-                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>'+
-                @endforeach '</select>' +
+                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
+                @endforeach
+                '</select>' +
                 '</td>' +
 
 
-                '<td>' +
-                '<input type="text"  name="marca_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
 
-
-                '<td>' +
-                '<input type="text" name="modelo_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text" name="placa_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
 
 
                 '<td style="text-align:center">' +
