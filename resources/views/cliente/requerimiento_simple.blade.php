@@ -27,7 +27,8 @@
 
 
 
-
+<br>
+<br>
 
 <div class="app-title contenido">
     <div>
@@ -43,9 +44,14 @@
     @csrf
     @include('notificacion')
 
+    @foreach ($contactos as $contacto)
+        @if (auth()->user()->id == $contacto->id_users)
+            <input type="hidden" id="id_cliente" name="id_cliente" value="{{ $contacto->id_cliente }}">
+            <input type="hidden" id="id_contacto" name="id_contacto" value="{{ $contacto->id }}">
+        @endif
+    @endforeach
 
     <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->id }}">
-    {{-- <input type="text" id="fecha_reporte" name="fecha_reporte" readonly style="font-weight:600;text-align:center"> --}}
 
     <h5> Fecha de transporte:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
 
@@ -54,180 +60,181 @@
     <br>
     <h5> Seleccionar Origen y Destino de la Carga:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
     <div class="row" style="margin-bottom:0px">
-        <div class="col-md-6">
+
+        <div class="col-md-12">
+
+            <label class="control-label" style="font-weight:600;color:#777"><b>ORIGEN</b><b
+                    style="color:#B61A1A">(*)</b>:</label>
+
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>ORIGEN</b><b
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Departamento</b><b
                         style="color:#B61A1A">(*)</b>:</label>
-                <select id="origen" name="origen" class="form-control buscador_origen form_nuevo estilo_campo "
-                    style="width:100%">
-                    <option value="" selected disabled> ⬆ Seleccionar</option>
+                <select id="departamento_o" name="departamento_origen" class="form-control buscador_departamento"
+                    style="width:100%" required>
+                    <option value="" selected disabled>Seleccionar</option>
                     @foreach ($departamentos as $departamento)
-                        <option value="{{ $departamento->departamento }}"
-                            {{ old('origen') == "$departamento->id" ? 'selected' : '' }}>
-                            {{ $departamento->departamento }}</option>
+                        <option value="{{ $departamento->id }}"
+                            {{ old('departamento_origen') == "$departamento->id" ? 'selected' : '' }}>
+                            {{ $departamento->departamento }}
+                        </option>
                     @endforeach
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>DESTINO</b><b
-                        style="color:#B61A1A">(*)</b>:</label>
-                <select id="destino" name="destino" class="form-control buscador_destino form_nuevo estilo_campo "
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Provincia</b></label>
+                <select id="provincia_o" name="provincia_origen" class="form-control buscador_provincia"
                     style="width:100%">
-                    <option value="" selected disabled> ⬇ Seleccionar</option>
+                    <option value="" selected disabled>Seleccione un departamento</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Distrito</b></label>
+                <select id="distrito_o" name="distrito_origen" class="form-control buscador_distrito"
+                    style="width:100%">
+                    <option value="" selected disabled>Seleccione una provincia</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Direccion</b></label>
+                <input type="text" class="form-control" name="direccion_origen" style="text-transform:uppercase;"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('direccion_origen') }}"
+                    placeholder="Direccion de origen"><br>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+
+            <label class="control-label" style="font-weight:600;color:#777"><b>DESTINO</b><b
+                    style="color:#B61A1A">(*)</b>:</label>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Departamento</b><b
+                        style="color:#B61A1A">(*)</b>:</label>
+                <select id="departamento_d" name="departamento_destino" class="form-control buscador_departamento"
+                    style="width:100%" required>
+                    <option value="" selected disabled>Seleccionar</option>
                     @foreach ($departamentos as $departamento)
-                        <option value="{{ $departamento->departamento }}"
-                            {{ old('destino') == "$departamento->id" ? 'selected' : '' }}>
-                            {{ $departamento->departamento }}</option>
+                        <option value="{{ $departamento->id }}"
+                            {{ old('departamento_destino') == "$departamento->id" ? 'selected' : '' }}>
+                            {{ $departamento->departamento }}
+                        </option>
                     @endforeach
                 </select>
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Provincia</b></label>
+                <select id="provincia_d" name="provincia_destino" class="form-control buscador_provincia"
+                    style="width:100%">
+                    <option value="" selected disabled>Seleccione un departamento</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Distrito</b></label>
+                <select id="distrito_d" name="distrito_destino" class="form-control buscador_distrito"
+                    style="width:100%">
+                    <option value="" selected disabled>Seleccione una provincia</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Direccion</b></label>
+                <input type="text" class="form-control" name="direccion_destino" style="text-transform:uppercase;"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('direccion_destino') }}"
+                    placeholder="Direccion de destino"><br>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 select_carga">
+            <div class="form-group">
+                <a class="form-control btn" name="add_carga_e" id="add_carga_e" onclick="select_carga_nueva();"
+                    style="font-weight:700;font-size:14px;background:#ECDCC2;border-color:#777">Agregar Carga Nueva</a>
+            </div>
+        </div>
+
+        <div class="col-md-3 select_carga">
+            <div class="form-group">
+                <a class="form-control btn" id="carga_existente" onclick="select_carga_existente();"
+                    style="font-weight:700;font-size:14px;background:#ECDCC2;border-color:#777">Agregar Carga
+                    Existente</a>
+            </div>
+        </div>
+
+        <div class="col-md-12 nueva_carga">
+            <h5>Lista de Cargas<b style="color:#B61A1A">(*)</b>:</h5>
+            <br>
+            <input class="form-control" name="contador_c_e" id="contador_c_e" type="hidden" value="0"
+                autocomplete="off" />
+            <table class="table table-bordered" id="tabla_carga_e" style="border: 1px solid #123;background:#fff">
+                <thead>
+                    <tr>
+                        <td style="width:15%">Tipo de Carga<b style="color:#B61A1A">(*)</b>:</td>
+                        <td style="width:10%">Marca</td>
+                        <td style="width:10%">Modelo</td>
+                        <td style="width:10%">Placa</td>
+                        <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto)</td>
+                        <td style="width:10%">Peso</td>
+                        <td style="width:10%">Unidad Medida</td>
+                        <td style="text-align:center;width:6%">Eliminar</td>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
+
     <br>
-    <div class="form-card" style="color:#000">
-        <h5> Seleccionar o Registrar la Carga<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
-        <div class="row" style="margin-bottom:5px">
-
-            <div class="col-md-3">
-
-                <div class="form-group">
-                    <!--DATA OCULTA-->
-                    <input type="hidden" id="valida_select_proyecto" name="valida_select_proyecto"
-                        value="{{ old('valida_select_proyecto') }}">
-
-                    <a class="form-control btn" id="select_existente" onclick="select_proyecto_existente();"
-                        style="border-color:#777;text-align:center;background:#fff;font-weight:600">CARGA EXISTENTE</a>
 
 
 
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <a class="form-control btn" id="select_nuevo" onclick="select_proyecto_nuevo();"
-                        style="border-color:#777;text-align:center;background:#fff;font-weight:600">CARGA NUEVA</a>
 
 
-                </div>
-            </div>
+    <h5>Lista de Transportes Requeridos:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
+    <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="0" autocomplete="off" />
+    <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
 
+        <thead>
+            <tr>
+                <td>Tipo(*)</td>
+                <td>Cantidad(*)</td>
+                <td>Cantidad Ejes</td>
+                <td>Parte de la Carga(*)</td>
+                {{-- <td>Tiempo(*)</td> --}}
+                <td style="text-align:center">Eliminar</td>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <a class="btn btn-primary" name="add" id="add" style="margin-rigth:auto;width:180px;font-weight:700;
+                        font-size:14px;background:#ECDCC2;border-color:#777">
+                ++ Agregar Transporte</a>
         </div>
     </div>
 
-
-    <div class="proyecto_nuevo hidden">
-
-
-        <div class="row" style="margin-bottom:0px">
-
-            <div class="col-md-3">
-                <div class="form-group" style="margin-bottom:0px">
-                    <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE CARGA</b><b
-                            style="color:#B61A1A">(*)</b>:</label>
-                    <input class="form-control form_nuevo estilo_campo" name="tipo_carga" type="text"
-                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        value="{{ old('tipo_carga') }}" id="nombre_proyecto" autocomplete="off"
-                        placeholder="Tipo de Carga" onkeyup="validar_nombre_proyecto()">
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="form-group ">
-                    <label class="control-label" style="font-weight:600;color:#777;width:100%"><b>MARCA:</b><b
-                            style="color:#B61A1A">(*)</b>:</label>
-                    <input class="form-control estilo_campo " name="marca_carga" type="text"
-                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        value="{{ old('marca_carga') }}" autocomplete="off" placeholder="Marca" />
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777"><b>MODELO:</b><b
-                            style="color:#B61A1A">(*)</b>:</label>
-                    <input class="form-control estilo_campo " name="modelo_carga" type="text"
-                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        value="{{ old('modelo_carga') }}" autocomplete="off" placeholder="Modelo" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777"><b>PESO (opcional):</b></label>
-                    <input class="form-control estilo_campo " name="peso" type="number" value="{{ old('peso') }}"
-                        autocomplete="off" placeholder="Peso" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777"><b>Medida (opcional):</b></label>
-                    <select name="medida" class="form-control" style="background:#77777710">
-                        <option value="" selected>Seleccionar</option>
-                        <option value="TN">KG</option>
-                        <option value="KG">TN</option>
-
-                    </select>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-    </div>
-
-
-    <!--PROYECTO EXISTENTES FORM-->
-    <div class="proyecto_existente hidden">
-
-        <div class="row" style="margin-bottom:0px">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
-                    <select class="form-control buscador_cargas required_cliente_existente" id="buscador_carga"
-                        name="id_carga" style="width:100%">
-                        <option value="" disabled selected> ⌛ Cargando lista ...</option>
-
-                    </select>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <h5>Transporte Requerido:</h5>
-    <div class="row" style="margin-bottom:0px">
-
-        <div class="col-md-4">
-            <div class="form-group">
-
-                <label class="control-label" style="font-weight:600;color:#777"><b>TIPO DE TRANSPORTE: </b>
-                </label>
-
-                <select name="tipo" class="form-control" style="background:#77777710">
-                    <option value="" disabled selected>Seleccionar</option>
-                    <option value="Camabaja">Camabaja</option>
-                    <option value="Tracto">Tracto</option>
-                    <option value="Camacuna">Camacuna</option>
-                    <option value="Camion Plataforma">Camion Plataforma</option>
-                    <option value="Camion Normal">Camion Normal</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-
-                <label class="control-label" style="font-weight:600;color:#777"><b>Cantidad Ejes (Opcional): </b>
-                </label>
-
-                <input class="form-control estilo_campo " name="ejes" type="text" value="{{ old('ejes') }}"
-                    autocomplete="off" placeholder="Cantidad Ejes" />
-            </div>
-        </div>
-    </div>
 
 
 
@@ -241,122 +248,397 @@
 
 </form>
 <br>
+<script>
+    $(document).ready(function() {
+        var i = 1;
+
+        $('#add').click(function() {
+
+            $('#dynamic_field').append(
+
+                '<tr id="row' + i + '" class="transportes">' +
+
+                '<td>' +
+                '<select class="form-control" style="background:#77777710" name="tipo_transporte[]" required>' +
+                '<option value="" disabled selected>Seleccionar</option>' +
+                '<option value="Camabaja" >Camabaja</option>' +
+                '<option value="Camacuna">Camacuna</option>' +
+                '<option value="Tracto">Tracto</option>' +
+                '<option value="Camion Plataforma">Camion Plataforma</option>' +
+                '<option value="Camion Normal">Camion Normal</option>' +
+
+                '</select>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="cantidad[]" ' +
+                'title="cantidad" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="cantidad_ejes[]" ' +
+                'class="form-control" style="background:#77777710" autocomplete="off" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="parte_carga[]" ' +
+                'class="form-control" style="background:#77777710" >' +
+                '</td>' +
 
 
+                '<td style="text-align:center">' +
+                '<button type="button" id="' + i +
+                '" class="btn btn-danger btn_remove">X</button>' +
+                '</td>' +
+                '</tr>'
+            );
+            i++;
+            document.getElementById("contador_t").value++;
+        });
 
-@endsection
+        $(document).on('click', '.btn_remove', function() {
+            if (!confirm("¿Estas seguro de eliminar este transporte?")) return;
 
-@section('css')
+            var id = $(this).attr('id');
+            $('#row' + id).remove();
+            document.getElementById("contador_t").value--;
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        });
 
-@stop
-@section('js')
-@if (old('valida_select_proyecto') == '1')
-    <?php echo '<script> function activar_proyecto(){ select_proyecto_nuevo(); } </script>'; ?>
-@endif
+    })
+</script>
 
 <script>
-    function select_proyecto_nuevo() {
-        $('.buscador_equipos').removeClass('hidden');
-        quitar_select_proyecto_existente();
-        var select = document.getElementById("select_nuevo");
-        var valida = document.getElementById("valida_select_proyecto");
-        valida.value = "1";
-        select.style.background = "#FFB21B";
-        select.style.color = "#000";
-        select.style.border = "1px solid #777";
-        $('.proyecto_nuevo').removeClass('hidden');
-        $('.proyecto_existente').addClass('hidden');
-        $('.form_nuevo').prop("required", true);
-        $('.form_existe').removeAttr("required");
+    function select_carga_nueva() {
+        $('.nueva_carga').removeClass('hidden');
+    }
+</script>
+<script>
+    var j = $(".cargas_e").length;
+    $(document).ready(function() {
+
+
+        $('#add_carga_e').click(function() {
+
+            $('#tabla_carga_e').append(
+
+                '<tr id="carga_e' + j + '" class="cargas_e" >' +
+
+                '<td>' +
+                '<input type="hidden" name="id_c_e[]" autocomplete="off"  style="background:#77777710" value ="0">' +
+                '<input type="text"  name="tipo_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" required>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="marca_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<input type="text" name="modelo_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="placa_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_c_e[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="peso_c_e[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+
+                '<td>' +
+                '<select name="medida_peso_c_e[]" class="form-control "' +
+                '>' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="TN">TN</option>' +
+                '<option value="KG">KG</option>' +
+                '</select>' +
+                '</td>' +
+
+
+                '<td style="text-align:center">' +
+                '<button type="button" onclick="eliminar_fila(' + j +
+                ')" class="btn btn-danger btn_remove_c">X</button>' +
+                '</td>' +
+                '</tr>'
+            );
+            j++;
+
+            document.getElementById("contador_c_e").value++;
+
+        });
+
+
+
+    })
+
+    function eliminar_fila(id) {
+        if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
+
+        $('#carga_e' + id).remove();
+        document.getElementById("contador_c_e").value--;
+
     }
 
 
-    function select_proyecto_existente() {
+    function valida_nueva_carga(j) {
+        //tabla_carga_existente' + j + ' ES LA CLASE DE LOS INPUT OCULTOS CUANDO SE SELECCIONA AGREGAR CARGAR EXISTENTE
+        $('.tabla_carga_existente' + j + '').removeClass('hidden');
+        $('#buscador_carga_tabla' + j).addClass('hidden');
+        var data_buscador = $('#buscador_carga_tabla' + j).val();
+        const dataArray = data_buscador.split("__");
+        $('#id_carga' + j).val(dataArray[0]);
+        $('#tipo' + j).val(dataArray[1]);
+        $('#marca' + j).val(dataArray[2]);
+        $('#modelo' + j).val(dataArray[3]);
+        $('#placa' + j).val(dataArray[4]);
+        $('#peso' + j).val(dataArray[5]);
+        $('#medida' + j).val(dataArray[6]);
+        $('#volumen' + j).val(dataArray[7]);
+
+
+    }
+
+    function select_carga_existente() {
+        $('.nueva_carga').removeClass('hidden');
+
+        // $('#select').removeClass("hidden");
+        // $('#carga_existente').addClass("hidden");
+        // $('#div_carga_existente').removeClass("col-md-3");
+        // $('#div_carga_existente').addClass("col-md-9");
+
         var id_cliente = document.getElementById("usuario").value;
-        $('#buscador_carga').empty();
-        $('#buscador_carga').append(
-            "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
+        buscar_carga_cliente(id_cliente, j);
+        $('#tabla_carga_e').append(
+
+            '<tr id="carga_e' + j + '" class="cargas_e" >' +
+
+            '<td>' +
+            '<select class="form-control buscador_cargas required_cliente_existente"' +
+            'onchange="valida_nueva_carga(' + j + ');" id="buscador_carga_tabla' + j +
+            '" name="id_carga"  style="width:100%">' +
+            '<option value="" disabled selected> ⌛ Cargando lista ...</option>' +
+            '</select>' +
 
 
-        console.log(id_cliente);
+            '<input readonly type="text"  id="tipo' + j + '" name="tipo_c_e[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+            'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710">' +
+            '<input type="hidden" id="id_carga' + j +
+            '" name="id_c_e[]" autocomplete="off"  style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="marca' + j + '"  name="marca_c_e[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly' +
+            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="modelo' + j + '" name="modelo_c_e[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly ' +
+            'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="placa' + j + '" name="placa_c_e[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly ' +
+            'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="volumen' + j + '"  name="volumen_c_e[]" ' +
+            'autocomplete="off" readonly style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="peso' + j + '"  name="peso_c_e[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control tabla_carga_existente' +
+            j +
+            ' hidden" readonly  >' +
+            '</td>' +
+
+            '<td>' +
+            '<input type="text" id="medida' + j + '"  name="medida_peso_c_e[]" ' +
+            'autocomplete="off" style="text-transform:uppercase;" readonly  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            '</td>' +
+
+            '<td style="text-align:center">' +
+            '<button type="button" onclick="eliminar_fila(' + j +
+            ')" class="btn btn-danger btn_remove_c">X</button>' +
+            '</td>' +
+            '</tr>'
+        );
+        j++;
+    }
+</script>
+
+<script>
+    function buscar_carga_cliente(id_cliente, j) {
         if ($.trim(id_cliente) != '') {
             $.get('../consulta_cargas_cliente', {
-                id_cliente: id_cliente,
+                id_cliente: id_cliente
             }, function(datos) {
                 var id_carga = datos["id"];
-                var tipo_carga = datos["tipo"];
-                var marca_carga = datos["marca"];
-                var modelo_carga = datos["modelo"];
+                var tipo = datos["tipo"];
+                var marca = datos["marca"];
+                var modelo = datos["modelo"];
+                var placa = datos["placa"];
                 var peso = datos["peso"];
                 var medida = datos["medida"];
+                var volumen = datos["volumen"];
+                // $('#buscador_carga_tabla').append('<option>' + tipo + '</option>');
 
-                $('#buscador_carga').empty();
-                $('#buscador_carga').append(
+                $('#buscador_carga_tabla' + j).empty();
+                $('#buscador_carga_tabla' + j).append(
                     "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
                 var z = 0;
                 $.each(datos["tipo"], function(index, value) {
-                    $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
-                        tipo_carga[z] + " || MARCA: " + marca_carga[z] + " || MODELO: " +
-                        modelo_carga[z] + " || PESO: " +
-                        peso[z] + " " + medida[z] +
-                        "</option>");
+                    $('#buscador_carga_tabla' + j).append("<option value=" + id_carga[z] +
+                        "__" + tipo[z] + "__" + marca[z] + "__" + modelo[z] + "__" + placa[z] +
+                        "__" + peso[z] + "__" + medida[z] + "__" + volumen[z] + "__" + "> 📌 " +
+                        tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
+                        " || MEDIDA: " + volumen[z] +
+                        " || PLACA: " + placa[z] + " || PESO: " + peso[z] + " || MEDIDA: " + medida[
+                            z] + "</option>");
                     z++;
 
                 })
 
 
             }).fail(function() {
-                $('#buscador_carga').empty();
-                $('#buscador_carga').append(
-                    "<option value='' selected disabled> ❌ El cliente no tiene cargas registradas</option>");
+                // console.log("Hay un error")
             }).then(function(data) {
-
+                //console.log(data);
             });
+
         }
 
-
-
-
-        $('.buscador_equipos').removeClass('hidden');
-        quitar_select_proyecto_nuevo();
-        var select = document.getElementById("select_existente");
-        var valida = document.getElementById("valida_select_proyecto");
-        valida.value = "2";
-        select.style.background = "#FFB21B";
-        select.style.color = "#000";
-        select.style.border = "1px solid #777";
-        $('.proyecto_existente').removeClass('hidden');
-        $('.proyecto_nuevo').addClass('hidden');
-        $('.form_nuevo').removeAttr("required");
-        $('.form_existe').prop("required", true);
-    }
-
-
-    function quitar_select_proyecto_existente() {
-        var select = document.getElementById("select_existente");
-        select.style.background = "#fff";
-        select.style.color = "#000";
-        select.style.border = " ";
-    }
-
-    function quitar_select_proyecto_nuevo() {
-        var select = document.getElementById("select_nuevo");
-        select.style.background = "#fff";
-        select.style.color = "#000";
-        select.style.border = " ";
     }
 </script>
 
 
 
+<script>
+    //SCRIPT PARA PROVINCIAS
+    $(document).ready(function() {
+        $('#departamento_o').on('change', function() {
+            var id_departamento = $(this).val();
+            if ($.trim(id_departamento) != '') {
+                $.get('../provincias', {
+                    id_departamento: id_departamento
+                }, function(provincias) {
+                    $('#provincia_o').empty();
+                    $('#distrito_o').empty();
+                    $('#provincia_o').append(
+                        "<option value=''> ✔ Selecciona una provincia</option>");
+                    $('#distrito_o').append(
+                        "<option value=''> ⌛ Selecciona una provincia</option>");
+                    $.each(provincias, function(index, value) {
+                        $('#provincia_o').append("<option value='" + index + "'>" +
+                            value + "</option>");
+                    })
+                });
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+    //SCRIPT PARA DISTRITOS
+    $(document).ready(function() {
+
+        $('#provincia_o').on('change', function() {
+            console.log("xd");
+            var id_provincia = $(this).val();
+            if ($.trim(id_provincia) != '') {
+                $.get('../distritos', {
+                    id_provincia: id_provincia
+                }, function(distritos) {
+                    $('#distrito_o').empty();
+                    $('#distrito_o').append(
+                        "<option value=''> ✔ Selecciona un distrito</option>");
+                    $.each(distritos, function(index, value) {
+                        $('#distrito_o').append("<option value='" + index + "'>" +
+                            value +
+                            "</option>");
+                    })
+                });
+            }
+        });
+    });
+</script>
+<script>
+    //SCRIPT PARA PROVINCIAS
+    $(document).ready(function() {
+        $('#departamento_d').on('change', function() {
+            var id_departamento = $(this).val();
+            if ($.trim(id_departamento) != '') {
+                $.get('../provincias', {
+                    id_departamento: id_departamento
+                }, function(provincias) {
+                    $('#provincia_d').empty();
+                    $('#distrito_d').empty();
+                    $('#provincia_d').append(
+                        "<option value=''> ✔ Selecciona una provincia</option>");
+                    $('#distrito_d').append(
+                        "<option value=''> ⌛ Selecciona una provincia</option>");
+                    $.each(provincias, function(index, value) {
+                        $('#provincia_d').append("<option value='" + index + "'>" +
+                            value + "</option>");
+                    })
+                });
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+    //SCRIPT PARA DISTRITOS
+    $(document).ready(function() {
+
+        $('#provincia_d').on('change', function() {
+            console.log("xd");
+            var id_provincia = $(this).val();
+            if ($.trim(id_provincia) != '') {
+                $.get('../distritos', {
+                    id_provincia: id_provincia
+                }, function(distritos) {
+                    $('#distrito_d').empty();
+                    $('#distrito_d').append(
+                        "<option value=''> ✔ Selecciona un distrito</option>");
+                    $.each(distritos, function(index, value) {
+                        $('#distrito_d').append("<option value='" + index + "'>" +
+                            value +
+                            "</option>");
+                    })
+                });
+            }
+        });
+    });
+</script>
 
 
 
+@endsection
 
-
-
+@section('css')
+@include('admin.datatable')
 @stop

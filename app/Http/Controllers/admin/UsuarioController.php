@@ -9,6 +9,8 @@ use Yajra\DataTables\DataTables;
 use Spatie\Permission\Models\Role;
 use App\Models\ContactoCliente;
 use App\Models\Cliente;
+use App\Models\ContactoTransportista;
+use App\Models\Transportista;
 
 class UsuarioController extends Controller
 {
@@ -36,6 +38,43 @@ class UsuarioController extends Controller
             ->rawColumns(['btn_usuarios'])
             ->toJson();
     }
+    public function form_agregar_usuario_transportista(Request $request)
+    {
+        $roles = Role::all();
+        $transportistas = Transportista::all();
+        return view('admin.usuarios.register_transportista', compact('roles', 'transportistas'));
+    }
+    public function form_agregar_usuario_administrador(Request $request)
+    {
+        $roles = Role::all();
+        $transportistas = Transportista::all();
+        return view('admin.usuarios.register_administrador', compact('roles', 'transportistas'));
+    }
+
+    public function consulta_contactos_transportistas(Request $request)
+    {
+        if ($request->ajax()) {
+            $transportistas = ContactoTransportista::where('id_transportista', $request->id_transportista)->get();
+            foreach ($transportistas as $transportista) {
+                $nombreArray[] = $transportista->nombre;
+                // $dniArray[] = $transportista->dni;
+                // $celularArray[] = $transportista->celular;
+                $correoArray[] = (isset($transportista->correo)) ? $transportista->correo : '';
+                // $cargoArray[] = $transportista->cargo;
+                $idArray[] = $transportista->id;
+            }
+            return response()->json([
+                'nombre' => $nombreArray,
+                // 'dni' => $dniArray,
+                // 'celular' =>  $celularArray,
+                'correo' => $correoArray,
+                // 'cargo' =>  $cargoArray,
+                'id' =>  $idArray,
+            ]);
+        }
+    }
+
+
     public function form_editar_usuario(Request $request)
     {
         $id = $request->id;

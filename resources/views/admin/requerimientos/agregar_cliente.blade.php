@@ -350,6 +350,61 @@
     </div>
 
 </div>
+
+<script>
+    /////CLIENTE NUEVO
+    function select_cliente_nuevo() {
+        $(".required_contacto_nuevo").prop("required", false);
+        document.getElementById("select_tipo_cliente").value = "1";
+        quitar_select_existente();
+        $('.vista_clientes_existentes').addClass('hidden');
+        $('.vista_clientes_nuevos').removeClass('hidden');
+        $('.required_cliente_nuevo').prop('required', true);
+        $('.required_cliente_existente').prop('required', false);
+        var cliente = document.getElementById("cliente_nuevo");
+        cliente.style.background = "#FFB21B";
+        cliente.style.color = "#000";
+        cliente.style.border = "1px solid #777";
+
+
+
+    }
+
+    /////CLIENTE EXISTENTE
+    function select_cliente_existente() {
+        document.getElementById("carga_n0").remove();
+        document.getElementById("contador_c_n").value = "0";
+        document.getElementById("select_tipo_cliente").value = "2";
+        quitar_select_nuevo();
+        $('.vista_clientes_nuevos').addClass('hidden');
+        $('.vista_clientes_existentes').removeClass('hidden');
+        $('.required_cliente_existente').prop('required', true);
+        $('.required_cliente_nuevo').prop('required', false);
+        var cliente = document.getElementById("cliente_existente");
+        cliente.style.background = "#FFB21B";
+        cliente.style.color = "#000";
+        cliente.style.border = "1px solid #777";
+    }
+
+    function quitar_select_nuevo() {
+        var cliente = document.getElementById("cliente_nuevo");
+        cliente.style.background = "#fff";
+        cliente.style.color = "#000";
+        cliente.style.border = " ";
+
+    }
+
+    function quitar_select_existente() {
+        var cliente = document.getElementById("cliente_existente");
+        cliente.style.background = "#fff";
+        cliente.style.color = "#000";
+        cliente.style.border = " ";
+
+    }
+</script>
+
+
+
 <script>
     function select_carga_nueva() {
         $('.nueva_carga').removeClass('hidden');

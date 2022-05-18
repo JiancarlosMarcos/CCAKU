@@ -72,11 +72,12 @@
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web"
                                     data-column="4" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="responsable_registro" data-column="5" /></td>
+                                    id="tipo_transportista" data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_creacion" data-column="6" /></td>
+                                    id="responsable_registro" data-column="6" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_modificacion" data-column="7" /></td>
+                                    id="fecha_creacion" data-column="7" /></td>
+
 
                             <td></td>
 
@@ -87,9 +88,9 @@
                             <th>Tipo de<br>Transportista</th>
                             <th>Direccion</th>
                             <th>Pagina Web</th>
+                            <th>Tipo Transportista</th>
                             <th>Responsable<br>de Registro</th>
                             <th>Fecha de<br>Creacion</th>
-                            <th>Fecha de<br>Modificacion</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -128,13 +129,13 @@
                     data: 'pagina_web'
                 },
                 {
+                    data: 'tipo_transportista'
+                },
+                {
                     data: 'responsable_registro'
                 },
                 {
                     data: 'created_at'
-                },
-                {
-                    data: 'updated_at'
                 },
                 {
                     data: 'btn_transportistas'
@@ -180,9 +181,10 @@
         document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
         document.getElementById("direccion").value = ' ';
         document.getElementById("pagina_web").value = ' ';
+        document.getElementById("tipo_transportista").value = ' ';
         document.getElementById("responsable_registro").value = ' ';
         document.getElementById("fecha_creacion").value = ' ';
-        document.getElementById("fecha_modificacion").value = ' ';
+
 
     }
 </script>

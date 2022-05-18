@@ -122,12 +122,12 @@
                                     data-column="2" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="destino"
                                     data-column="3" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="carga"
+                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="carga"
                                     data-column="4" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="marca"
                                     data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="modelo"
-                                    data-column="6" /></td>
+                                    data-column="6" /></td> --}}
                             {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="volumen"
                                     data-column="7" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="peso"
@@ -157,9 +157,9 @@
                             <th>Fecha</th>
                             <th>Origen</th>
                             <th>Destino</th>
-                            <th>Carga</th>
+                            {{-- <th>Carga</th>
                             <th>Marca</th>
-                            <th>Modelo</th>
+                            <th>Modelo</th> --}}
                             {{-- <th>Volumen</th>
                             <th>Peso</th>
                             <th>Unidad Medidad</th> --}}
@@ -193,20 +193,20 @@
                     data: 'fecha'
                 },
                 {
-                    data: 'origen'
+                    data: 'departamento_origen'
                 },
                 {
-                    data: 'destino'
+                    data: 'departamento_destino'
                 },
-                {
-                    data: 'carga'
-                },
-                {
-                    data: 'marca'
-                },
-                {
-                    data: 'modelo'
-                },
+                // {
+                //     data: 'carga'
+                // },
+                // {
+                //     data: 'marca'
+                // },
+                // {
+                //     data: 'modelo'
+                // },
                 // {
                 //     data: 'volumen'
                 // },
@@ -232,7 +232,7 @@
                 //     data: 'updated_at'
                 // },
                 {
-                    data: 'btn_requerimientos'
+                    data: 'btn_requerimientos_cliente'
                 },
 
 

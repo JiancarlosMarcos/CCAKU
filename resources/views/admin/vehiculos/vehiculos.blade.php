@@ -145,29 +145,24 @@
                                     <option value="NO DISPONIBLE">NO DISPONIBLE</option>
                                 </select>
                             </td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="capacidad"
-                                    data-column="7" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="dimensiones"
                                     data-column="8" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="cantidad_ejes" data-column="9" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="anio"
-                                    data-column="10" /></td>
+                                    id="responsable_registro" data-column="9" /></td>
+
                             <td></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
                             <th style="width:12%">Empresa</th>
-                            <th style="width:10%">Tipo</th>
+                            <th style="width:10%">Tipo Transporte</th>
                             <th style="width:12%">Marca</th>
                             <th style="width:10%">Modelo</th>
                             <th style="width:4%">Placa</th>
                             <th style="width:8%">Ubicacion</th>
                             <th style="width:8%">Estado</th>
-                            <th style="width:3%">Capacidad</th>
                             <th style="width:12%">Dimensiones</th>
-                            <th style="width:4%">Cant. Ejes</th>
-                            <th style="width:4%">Año</th>
+                            <th style="width:12%">Responsable Registro</th>
                             <th>Acciones</th>
 
 
@@ -214,16 +209,10 @@
                     data: 'estado'
                 },
                 {
-                    data: 'capacidad'
-                },
-                {
                     data: 'volumen'
                 },
                 {
-                    data: 'cantidad_ejes'
-                },
-                {
-                    data: 'anio'
+                    data: 'responsable_registro'
                 },
                 {
                     data: 'btn_transportes'
@@ -271,11 +260,8 @@
         document.getElementById("placa").value = "";
         document.getElementById("ubicacion").value = "";
         document.getElementById("estado").options.item(0).selected = 'selected';
-        document.getElementById("capacidad").value = "";
         document.getElementById("dimensiones").value = "";
-        document.getElementById("cantidad_ejes").value = "";
-        document.getElementById("anio").value = "";
-
+        document.getElementById("responsable_registro").value = "";
     }
 </script>
 
@@ -363,9 +349,7 @@
 <script src="{{ asset('js2/plugins/pace.min.js') }}"></script>
 <!-- Page specific javascripts-->
 <script type="text/javascript" src="{{ asset('js2/plugins/chart.js') }}"></script>
-<script type="text/javascript">
-
-</script>
+<script type="text/javascript"></script>
 
 
 

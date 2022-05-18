@@ -118,7 +118,7 @@
                     style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha }}">
             </div>
         </div>
-        <div class="col-md-3">
+        {{-- <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label" style="font-weight:600;color:#777">Origen:</label>
                 <select id="origen" name="origen" class="form-control buscador_origen form_nuevo estilo_campo "
@@ -146,13 +146,51 @@
                     @foreach ($departamentos as $departamento)
                         @if ($departamento->departamento == $requerimiento->destino)
                             <option value="{{ $departamento->departamento }}" selected>
-                                {{ $requerimiento->destino }}
+                                {{ $requerimiento->departamento_destino }}
                             </option>
                         @endif
                     @endforeach
                     @foreach ($departamentos as $departamento)
                         <option value="{{ $departamento->departamento }}"
                             {{ old('destino') == "$departamento->id" ? 'selected' : '' }}>
+                            {{ $departamento->departamento_destino }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div> --}}
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label " style="font-weight:600;color:#777">Contacto de destino:</label>
+                <input class="form-control" type="text" style="text-transform:uppercase;"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();" id="contacto_destino"
+                    name="contacto_destino" style="font-weight:600;text-align:center" value="">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom:0px">
+
+        <div class="col-md-12">
+
+            <label class="control-label" style="font-weight:600;color:#777"><b>ORIGEN</b><b
+                    style="color:#B61A1A">(*)</b>:</label>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Departamento</b><b
+                        style="color:#B61A1A">(*)</b>:</label>
+                <select id="departamento_o" name="departamento_origen" class="form-control buscador_departamento"
+                    style="width:100%" required>
+                    @foreach ($departamentos as $departamento)
+                        @if ($departamento->departamento == $requerimiento->departamento_origen)
+                            <option value="{{ $departamento->id }}">
+                                {{ $requerimiento->departamento_origen }}
+                            </option>
+                        @endif
+                    @endforeach
+                    @foreach ($departamentos as $departamento)
+                        <option value="{{ $departamento->id }}">
                             {{ $departamento->departamento }}</option>
                     @endforeach
                 </select>
@@ -160,12 +198,114 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label class="control-label " style="font-weight:600;color:#777">Contacto de destino:</label>
-                <input class="form-control" type="text" id="contacto_destino" name="contacto_destino"
-                    style="font-weight:600;text-align:center" value="">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Provincia</b></label>
+                <select id="provincia_o" name="provincia_origen" class="form-control buscador_provincia"
+                    style="width:100%">
+                    @foreach ($provincias as $provincia)
+                        @if ($provincia->nombre == $requerimiento->provincia_origen)
+                            <option value="{{ $provincia->id }}">
+                                {{ $requerimiento->provincia_origen }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Distrito</b></label>
+                <select id="distrito_o" name="distrito_origen" class="form-control buscador_distrito"
+                    style="width:100%">
+                    @foreach ($distritos as $distrito)
+                        @if ($distrito->nombre == $requerimiento->distrito_origen)
+                            <option value="{{ $distrito->id }}">
+                                {{ $requerimiento->distrito_origen }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
 
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Direccion</b></label>
+                <input type="text" class="form-control" name="direccion_origen" style="text-transform:uppercase;"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    value="{{ $requerimiento->direccion_origen }}"><br>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+
+            <label class="control-label" style="font-weight:600;color:#777"><b>DESTINO</b><b
+                    style="color:#B61A1A">(*)</b>:</label>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Departamento</b><b
+                        style="color:#B61A1A">(*)</b>:</label>
+                <select id="departamento_d" name="departamento_destino" class="form-control buscador_departamento"
+                    style="width:100%" required>
+
+                    @foreach ($departamentos as $departamento)
+                        @if ($departamento->departamento == $requerimiento->departamento_destino)
+                            <option value="{{ $departamento->id }}">
+                                {{ $requerimiento->departamento_destino }}
+                            </option>
+                        @endif
+                    @endforeach
+                    @foreach ($departamentos as $departamento)
+                        <option value="{{ $departamento->id }}">
+                            {{ $departamento->departamento }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Provincia</b></label>
+                <select id="provincia_d" name="provincia_destino" class="form-control buscador_provincia"
+                    style="width:100%">
+                    @foreach ($provincias as $provincia)
+                        @if ($provincia->nombre == $requerimiento->provincia_destino)
+                            <option value="{{ $provincia->id }}">
+                                {{ $requerimiento->provincia_destino }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Distrito</b></label>
+                <select id="distrito_d" name="distrito_destino" class="form-control buscador_distrito"
+                    style="width:100%">
+                    @foreach ($distritos as $distrito)
+                        @if ($distrito->nombre == $requerimiento->distrito_destino)
+                            <option value="{{ $distrito->id }}">
+                                {{ $requerimiento->distrito_destino }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="" class="control-label" style="margin-bottom:1px"><b>Direccion</b></label>
+                <input type="text" class="form-control" name="direccion_destino" style="text-transform:uppercase;"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    value="{{ $requerimiento->direccion_destino }}"><br>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-bottom:0px">
         <div class="col-md-12 ">
             <div class="form-group">
                 <h6><b style="color:#777">Carga<b style="color:#B61A1A">(*)</b>:</b></h6>
@@ -186,9 +326,7 @@
                     Existente</a>
             </div>
         </div>
-
     </div>
-
 
 
 
@@ -509,31 +647,7 @@
     }
 </script>
 
-<script>
-    function funciones_inicio() {
-        $('#onload').fadeOut();
-        $('.contenido').removeClass('hidden');
 
-
-        @error('dni_ruc')
-            validacion_dni_ruc();
-            activar_servicio();
-            activar_proyecto();
-        @enderror
-
-        @error('razon_social')
-            validacion_razon_social();
-
-            activar_servicio();
-            activar_proyecto();
-        @enderror
-
-    }
-</script>
-
-<script>
-    window.onload = funciones_inicio();
-</script>
 
 <script>
     var j = $(".cargas_e").length;
@@ -613,49 +727,6 @@
 </script>
 
 
-{{-- <script>
-    function buscar_carga_cliente(id_cliente, j) {
-        if ($.trim(id_cliente) != '') {
-            $.get('../consulta_cargas', {
-                id_cliente: id_cliente
-            }, function(datos) {
-                var id_carga = datos["id"];
-                var tipo = datos["tipo"];
-                var marca = datos["marca"];
-                var modelo = datos["modelo"];
-                var placa = datos["placa"];
-                var peso = datos["peso"];
-                var medida = datos["medida"];
-                var volumen = datos["volumen"];
-                // $('#buscador_carga_tabla').append('<option>' + tipo + '</option>');
-
-                $('#buscador_carga_tabla' + j).empty();
-                $('#buscador_carga_tabla' + j).append(
-                    "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
-                var z = 0;
-                $.each(datos["tipo"], function(index, value) {
-                    $('#buscador_carga_tabla' + j).append("<option value=" + id_carga[z] +
-                        "__" + tipo[z] + "__" + marca[z] + "__" + modelo[z] + "__" + placa[z] +
-                        "__" + peso[z] + "__" + medida[z] + "__" + volumen[z] + "__" + "> 📌 " +
-                        tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
-                        " || MEDIDA: " + volumen[z] +
-                        " || PLACA: " + placa[z] + " || PESO: " + peso[z] + " || MEDIDA: " + medida[
-                            z] + "</option>");
-                    z++;
-
-                })
-
-
-            }).fail(function() {
-                console.log("Hay un error")
-
-            }).then(function(data) {
-                console.log(data);
-            });
-
-        }
-    }
-</script> --}}
 <script>
     $(document).on('click', '.btn_remove_data_c', function() {
         if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
@@ -665,6 +736,15 @@
         lista_eliminados_c(data_id_c);
         $('#carga' + id_c).remove();
         document.getElementById("contador_c").value--;
+    });
+    $(document).on('click', '.btn_remove_data_t', function() {
+        if (!confirm("¿Estas seguro de eliminar este transporte?")) return;
+
+        var id_t = $(this).attr('id');
+        var data_id_t = $('#id_transporte' + id_t).val();
+        lista_eliminados_t(data_id_t);
+        $('#transporte' + id_t).remove();
+        document.getElementById("contador_t").value--;
     });
 </script>
 <script>
@@ -677,9 +757,209 @@
         $('#ids_eliminar_c').val(array_lista_c);
 
     }
+
+    let array_lista_t = [];
+
+    function lista_eliminados_t(data) {
+
+        array_lista_t.push(data);
+        console.log(array_lista_t);
+        $('#ids_eliminar_t').val(array_lista_t);
+
+    }
 </script>
 
 
+<script>
+    //SCRIPT PARA PROVINCIAS
+    $(document).ready(function() {
+        $('#departamento_o').on('change', function() {
+            var id_departamento = $(this).val();
+            if ($.trim(id_departamento) != '') {
+                $.get('../../provincias', {
+                    id_departamento: id_departamento
+                }, function(provincias) {
+                    $('#provincia_o').empty();
+                    $('#distrito_o').empty();
+                    $('#provincia_o').append(
+                        "<option value=''> ✔ Selecciona una provincia</option>");
+                    $('#distrito_o').append(
+                        "<option value=''> ⌛ Selecciona una provincia</option>");
+                    $.each(provincias, function(index, value) {
+                        $('#provincia_o').append("<option value='" + index + "'>" +
+                            value + "</option>");
+                    })
+                });
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+    //SCRIPT PARA DISTRITOS
+    $(document).ready(function() {
+
+        $('#provincia_o').on('change', function() {
+            console.log("xd");
+            var id_provincia = $(this).val();
+            if ($.trim(id_provincia) != '') {
+                $.get('../../distritos', {
+                    id_provincia: id_provincia
+                }, function(distritos) {
+                    $('#distrito_o').empty();
+                    $('#distrito_o').append(
+                        "<option value=''> ✔ Selecciona un distrito</option>");
+                    $.each(distritos, function(index, value) {
+                        $('#distrito_o').append("<option value='" + index + "'>" +
+                            value +
+                            "</option>");
+                    })
+                });
+            }
+        });
+    });
+</script>
+<script>
+    //SCRIPT PARA PROVINCIAS
+    $(document).ready(function() {
+        $('#departamento_d').on('change', function() {
+            var id_departamento = $(this).val();
+            if ($.trim(id_departamento) != '') {
+                $.get('../../provincias', {
+                    id_departamento: id_departamento
+                }, function(provincias) {
+                    $('#provincia_d').empty();
+                    $('#distrito_d').empty();
+                    $('#provincia_d').append(
+                        "<option value=''> ✔ Selecciona una provincia</option>");
+                    $('#distrito_d').append(
+                        "<option value=''> ⌛ Selecciona una provincia</option>");
+                    $.each(provincias, function(index, value) {
+                        $('#provincia_d').append("<option value='" + index + "'>" +
+                            value + "</option>");
+                    })
+                });
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+    //SCRIPT PARA DISTRITOS
+    $(document).ready(function() {
+
+        $('#provincia_d').on('change', function() {
+            var id_provincia = $(this).val();
+            if ($.trim(id_provincia) != '') {
+                $.get('../../distritos', {
+                    id_provincia: id_provincia
+                }, function(distritos) {
+                    $('#distrito_d').empty();
+                    $('#distrito_d').append(
+                        "<option value=''> ✔ Selecciona un distrito</option>");
+                    $.each(distritos, function(index, value) {
+                        $('#distrito_d').append("<option value='" + index + "'>" +
+                            value +
+                            "</option>");
+                    })
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    function funciones_inicio() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
+
+        var id_departamento_o = $('#departamento_o').val();
+        if ($.trim(id_departamento_o) != '') {
+            $.get('../../provincias', {
+                id_departamento: id_departamento_o
+            }, function(provincias) {
+                $.each(provincias, function(index, value) {
+                    $('#provincia_o').append("<option value='" + index + "'>" +
+                        value + "</option>");
+                })
+            });
+        }
+
+        var id_provincia_o = $('#provincia_o').val();
+        var id_distrito_o = $('#distrito_o').val();
+        // console.log(id_provincia_o);
+        // console.log(id_distrito_o);
+        if ($.trim(id_provincia_o) != '') {
+            $.get('../../distritos', {
+                id_provincia: id_provincia_o
+            }, function(distritos) {
+                if (id_distrito_o == null) {
+                    $('#distrito_o').append(
+                        "<option value=''> ✔ Selecciona una distrito</option>");
+                }
+                $.each(distritos, function(index, value) {
+                    $('#distrito_o').append("<option value='" + index + "'>" +
+                        value +
+                        "</option>");
+                })
+            });
+
+        } else {
+            $('#provincia_o').append(
+                "<option value=''> ✔ Selecciona una provincia</option>");
+            $('#distrito_o').append(
+                "<option value=''> ⌛ Selecciona una provincia</option>");
+        }
+
+
+        var id_departamento_d = $('#departamento_d').val();
+        // console.log(id_departamento_d);
+        if ($.trim(id_departamento_d) != '') {
+            $.get('../../provincias', {
+                id_departamento: id_departamento_d
+            }, function(provincias) {
+
+                $.each(provincias, function(index, value) {
+                    $('#provincia_d').append("<option value='" + index + "'>" +
+                        value + "</option>");
+                })
+            });
+        }
+        var id_distrito_d = $('#distrito_d').val();
+        var id_provincia_d = $('#provincia_d').val();
+        console.log(id_distrito_d);
+        if ($.trim(id_provincia_d) != '') {
+            $.get('../../distritos', {
+                id_provincia: id_provincia_d
+            }, function(distritos) {
+                if (id_distrito_d == null) {
+                    $('#distrito_d').append(
+                        "<option value=''> ✔ Selecciona una distrito</option>");
+                }
+                $.each(distritos, function(index, value) {
+                    $('#distrito_d').append("<option value='" + index + "'>" +
+                        value +
+                        "</option>");
+                })
+
+            });
+        } else {
+            $('#provincia_d').append(
+                "<option value=''> ✔ Selecciona una provincia</option>");
+            $('#distrito_d').append(
+                "<option value=''> ⌛ Selecciona una provincia</option>");
+        }
+
+    }
+</script>
+
+<script>
+    window.onload = funciones_inicio();
+</script>
 @endsection
 
 @section('css')

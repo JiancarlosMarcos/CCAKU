@@ -27,7 +27,7 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'ruc' => ['required'],
+            // 'ruc' => ['required'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
@@ -59,10 +59,8 @@ class CreateNewUser implements CreatesNewUsers
                 $contacto_cliente->id_cliente = $cliente->id;
             }
             $contacto_cliente->save();
-        } else {
-            $contacto_transportista = new ContactoTransportista;
-            $contacto_transportista->nombre = $input['name'];
-            $contacto_transportista->correo = $input['email'];
+        } else if ($input['role_id'] == 3) {
+            $contacto_transportista = ContactoTransportista::where('id', $input['id_contacto'])->first();
             $contacto_transportista->id_users = $usuario->id;
             $contacto_transportista->save();
         }

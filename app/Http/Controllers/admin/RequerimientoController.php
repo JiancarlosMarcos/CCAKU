@@ -15,6 +15,8 @@ use App\Models\Requerimiento;
 use App\Models\RequerimientoTransporte;
 use App\Models\RequerimientoCarga;
 use App\Models\VistaRequerimientoCarga;
+use App\Models\Provincia;
+use App\Models\Distrito;
 
 class RequerimientoController extends Controller
 {
@@ -40,17 +42,7 @@ class RequerimientoController extends Controller
 
     public function vista_requerimientos(Request $request)
     {
-        return DataTables::of(VistaRequerimiento::select(
-            'id',
-            'empresa',
-            'fecha',
-            'origen',
-            'destino',
-            'observaciones',
-            'estado',
-            'created_at',
-            'updated_at'
-        ))
+        return DataTables::of(VistaRequerimiento::all())
             // ->editColumn('fecha', function (VistaRequerimiento $prueba) {
             //     return $prueba->fecha->format('d/m/Y');
             // })
@@ -138,8 +130,21 @@ class RequerimientoController extends Controller
 
         $requerimientos = new Requerimiento;
         $requerimientos->fecha = $request->fecha_requerimiento;
-        $requerimientos->origen = $request->origen;
-        $requerimientos->destino = $request->destino;
+        $nombre_departamento_origen = Ubicacion::where('id', $request->departamento_origen)->first();
+        $requerimientos->departamento_origen = $nombre_departamento_origen->departamento;
+        $nombre_departamento_destino = Ubicacion::where('id', $request->departamento_destino)->first();
+        $requerimientos->departamento_destino =   $nombre_departamento_destino->departamento;
+        $nombre_provincia_origen = Provincia::where('id', $request->provincia_origen)->first();
+        $requerimientos->provincia_origen = $nombre_provincia_origen->nombre;
+        $nombre_provincia_destino = Provincia::where('id', $request->provincia_destino)->first();
+        $requerimientos->provincia_destino = $nombre_provincia_destino->nombre;
+        $nombre_distrito_origen = Distrito::where('id', $request->distrito_origen)->first();
+        $requerimientos->distrito_origen = $nombre_distrito_origen->nombre;
+        $nombre_distrito_destino = Distrito::where('id', $request->distrito_destino)->first();
+        $requerimientos->distrito_destino = $nombre_distrito_destino->nombre;
+        $requerimientos->direccion_origen = $request->direccion_origen;
+        $requerimientos->direccion_destino = $request->direccion_destino;
+
         $requerimientos->observaciones = $request->observaciones;
         $requerimientos->responsable_registro = $request->usuario;
         $requerimientos->estado = 'No atendido';
@@ -189,8 +194,8 @@ class RequerimientoController extends Controller
                 $cargas->placa = $request->placa_c_n[$i];
                 $cargas->volumen = $request->volumen_c_n[$i];
                 $cargas->peso = $request->peso_c_n[$i];
-                $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-                $cargas->id_ubicacion = $ubicacion->id;
+                // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
+                $cargas->id_ubicacion = $request->departamento_origen;
                 $cargas->unidad_medida_peso = $request->medida_peso_c_n[$i];
                 $cargas->id_cliente = $cliente->id;
                 $cargas->save();
@@ -238,15 +243,15 @@ class RequerimientoController extends Controller
                     $cargas->placa = $request->placa_c_e[$i];
                     $cargas->volumen = $request->volumen_c_e[$i];
                     $cargas->peso = $request->peso_c_e[$i];
-                    $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-                    $cargas->id_ubicacion = $ubicacion->id;
+                    // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
+                    $cargas->id_ubicacion = $request->departamento_origen;
                     $cargas->unidad_medida_peso = $request->medida_peso_c_e[$i];
                     $cargas->id_cliente = $id_cliente;
                     $cargas->save();
                 } else {
                     $cargas = Carga::find($request->id_c_e[$i]);
-                    $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-                    $cargas->id_ubicacion = $ubicacion->id;
+                    // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
+                    $cargas->id_ubicacion = $request->departamento_origen;
                     $cargas->save();
                 }
                 //ID CARGA PARA REGISTRAR EN REQUERIMIENTO_CARGA
@@ -361,6 +366,8 @@ class RequerimientoController extends Controller
         $cargas_reqs[] = VistaRequerimientoCarga::where('id_requerimiento', $request->id)->get();
         $cargas = Carga::where('id_cliente', $requerimiento->id_cliente)->get();
         $departamentos = Ubicacion::all();
+        $provincias = Provincia::all();
+        $distritos = Distrito::all();
         $transportes[] = RequerimientoTransporte::where('id_requerimiento', $request->id)->get();
 
         return view('admin.requerimientos.editar_requerimiento', [
@@ -370,6 +377,8 @@ class RequerimientoController extends Controller
             'cargas' => $cargas,
             'cargas_reqs' => $cargas_reqs[0],
             'departamentos' => $departamentos,
+            'provincias' => $provincias,
+            'distritos' => $distritos,
             'transportes' => $transportes[0]
         ]);
     }
@@ -388,8 +397,21 @@ class RequerimientoController extends Controller
         // $requerimientos_e->id_contacto = $request->id_contacto;
         // $requerimiento->id_carga_cliente = $request->id_carga;
         $requerimiento->fecha = $request->fecha_transporte;
-        $requerimiento->origen = $request->origen;
-        $requerimiento->destino = $request->destino;
+        $nombre_departamento_origen = Ubicacion::where('id', $request->departamento_origen)->first();
+        $requerimiento->departamento_origen = $nombre_departamento_origen->departamento;
+        $nombre_departamento_destino = Ubicacion::where('id', $request->departamento_destino)->first();
+        $requerimiento->departamento_destino =   $nombre_departamento_destino->departamento;
+        $nombre_provincia_origen = Provincia::where('id', $request->provincia_origen)->first();
+        $requerimiento->provincia_origen = $nombre_provincia_origen->nombre ?? NULL;
+        $nombre_provincia_destino = Provincia::where('id', $request->provincia_destino)->first();
+        $requerimiento->provincia_destino = $nombre_provincia_destino->nombre ?? NULL;
+        $nombre_distrito_origen = Distrito::where('id', $request->distrito_origen)->first();
+        $requerimiento->distrito_origen = $nombre_distrito_origen->nombre ?? NULL;
+        $nombre_distrito_destino = Distrito::where('id', $request->distrito_destino)->first();
+        $requerimiento->distrito_destino = $nombre_distrito_destino->nombre ?? NULL;
+        $requerimiento->direccion_origen = $request->direccion_origen ?? NULL;
+        $requerimiento->direccion_destino = $request->direccion_destino ?? NULL;
+        $requerimiento->contacto_destino = $request->contacto_destino ?? NULL;
 
 
 
@@ -420,15 +442,15 @@ class RequerimientoController extends Controller
                 $cargas->placa = $request->placa_c[$i];
                 $cargas->volumen = $request->volumen_c[$i];
                 $cargas->peso = $request->peso_c[$i];
-                $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-                $cargas->id_ubicacion = $ubicacion->id;
+                // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
+                $cargas->id_ubicacion = $request->departamento_origen;
                 $cargas->unidad_medida_peso = $request->medida_peso_c[$i];
                 $cargas->id_cliente = $requerimiento->id_cliente;
                 $cargas->save();
             } else {
                 $cargas = Carga::where('id', $request->id_carga[$i])->first();
-                $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-                $cargas->id_ubicacion = $ubicacion->id;
+                // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
+                $cargas->id_ubicacion = $request->departamento_origen;
                 $cargas->save();
             }
             //ID CARGA PARA REGISTRAR EN REQUERIMIENTO_CARGA
@@ -483,5 +505,37 @@ class RequerimientoController extends Controller
             'tipo' => $tipo
         );
         return Redirect()->back()->with($notification);
+    }
+
+    public function provincias(Request $request)
+    {
+        if ($request->ajax()) {
+            $provincias = Provincia::where('id_departamento', $request->id_departamento)->get();
+            foreach ($provincias as $provincia) {
+                $provinciaArray[$provincia->id] = $provincia->nombre;
+            }
+            return response()->json($provinciaArray);
+        }
+    }
+    public function consultar_provincias(Request $request)
+    {
+        if ($request->ajax()) {
+            $provincias = Provincia::where('id_departamento', $request->id_departamento)->get();
+            foreach ($provincias as $provincia) {
+                $provinciaArray[$provincia->id] = $provincia->nombre;
+            }
+            return response()->json($provinciaArray);
+        }
+    }
+
+    public function distritos(Request $request)
+    {
+        if ($request->ajax()) {
+            $distritos = Distrito::where('id_provincia', $request->id_provincia)->get();
+            foreach ($distritos as $distrito) {
+                $distritoArray[$distrito->id] = $distrito->nombre;
+            }
+            return response()->json($distritoArray);
+        }
     }
 }

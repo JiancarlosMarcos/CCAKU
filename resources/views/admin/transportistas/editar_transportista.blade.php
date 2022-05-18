@@ -2,6 +2,15 @@
 
 @section('content')
 @section('titulo', 'Editar Transportista')
+<style>
+    .validar_placa {
+        background: transparent;
+        border: 0px solid transparent;
+        color: #be1e37;
+        margin-top: -50px
+    }
+
+</style>
 <br>
 <br>
 <div class="app-title centrar-title">
@@ -66,6 +75,24 @@
                             style="color:#B61A1A"></a></label>
                     <input class="form-control" name="pagina_web" type="text" value="{{ $empresa->pagina_web }}"
                         autocomplete="off" placeholder="Pagina web" />
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:600;color:#777">TIPO TRANSPORTISTA: <a
+                            style="color:#B61A1A"></a></label>
+                    <select class="form-control" name="tipo_transportista">
+                        <option value="{{ $empresa->tipo_transportista }}" disabled selected>
+                            @if ($empresa->tipo_transportista == null)
+                                {{ 'Seleccione' }}
+                            @else
+                                {{ $empresa->tipo_transportista }}
+                            @endif
+                        </option>
+                        <option value="Propietario">Propietario</option>
+                        <option value="Terciarizador">Terciarizador</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -217,8 +244,10 @@
                 </td>
 
                 <td>
-                    <input type="text" name="placa_t[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" value="{{ $transportes[$j]->placa }}">
+                    <input type="text" id="placa_t{{ $j }}" name="placa_t[]" autocomplete="off"
+                        class="form-control" style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="validar_transporte({{ $j }})" value="{{ $transportes[$j]->placa }}">
+                    <input type="text" disabled value="" class="validar_placa" id="valida_placa{{ $j }}">
                 </td>
 
                 <td>
@@ -232,6 +261,7 @@
 
                 <td>
                     <input type="text" name="volumen_t[]" autocomplete="off" class="form-control"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                         style="background:#77777710" value="{{ $transportes[$j]->volumen }}">
                 </td>
 
@@ -247,7 +277,8 @@
                                 <option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}
                                 </option>
                                 @foreach ($ubicaciones as $ubicacion)
-                                    <option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>
+                                    <option value="{{ $ubicacion->id }}">
+                                        {{ $ubicacion->departamento }}</option>
                                 @endforeach
                             @endif
                         @endforeach
@@ -291,7 +322,8 @@
 
     <div class="col-md-12" style="text-align:center">
         <div class="form-group">
-            <button class="btn btn-primary" type="Submit"> <i class="fa fa-refresh"></i>Actualizar </button>
+            <button class="btn btn-primary" id="btn_actualizar" type="Submit"> <i class="fa fa-refresh"></i>Actualizar
+            </button>
         </div>
     </div>
     </div>
@@ -422,9 +454,11 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text" name="placa_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                '<input type="text" id="placa_t' + j + '" name="placa_t[]" ' +
+                'autocomplete="off" onkeyup="validar_transporte(' + j +
+                ')" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
+                '">' +
 
                 '<td>' +
                 '<input type="text"  name="ejes_t[]" ' +
@@ -506,6 +540,43 @@
         array_lista_t.push(data);
         console.log(array_lista_t);
         $('#ids_eliminar_t').val(array_lista_t);
+
+    }
+
+    function validar_transporte(j) {
+
+        var placa = document.getElementById('placa_t' + j).value;
+        if ($.trim(placa) != '') {
+            $.get('../../consulta_transporte', {
+                placa: placa
+            }, function(transportes) {
+
+                var data_tipo_transporte = transportes["tipo_transporte"];
+                var data_placa_transporte = transportes["placa_transporte"];
+
+
+                $.each(transportes, function(index, value) {
+                    $('#valida_placa' + j).css("color", "#be1e37");
+                    $('#valida_placa' + j).val("Placa ya registrada");
+                    $('#btn_actualizar').prop('disabled', true);
+
+                })
+
+            }).fail(function() {
+
+                $('#valida_placa' + j).css("color", "#35993A");
+                $('#valida_placa' + j).val("Placa no registrada");
+
+                $('#btn_actualizar').prop('disabled', false);
+
+            }).then(function(data) {
+                // console.log(data);
+                // console.log("--__" + data[0]);
+
+            });
+
+        }
+
 
     }
 </script>

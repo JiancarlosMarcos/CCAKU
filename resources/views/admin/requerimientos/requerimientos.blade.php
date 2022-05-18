@@ -153,10 +153,10 @@
                     data: 'fecha'
                 },
                 {
-                    data: 'origen'
+                    data: 'departamento_origen'
                 },
                 {
-                    data: 'destino'
+                    data: 'departamento_destino'
                 },
                 // {
                 //     data: 'carga'

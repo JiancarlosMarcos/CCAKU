@@ -49,66 +49,11 @@
     <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control fecha" style="width:200px"
         required>
     <br>
-    <h5> Seleccionar Origen y Destino de la Carga:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
-    <div class="row" style="margin-bottom:0px">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>ORIGEN</b><b
-                        style="color:#B61A1A">(*)</b>:</label>
-                <select id="origen" name="origen" class="form-control buscador_origen form_nuevo estilo_campo "
-                    style="width:100%" required>
-                    <option value="" selected disabled> ⬆ Seleccionar</option>
-                    @foreach ($departamentos as $departamento)
-                        <option value="{{ $departamento->departamento }}"
-                            {{ old('origen') == "$departamento->id" ? 'selected' : '' }}>
-                            {{ $departamento->departamento }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777"><b>DESTINO</b><b
-                        style="color:#B61A1A">(*)</b>:</label>
-                <select id="destino" name="destino" class="form-control buscador_destino form_nuevo estilo_campo "
-                    style="width:100%" required>
-                    <option value="" selected disabled> ⬇ Seleccionar</option>
-                    @foreach ($departamentos as $departamento)
-                        <option value="{{ $departamento->departamento }}"
-                            {{ old('destino') == "$departamento->id" ? 'selected' : '' }}>
-                            {{ $departamento->departamento }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    </div>
+
+    @include('admin/requerimientos/agregar_origen_destino')
     @include('admin/requerimientos/agregar_cliente')
-
     <br>
-    <br>
-    <h5>Lista de Transportes Requeridos:<a style="color:#B61A1A;outline:none"><b>(*)</b></a>:</h5>
-    <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="0" autocomplete="off" />
-    <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
-
-        <thead>
-            <tr>
-                <td>Tipo(*)</td>
-                <td>Cantidad(*)</td>
-                <td>Cantidad Ejes</td>
-                <td>Parte de la Carga(*)</td>
-                {{-- <td>Tiempo(*)</td> --}}
-                <td style="text-align:center">Eliminar</td>
-            </tr>
-        </thead>
-    </table>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <a class="btn btn-primary" name="add" id="add" style="margin-rigth:auto;width:180px;font-weight:700;
-                        font-size:14px;background:#ECDCC2;border-color:#777">
-                ++ Agregar Equipo </a>
-        </div>
-    </div>
+    @include('admin/requerimientos/agregar_transporte')
 
     <div class="row" style="margin-bottom:5px">
         <div class="col-md-5">
@@ -129,98 +74,6 @@
 <br>
 
 
-<script>
-    $(document).ready(function() {
-        var i = 1;
-
-        $('#add').click(function() {
-
-            $('#dynamic_field').append(
-
-                '<tr id="row' + i + '" class="transportes">' +
-
-                '<td>' +
-                '<select class="form-control" style="background:#77777710" name="tipo_transporte[]" required>' +
-                '<option value="" disabled selected>Seleccionar</option>' +
-                '<option value="Camabaja" >Camabaja</option>' +
-                '<option value="Camacuna">Camacuna</option>' +
-                '<option value="Tracto">Tracto</option>' +
-                '<option value="Camion Plataforma">Camion Plataforma</option>' +
-                '</select>' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text" name="cantidad[]" ' +
-                'title="cantidad" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text"  name="cantidad_ejes[]" ' +
-                'class="form-control" style="background:#77777710" autocomplete="off" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text" name="parte_carga[]" ' +
-                'class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                // '<td>' +
-                // '<input type="text" name="tiempo_equipo[]" ' +
-                // ' class="form-control" style="background:#77777710" >' +
-                // '</td>' +
-
-                '<td style="text-align:center">' +
-                '<button type="button" id="' + i +
-                '" class="btn btn-danger btn_remove">X</button>' +
-                '</td>' +
-                '</tr>'
-            );
-            i++;
-            document.getElementById("contador_t").value++;
-        });
-
-        $(document).on('click', '.btn_remove', function() {
-            if (!confirm("¿Estas seguro de eliminar este transporte?")) return;
-
-            var id = $(this).attr('id');
-            $('#row' + id).remove();
-            document.getElementById("contador_t").value--;
-
-        });
-
-    })
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("table").keypress(function(e) {
-            if (e.which == 13) {
-                return false;
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('input[type=text]').forEach(node => node.addEventListener('keypress', e => {
-            if (e.keyCode == 13) {
-                e.preventDefault();
-            }
-        }))
-    });
-</script>
-
-<script>
-    function enviar_form() {
-
-        //var nueva= "add_requerimientos";
-
-        //document.forms[nueva].submit();
-        $('#onload').fadeIn();
-        $('.contenido').addClass('hidden');
-    }
-</script>
-
 
 
 <script>
@@ -231,15 +84,15 @@
 
         @error('dni_ruc')
             validacion_dni_ruc();
-            activar_servicio();
-            activar_proyecto();
+            // activar_servicio();
+            // activar_proyecto();
         @enderror
 
         @error('razon_social')
             validacion_razon_social();
 
-            activar_servicio();
-            activar_proyecto();
+            // activar_servicio();
+            // activar_proyecto();
         @enderror
 
     }
@@ -249,94 +102,6 @@
 <script>
     window.onload = funciones_inicio();
 </script>
-
-<script>
-    $('#add_requerimientos').on('submit', function(evt) {
-
-        // var servicio_select = document.getElementById("valor_tipo_coti").value;
-        var cliente_select = document.getElementById("select_tipo_cliente").value;
-        var proyecto_select = document.getElementById("valida_select_proyecto").value;
-        var count_transportes = $('.transportes').length;
-
-
-        // if (servicio_select == 0) {
-        //     alert('No has seleccionado ningun tipo de servicio');
-        //     evt.preventDefault();
-        //     return;
-        // }
-
-        if (cliente_select == 0) {
-            alert('No has seleccionado ningun tipo de cliente');
-            evt.preventDefault();
-            return;
-        }
-
-        // if (proyecto_select == 0) {
-        //     alert('No has seleccionado ningun proyecto');
-        //     evt.preventDefault();
-        //     return;
-        // }
-
-        if (count_transportes == 0) {
-            alert('No has agregado ningun transporte');
-            evt.preventDefault();
-            return;
-        }
-
-        $('#onload').fadeIn();
-        $('.contenido').addClass('hidden');
-
-    });
-</script>
-
-<script>
-    /////CLIENTE NUEVO
-    function select_cliente_nuevo() {
-        $(".required_contacto_nuevo").prop("required", false);
-        document.getElementById("select_tipo_cliente").value = "1";
-        quitar_select_existente();
-        $('.vista_clientes_existentes').addClass('hidden');
-        $('.vista_clientes_nuevos').removeClass('hidden');
-        $('.required_cliente_nuevo').prop('required', true);
-        $('.required_cliente_existente').prop('required', false);
-        var cliente = document.getElementById("cliente_nuevo");
-        cliente.style.background = "#FFB21B";
-        cliente.style.color = "#000";
-        cliente.style.border = "1px solid #777";
-
-    }
-
-    /////CLIENTE EXISTENTE
-    function select_cliente_existente() {
-
-        document.getElementById("select_tipo_cliente").value = "2";
-        quitar_select_nuevo();
-        $('.vista_clientes_nuevos').addClass('hidden');
-        $('.vista_clientes_existentes').removeClass('hidden');
-        $('.required_cliente_existente').prop('required', true);
-        $('.required_cliente_nuevo').prop('required', false);
-        var cliente = document.getElementById("cliente_existente");
-        cliente.style.background = "#FFB21B";
-        cliente.style.color = "#000";
-        cliente.style.border = "1px solid #777";
-    }
-
-
-    function quitar_select_nuevo() {
-        var cliente = document.getElementById("cliente_nuevo");
-        cliente.style.background = "#fff";
-        cliente.style.color = "#000";
-        cliente.style.border = " ";
-    }
-
-    function quitar_select_existente() {
-        var cliente = document.getElementById("cliente_existente");
-        cliente.style.background = "#fff";
-        cliente.style.color = "#000";
-        cliente.style.border = " ";
-    }
-</script>
-
 
 
 
@@ -394,9 +159,6 @@
         $('#buscador_contacto').empty();
         $('#buscador_contacto').append(
             "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
-        // $('#buscador_carga').empty();
-        // $('#buscador_carga').append(
-        //     "<option value='' selected disabled> ⌛ Cargando Lista...</option>");
         var id_cliente = document.getElementById("buscador_cliente").value;
 
 
@@ -436,40 +198,6 @@
 
             });
         }
-        // if ($.trim(id_cliente) != '') {
-        //     $.get('../consulta_cargas', {
-        //         id_cliente: id_cliente
-        //     }, function(datos) {
-        //         var id_carga = datos["id"];
-        //         var tipo = datos["tipo"];
-        //         var marca = datos["marca"];
-        //         var modelo = datos["modelo"];
-        //         var placa = datos["placa"];
-        //         var peso = datos["peso"];
-
-        //         $('#buscador_carga').empty();
-        //         $('#buscador_carga').append(
-        //             "<option value='' selected disabled> ✔ Seleccionar una Carga</option>");
-        //         var z = 0;
-        //         $.each(datos["tipo"], function(index, value) {
-        //             $('#buscador_carga').append("<option value=" + id_carga[z] + "> 📌 " +
-        //                 tipo[z] + " || MARCA: " + marca[z] + " || MODELO: ; " + modelo[z] +
-        //                 " || PLACA: " + placa[z] + " || PESO: " + peso[z] + "</option>");
-        //             z++;
-
-        //         })
-
-
-        //     }).fail(function() {
-        //         $('#buscador_carga').empty();
-        //         $('#buscador_carga').append(
-        //             "<option value='' selected disabled> ❌ El cliente no tiene cargas registradas</option>");
-
-
-        //     }).then(function(data) {
-
-        //     });
-        // }
     }
 </script>
 <script>
@@ -519,6 +247,76 @@
         cliente.style.border = " ";
     }
 </script>
+
+
+{{-- <script>
+    $('#add_requerimientos').on('submit', function(evt) {
+
+        // var servicio_select = document.getElementById("valor_tipo_coti").value;
+        var cliente_select = document.getElementById("select_tipo_cliente").value;
+        var proyecto_select = document.getElementById("valida_select_proyecto").value;
+        var count_transportes = $('.transportes').length;
+
+
+        // if (servicio_select == 0) {
+        //     alert('No has seleccionado ningun tipo de servicio');
+        //     evt.preventDefault();
+        //     return;
+        // }
+
+        if (cliente_select == 0) {
+            alert('No has seleccionado ningun tipo de cliente');
+            evt.preventDefault();
+            return;
+        }
+
+        // if (proyecto_select == 0) {
+        //     alert('No has seleccionado ningun proyecto');
+        //     evt.preventDefault();
+        //     return;
+        // }
+
+        if (count_transportes == 0) {
+            alert('No has agregado ningun transporte');
+            evt.preventDefault();
+            return;
+        }
+
+        $('#onload').fadeIn();
+        $('.contenido').addClass('hidden');
+
+    });
+</script> --}}
+{{-- <script type="text/javascript">
+    $(document).ready(function() {
+        $("table").keypress(function(e) {
+            if (e.which == 13) {
+                return false;
+            }
+        });
+    });
+</script> --}}
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input[type=text]').forEach(node => node.addEventListener('keypress', e => {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+            }
+        }))
+    });
+</script>
+
+<script>
+    function enviar_form() {
+
+        //var nueva= "add_requerimientos";
+
+        //document.forms[nueva].submit();
+        $('#onload').fadeIn();
+        $('.contenido').addClass('hidden');
+    }
+</script> --}}
+
 @endsection
 
 @section('css')

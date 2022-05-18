@@ -36,25 +36,28 @@ class VehiculosController extends Controller
     public function vista_vehiculos(Request $request)
     {
 
-        return DataTables::of(VistaVehiculo::select(
-            'id',
-            'id_transportista',
-            'empresa',
-            'tipo',
-            'marca',
-            'placa',
-            'volumen',
-            'largo',
-            'ancho',
-            'altura',
-            'capacidad',
-            'estado',
-            'departamento',
-            'modelo',
-            'anio',
-            'cantidad_ejes',
-            'guia_remision',
-        ))
+        return DataTables::of(
+            VistaVehiculo::all()
+            // select(
+            //     'id',
+            //     'id_transportista',
+            //     'empresa',
+            //     'tipo',
+            //     'marca',
+            //     'placa',
+            //     'volumen',
+            //     'largo',
+            //     'ancho',
+            //     'altura',
+            //     'capacidad',
+            //     'estado',
+            //     'departamento',
+            //     'modelo',
+            //     'anio',
+            //     'responsable_registro',
+            //     'guia_remision',
+            // )
+        )
             // ->editColumn('created_at', function (Cliente $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
             // })

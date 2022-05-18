@@ -12,10 +12,12 @@ use App\Http\Controllers\BuscadorController;
 use App\Http\Controllers\admin\MapaAdminController;
 use App\Http\Controllers\admin\RequerimientoController;
 use App\Http\Controllers\admin\CotizacionController;
+use App\Http\Controllers\admin\CrearUsuarioController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
 //BUSCADOR
 Route::get('/buscador', [BuscadorController::class, 'mostrar_buscador_admin'])->name('buscador.mostrar');
+
 
 
 //RUTAS DE MAPA DE TRANSPORTES
@@ -57,6 +59,7 @@ Route::post('/transportistas/editar/', [TransportistaController::class, 'editar_
 Route::get('/transportistas/eliminar/{id}', [TransportistaController::class, 'eliminar_transportista'])->name('eliminar_transportista');
 
 Route::get('/consulta_transportistas', [TransportistaController::class, 'consulta_transportistas'])->name('consulta_transportistas');
+Route::get('/consulta_transporte', [TransportistaController::class, 'consulta_transporte'])->name('consulta_transporte');
 
 Route::get('/consulta_clientes', [ClienteController::class, 'consulta_clientes'])->name('consulta_clientes');
 
@@ -64,6 +67,14 @@ Route::get('/consulta_clientes', [ClienteController::class, 'consulta_clientes']
 //MOSTRAR USUARIOS
 Route::get('/usuarios', [UsuarioController::class, 'usuarios'])->name('usuarios');
 Route::get('/lista_usuarios', [UsuarioController::class, 'vista_usuarios'])->name('lista_usuarios');
+//AGREGAR USUARIO
+Route::get('/usuarios/agregar_transportista', [UsuarioController::class, 'form_agregar_usuario_transportista'])->name('usuarios.formulario.agregar.transportista');
+Route::get('/usuarios/agregar_administrador', [UsuarioController::class, 'form_agregar_usuario_administrador'])->name('usuarios.formulario.agregar.administrador');
+
+//CREAR USUARIO
+Route::post('/crear_administrador', [CrearUsuarioController::class, 'create_administrador'])->name('crear_administrador');
+Route::post('/crear_transportista', [CrearUsuarioController::class, 'create_transportista'])->name('crear_transportista');
+
 //EDITAR USUARIO
 Route::get('/usuarios/editar/{id}', [UsuarioController::class, 'form_editar_usuario'])->name('editar_usuario');
 Route::post('/usuarios/editar/', [UsuarioController::class, 'editar_usuario'])->name('actualizar_usuario');
@@ -128,7 +139,15 @@ Route::get('/cotizaciones', [CotizacionController::class, 'mostrar_cotizaciones'
 
 //CONSULTA DE CONTACTOS DE CLIENTES
 Route::get('/consulta_contactos', [RequerimientoController::class, 'consulta_clientes_contactos_nuevo']);
+Route::get('/consulta_contactos_transportistas', [UsuarioController::class, 'consulta_contactos_transportistas']);
 Route::get('/consulta_cargas', [RequerimientoController::class, 'consulta_cargas_nuevo']);
 Route::get('/consulta_carga', [RequerimientoController::class, 'consulta_carga_existente']);
 
 // Route::get('/mapa', [VehiculosController::class, 'ubicaciones_vehiculos'])->name('ubicaciones_vehiculos');
+
+
+///PROVINCIAS////
+Route::get('/provincias', [RequerimientoController::class, 'provincias'])->name('provincias');
+Route::get('/consultar_provincias', [RequerimientoController::class, 'consultar_provincias'])->name('consultar_provincias');
+///DISTRITOS////
+Route::get('/distritos', [RequerimientoController::class, 'distritos'])->name('distritos');

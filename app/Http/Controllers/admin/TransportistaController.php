@@ -31,7 +31,7 @@ class TransportistaController extends Controller
             'pagina_web',
             'responsable_registro',
             'created_at',
-            'updated_at'
+            'tipo_transportista'
         ))
             // ->editColumn('created_at', function (Transportista $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
@@ -65,6 +65,7 @@ class TransportistaController extends Controller
         $empresa->pagina_web = $request->pagina_web;
         $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
+        $empresa->tipo_transportista = $request->tipo_transportista;
         $empresa->save();
         $nombre_empresa = $request->razon_social;
 
@@ -146,6 +147,7 @@ class TransportistaController extends Controller
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
         // $empresa->responsable_registro = $request->usuario;
+        $empresa->tipo_transportista = $request->tipo_transportista;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
 
@@ -282,6 +284,20 @@ class TransportistaController extends Controller
             return response()->json([
                 'nombre_empresa' => $nombre_empresa,
                 'dni_ruc_empresa' => $dni_ruc_empresa
+
+            ]);
+        }
+    }
+    public function consulta_transporte(Request $request)
+    {
+        if ($request->ajax()) {
+            $transportes = Vehiculo::where('placa', $request->placa)->first();
+            $tipo_transporte = $transportes->tipo;
+            $placa_transporte = $transportes->placa;
+
+            return response()->json([
+                'tipo_transporte' => $tipo_transporte,
+                'placa_transporte' => $placa_transporte
 
             ]);
         }

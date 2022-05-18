@@ -33,3 +33,9 @@ Route::post('/requerimientos/editar/', [RequerimientoClienteController::class, '
 
 
 Route::get('/consulta_cargas_cliente', [RequerimientoClienteController::class, 'consulta_cargas_nuevo']);
+
+
+///PROVINCIAS////
+Route::get('/provincias', [RequerimientoClienteController::class, 'provincias'])->name('provincias');
+///DISTRITOS////
+Route::get('/distritos', [RequerimientoClienteController::class, 'distritos'])->name('distritos');

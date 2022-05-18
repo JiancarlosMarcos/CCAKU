@@ -3,6 +3,15 @@
 @section('titulo', 'Agregar Transportistas')
 <br>
 <br>
+<style>
+    .validar_placa {
+        background: transparent;
+        border: 0px solid transparent;
+        color: #be1e37;
+        margin-top: -50px
+    }
+
+</style>
 <div class="app-title">
     <div>
         <a href="{{ route('transportistas') }}" class="btn btn-primary"
@@ -79,7 +88,17 @@
                 </div>
             </div>
 
-
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:600;color:#777">TIPO TRANSPORTISTA: <a
+                            style="color:#B61A1A"></a></label>
+                    <select class="form-control" name="tipo_transportista">
+                        <option value="" disabled selected>Seleccione</option>
+                        <option value="Propietario">Propietario</option>
+                        <option value="Terciarizador">Terciarizador</option>
+                    </select>
+                </div>
+            </div>
 
 
         </div>
@@ -158,7 +177,8 @@
 
     <div class="col-md-12" style="text-align:center">
         <div class="form-group">
-            <button class="btn btn-primary" type="Submit"> <i class="fa fa-plus-square"></i>Registrar </button>
+            <button class="btn btn-primary" id="btn_registrar" type="Submit"> <i class="fa fa-plus-square"></i>Registrar
+            </button>
         </div>
     </div>
 
@@ -199,8 +219,12 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text" name="placa_t[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '<input type="text" id="placa_t' + j + '" name="placa_t[]" ' +
+                'autocomplete="off" onkeyup="validar_transporte(' + j +
+                ')" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
+                '">' +
+
                 '</td>' +
 
                 '<td>' +
@@ -359,7 +383,45 @@
             });
         }
     }
+
+    function validar_transporte(j) {
+
+        var placa = document.getElementById('placa_t' + j).value;
+        if ($.trim(placa) != '') {
+            $.get('../consulta_transporte', {
+                placa: placa
+            }, function(transportes) {
+
+                var data_tipo_transporte = transportes["tipo_transporte"];
+                var data_placa_transporte = transportes["placa_transporte"];
+
+
+                $.each(transportes, function(index, value) {
+                    $('#valida_placa' + j).css("color", "#be1e37");
+                    $('#valida_placa' + j).val("Placa ya registrada");
+                    $('#btn_registrar').prop('disabled', true);
+
+                })
+
+            }).fail(function() {
+
+                $('#valida_placa' + j).css("color", "#35993A");
+                $('#valida_placa' + j).val("Placa no registrada");
+
+                $('#btn_registrar').prop('disabled', false);
+
+            }).then(function(data) {
+                // console.log(data);
+                // console.log("--__" + data[0]);
+
+            });
+
+        }
+
+
+    }
 </script>
+
 @endsection
 
 
@@ -368,5 +430,7 @@
 
 
 @section('css')
+
+
 @include('admin.datatable')
 @stop
