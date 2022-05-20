@@ -3,20 +3,19 @@
 @section('content')
 @section('titulo', 'Cotizaciones')
 <style>
-    .hidden {
-        overflow: hidden;
-        visibility: hidden;
-    }
+.hidden {
+    overflow: hidden;
+    visibility: hidden;
+}
 
-    .centrado {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
+.centrado {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 
-    }
-
+}
 </style>
 
 
@@ -27,11 +26,13 @@
     <div>
         {{-- <h1>
       <a href="{{route('clientes')}}" class="btn btn-primary" style="background:#777;border-color:#777">Clientes</a>
-      <a href="{{route('clientes.contactos.mostrar')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a> 
-      <a href="{{route('cargas')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Cargas</a> 
+        <a href="{{route('clientes.contactos.mostrar')}}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a>
+        <a href="{{route('cargas')}}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Cargas</a>
 
-    </h1> --}}
-
+        </h1> --}}
+        <h3>Cotizaciones de Clientes</h3>
     </div><br>
 
 
@@ -59,13 +60,11 @@
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
-            <a class="btn btn-primary btn-sm" href="{{ route('agregar_requerimiento') }}"
-                style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar Cotizacion</a>
+         
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
-                <table class="table table-bordered display" id="tablaClientes">
+                <table class="table table-bordered display" id="tablaCotizaciones">
                     <thead>
                         <tr>
 
@@ -73,13 +72,7 @@
                                     data-column="0" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="fecha"
                                     data-column="1" /></td>
-                            {{-- <td>
-                                <select data-column="2" class="form-control filter-select" id="select_tipo_empresa">
-                                    <option value=" " selected></option>
-                                    <option value="Empresa">Empresa</option>
-                                    <option value="Persona Natural">Persona Natural</option>
-                                </select>
-                            </td> --}}
+
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="origen"
                                     data-column="2" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="destino"
@@ -90,22 +83,12 @@
                                     data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="modelo"
                                     data-column="6" /></td>
-                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="volumen"
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="volumen"
                                     data-column="7" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="peso"
                                     data-column="8" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="unidad"
-                                    data-column="9" /></td> --}}
-                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input" id="transporte"
-                                    data-column="10" /></td> --}}
-                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="observaciones" data-column="11" /></td> --}}
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="estado"
-                                    data-column="12" /></td>
-                            {{-- <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_creacion" data-column="13" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_modificacion" data-column="14" /></td> --}}
+
+
 
 
 
@@ -114,22 +97,19 @@
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-
+                            <th>ID</th>
                             <th>Empresa</th>
                             <th>Fecha</th>
                             <th>Origen</th>
                             <th>Destino</th>
                             <th>Carga</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            {{-- <th>Volumen</th>
-                            <th>Peso</th>
-                            <th>Unidad Medidad</th> --}}
-                            {{-- <th>Transporte<br>Requerido</th> --}}
-                            {{-- <th>Observaciones</th> --}}
+                            <th>Monto Total</th>
+                            <th>Moneda</th>
+
+
+
                             <th>Estado</th>
-                            {{-- <th>Fecha de<br>Creacion</th>
-                            <th>Fecha de<br>Modificacion</th> --}}
+
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -146,132 +126,151 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        var table = $('#tablaClientes').DataTable({
+$(document).ready(function() {
+    var table = $('#tablaCotizaciones').DataTable({
 
-            serverSider: true,
-            ajax: '{{ route('lista_requerimientos') }}',
-            columns: [{
-                    data: 'empresa'
-                },
-                {
-                    data: 'fecha'
-                },
-                {
-                    data: 'origen'
-                },
-                {
-                    data: 'destino'
-                },
-                {
-                    data: 'carga'
-                },
-                {
-                    data: 'marca'
-                },
-                {
-                    data: 'modelo'
-                },
-                // {
-                //     data: 'volumen'
-                // },
-                // {
-                //     data: 'peso'
-                // },
-                // {
-                //     data: 'unidad_medida_peso'
-                // },
-                // {
-                //     data: 'transporte_requerido'
-                // },
-                // {
-                //     data: 'observaciones'
-                // },
-                {
-                    data: 'estado'
-                },
-                // {
-                //     data: 'created_at'
-                // },
-                // {
-                //     data: 'updated_at'
-                // },
-                {
-                    data: 'btn_requerimientos'
-                },
+        serverSider: true,
+        ajax: '{{ route('lista_cotizaciones') }}',
+        columns: [{
+                data: 'id'
+            },
+            {
+                data: 'empresa'
+            },
+            {
+                data: 'fecha_transporte'
+            },
+            {
+                data: 'departamento_origen'
+            },
+            {
+                data: 'departamento_destino'
+            },
+            {
+                data: 'carga'
+            },
+            {
+                data: 'monto_total'
+            },
+            {
+                data: 'moneda'
+            },
+
+            {
+                data: 'estado'
+            },
+            {
+                data: 'btn_cotizaciones'
+            },
 
 
-            ],
+        ],
+        "columnDefs": [
 
-            "pageLength": 10,
-            "lengthMenu": [10, 50],
+            {
+                "render": function(data, type, row) {
+                    var nfs = new Intl.NumberFormat("es-PE", {
+                        style: "currency",
+                        currency: "PEN",
+                        maximumFractionDigits: 2,
+                        roundingIncrement: 5
+                    });
+                    var nfd = new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        maximumFractionDigits: 2,
+                        roundingIncrement: 5
+                    });
+               
+                    if(row["monto_total"]==null || row["moneda"]==null){
+                        return "<center>-</center>";
+                    }else{
+                    if (row["moneda"] == "Soles") {
+                        return "<center>" + nfs.format(row["monto_total"]) + " " + row["moneda"] + "</center>";
+                    }    
+                    if (row["moneda"] == "Dolares") {
+                        return "<center>" + nfd.format(row["monto_total"]) + " " + row["moneda"] + "</center>";
+                    }}
 
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-            }
-        });
-        // text search
-        $('.filter-input').keyup(function() {
-            table.column($(this).data('column'))
-                .search($(this).val())
-                .draw();
-        });
-        // dropdown
-        $('.filter-select').change(function() {
-            table.column($(this).data('column'))
-                .search($(this).val())
-                .draw();
-        });
+                    
+                   
+                },
+                "targets": 6
+            },
+
+        ],
+        "order": [
+            [0, "desc"]
+        ],
+        "pageLength": 10,
+        "lengthMenu": [10, 50],
+
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+        }
     });
+    // text search
+    $('.filter-input').keyup(function() {
+        table.column($(this).data('column'))
+            .search($(this).val())
+            .draw();
+    });
+    // dropdown
+    $('.filter-select').change(function() {
+        table.column($(this).data('column'))
+            .search($(this).val())
+            .draw();
+    });
+});
 </script>
 
 <script>
-    window.onload = function() {
-        $('#onload').fadeOut();
-        $('.contenido').removeClass('hidden');
-    }
+window.onload = function() {
+    $('#onload').fadeOut();
+    $('.contenido').removeClass('hidden');
+}
 </script>
 
 <script>
-    function LimpiarFiltros() {
-        var table = $('#tablaClientes').DataTable();
-        table.search('').columns().search('').draw();
-        document.getElementById("empresa").value = ' ';
-        document.getElementById("fecha").value = ' ';
+function LimpiarFiltros() {
+    var table = $('#tablaCotizaciones').DataTable();
+    table.search('').columns().search('').draw();
+    document.getElementById("empresa").value = ' ';
+    document.getElementById("fecha").value = ' ';
 
-        // document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-        document.getElementById("origen").value = ' ';
-        document.getElementById("destino").value = ' ';
-        document.getElementById("carga").value = ' ';
-        document.getElementById("marca").value = ' ';
-        document.getElementById("modelo").value = ' ';
-        document.getElementById("volumen").value = ' ';
-        document.getElementById("peso").value = ' ';
-        document.getElementById("unidad").value = ' ';
-        // document.getElementById("transporte").value = ' ';
-        document.getElementById("observaciones").value = ' ';
-        document.getElementById("estado").value = ' ';
-        document.getElementById("fecha_creacion").value = ' ';
-        document.getElementById("fecha_modificacion").value = ' ';
-    }
+    // document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
+    document.getElementById("origen").value = ' ';
+    document.getElementById("destino").value = ' ';
+    document.getElementById("carga").value = ' ';
+    document.getElementById("marca").value = ' ';
+    document.getElementById("modelo").value = ' ';
+    document.getElementById("volumen").value = ' ';
+    document.getElementById("peso").value = ' ';
+    document.getElementById("unidad").value = ' ';
+    // document.getElementById("transporte").value = ' ';
+    document.getElementById("observaciones").value = ' ';
+    document.getElementById("estado").value = ' ';
+    document.getElementById("fecha_creacion").value = ' ';
+    document.getElementById("fecha_modificacion").value = ' ';
+}
 </script>
 
 <script>
-    function Editar() {
+function Editar() {
 
-        document.getElementById("eliminar").style.display = "block";
-        $('.btn-eliminar').addClass('hidden');
-        $('.btn-editar').removeClass('hidden');
+    document.getElementById("eliminar").style.display = "block";
+    $('.btn-eliminar').addClass('hidden');
+    $('.btn-editar').removeClass('hidden');
 
-    }
+}
 
-    function Eliminar() {
+function Eliminar() {
 
-        document.getElementById("editar").style.display = "block";
-        $('.btn-eliminar').removeClass('hidden');
-        $('.btn-editar').addClass('hidden');
+    document.getElementById("editar").style.display = "block";
+    $('.btn-eliminar').removeClass('hidden');
+    $('.btn-editar').addClass('hidden');
 
-    }
+}
 </script>
 @endsection
 @section('css')

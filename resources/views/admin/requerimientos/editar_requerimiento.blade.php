@@ -484,7 +484,7 @@
     </div>
 
     {{-- BOTONES --}}
-    <a class="btn btn-primary btn-sm" href="{{ route('cotizaciones.mostrar') }}"
+    <a class="btn btn-primary btn-sm" href="{{ route('cotizaciones.formulario.agregar',$requerimiento->id) }}"
         style="background:#123;color:#fff;border-color:#777">
         <i class="fa fa-file-text"></i>Realizar Cotización</a>
     <a class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">

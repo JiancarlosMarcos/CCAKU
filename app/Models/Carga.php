@@ -9,4 +9,9 @@ class Carga extends Model
 {
     protected $table = "carga_cliente";
     use HasFactory;
+
+    public function requerimiento_carga()
+    {
+        return $this->hasMany(Requerimiento::class,'id');
+    }
 }
