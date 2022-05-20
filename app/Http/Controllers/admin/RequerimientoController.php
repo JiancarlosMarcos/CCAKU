@@ -232,6 +232,13 @@ class RequerimientoController extends Controller
                 $requerimientos->id_contacto = $request->id_contacto;
             }
             $requerimientos->id_cliente = $id_cliente;
+            $contador_transportes = count((is_countable($request->tipo_transporte) ? $request->tipo_transporte : []));
+            $requerimientos->responsable_registro = $request->usuario;
+            if ($contador_transportes > 1) {
+                $requerimientos->transporte_requerido = "CONVOY";
+            } else {
+                $requerimientos->transporte_requerido = $request->tipo_transporte[0];
+            }
             $requerimientos->save();
             $contador_cargas = count((is_countable($request->tipo_c_e) ? $request->tipo_c_e : []));
             for ($i = 0; $i < $contador_cargas; $i++) {
@@ -262,13 +269,7 @@ class RequerimientoController extends Controller
             }
         }
 
-        $contador_transportes = count((is_countable($request->tipo_transporte) ? $request->tipo_transporte : []));
-        $requerimientos->responsable_registro = $request->usuario;
-        if ($contador_transportes > 1) {
-            $requerimientos->transporte_requerido = "CONVOY";
-        } else {
-            $requerimientos->transporte_requerido = $request->tipo_transporte[0];
-        }
+
         // $requerimientos->save();
 
         $id_requerimiento = $requerimientos->id;

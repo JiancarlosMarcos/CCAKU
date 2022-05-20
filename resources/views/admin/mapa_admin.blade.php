@@ -9,9 +9,12 @@
     <div class="botones">
         <a class="boton" href="{{ route('mapa_todos_transportes_admin') }}">Transportes</a>
         <a class="boton" href="{{ route('mapa_requerimientos_admin') }}">Requerimientos</a>
-        <a class="boton" href="{{ route('mapa_todos_admin') }}">Ver Ambos</a>
+        <a class="boton" id="todos" href="{{ route('mapa_todos_admin') }}">Ver Ambos</a><br>
+
     </div>
-    <div class="encontrados">
+    <a class="mostrar-lista" id="mostrar-lista" onclick="mostrar_lista()"><i class="fa-solid fa-caret-down"></i></a>
+    <a class="ocultar-lista hidden" id="ocultar-lista" onclick="ocultar_lista()"><i class="fa-solid fa-caret-up"></i></a>
+    <div id="lista" class="encontrados hidden">
         @if ($transportes != null)
             <ul class="lista-encontrados">
                 @foreach ($transportes as $transporte)
@@ -37,6 +40,9 @@
 @section('css')
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
     <style>
@@ -51,9 +57,9 @@
 
         .botones {
             position: absolute;
-            margin-top: 20px;
+
             z-index: 200;
-            margin-top: 30px;
+            margin-top: 20px;
             margin-left: 20px;
         }
 
@@ -64,6 +70,11 @@
             background-color: rgb(55, 55, 55);
             border-radius: 20px;
             color: rgb(252, 252, 252);
+
+        }
+
+        .boton:hover {
+            color: rgb(240, 192, 35);
         }
 
         .encontrados {
@@ -86,13 +97,65 @@
             margin: 5px;
             padding: 0 5px;
             border-radius: 5px;
-            color: rgb(240, 192, 35)
+            color: rgb(240, 192, 35);
+        }
+
+
+        .mostrar-lista {
+            cursor: pointer;
+            position: absolute;
+            margin-top: 25px;
+            margin-left: 170px;
+            z-index: 200;
+            font-size: 3rem;
+            color: rgb(53, 53, 53);
+        }
+
+        .ocultar-lista {
+            cursor: pointer;
+            position: absolute;
+            margin-top: 35px;
+            margin-left: 170px;
+            z-index: 200;
+            font-size: 3rem;
+            color: rgb(53, 53, 53);
+        }
+
+        .ocultar-lista:hover {
+            color: rgb(240, 192, 35);
+        }
+
+        .mostrar-lista:hover {
+            color: rgb(240, 192, 35);
+        }
+
+        .hidden {
+            display: none;
         }
 
     </style>
 @stop
 
 @section('js')
+    <script>
+        function mostrar_lista() {
+            // var x = document.getElementById("lista");
+            $('#lista').removeClass('hidden');
+            $('#mostrar-lista').addClass('hidden');
+            $('#ocultar-lista').removeClass('hidden');
+            // if (x.className.indexOf("hidden") == -1) {
+            //     x.className += " hidden";
+            // } else {
+            //     x.className = x.className.replace(" hidden", "");
+            // }
+        }
+
+        function ocultar_lista() {
+            $('#lista').addClass('hidden');
+            $('#ocultar-lista').addClass('hidden');
+            $('#mostrar-lista').removeClass('hidden');
+        }
+    </script>
     <script>
         var bounds = [
 
@@ -182,56 +245,60 @@
                         @if ($transportes != null)
                             @foreach ($transportes as $transporte)
                                 {
-                                'type': 'Feature',
-                                'properties': {
-                                'message': 'Foo',
-                                'nombre': '{{ $transporte->tipo . ' ' . $transporte->marca . ' ' . $transporte->modelo }}',
-                                'empresa': '{{ $transporte->empresa }}',
-                                'id': '{{ $transporte->id }}',
-                                'id_empresa':'{{ $transporte->id_transportista }}',
-                                'anio': '{{ $transporte->anio }}',
-                                'estado': '{{ $transporte->estado }}',
-                                'ejes': '{{ $transporte->cantidad_ejes }}',
-                                'capacidad': '{{ $transporte->capacidad }}',
-                                'origen': '',
-                                'destino': '',
-                                'fecha': '',
-                                'transporte': '',
-                                'peso': '',
-                                'iconMarker': '{{ $transporte->tipo }}',
-                                },
-                                'geometry': {
-                                'type': 'Point',
-                                'coordinates': ['{{ $transporte->longitud }}', '{{ $transporte->latitud }}'],
-                                }
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'message': 'Foo',
+                                        'nombre': '{{ $transporte->tipo . ' ' . $transporte->marca . ' ' . $transporte->modelo }}',
+                                        'empresa': '{{ $transporte->empresa }}',
+                                        'id': '{{ $transporte->id }}',
+                                        'id_empresa': '{{ $transporte->id_transportista }}',
+                                        'anio': '{{ $transporte->anio }}',
+                                        'estado': '{{ $transporte->estado }}',
+                                        'ejes': '{{ $transporte->cantidad_ejes }}',
+                                        'capacidad': '{{ $transporte->capacidad }}',
+                                        'origen': '',
+                                        'destino': '',
+                                        'fecha': '',
+                                        'transporte': '',
+                                        'peso': '',
+                                        'iconMarker': '{{ $transporte->tipo }}',
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': ['{{ $transporte->longitud }}',
+                                            '{{ $transporte->latitud }}'
+                                        ],
+                                    }
                                 },
                             @endforeach
                         @endif
                         @if ($requerimientos != null)
                             @foreach ($requerimientos as $requerimiento)
                                 {
-                                'type': 'Feature',
-                                'properties': {
-                                'message': 'Foo',
-                                'nombre': '{{ $requerimiento->tipo . ' ' . $requerimiento->marca . ' ' . $requerimiento->modelo }}',
-                                'empresa': '{{ $requerimiento->empresa }}',
-                                'id': '{{ $requerimiento->id }}',
-                                'id_empresa':'',
-                                'origen': '{{ $requerimiento->origen }}',
-                                'destino': '{{ $requerimiento->destino }}',
-                                'fecha': '{{ $requerimiento->fecha_transporte }}',
-                                'transporte': '{{ $requerimiento->transporte_requerido }}',
-                                'peso': '{{ $requerimiento->peso }}',
-                                'anio': '',
-                                'estado': '',
-                                'ejes': '',
-                                'capacidad': '',
-                                'iconMarker': 'Carga',
-                                },
-                                'geometry': {
-                                'type': 'Point',
-                                'coordinates': ['{{ $requerimiento->longitud }}', '{{ $requerimiento->latitud }}'],
-                                }
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'message': 'Foo',
+                                        'nombre': '{{ $requerimiento->tipo . ' ' . $requerimiento->marca . ' ' . $requerimiento->modelo }}',
+                                        'empresa': '{{ $requerimiento->empresa }}',
+                                        'id': '{{ $requerimiento->id }}',
+                                        'id_empresa': '',
+                                        'origen': '{{ $requerimiento->departamento_origen }}',
+                                        'destino': '{{ $requerimiento->departamento_destino }}',
+                                        'fecha': '{{ $requerimiento->fecha_transporte }}',
+                                        'transporte': '{{ $requerimiento->transporte_requerido }}',
+                                        'peso': '{{ $requerimiento->peso }}',
+                                        'anio': '',
+                                        'estado': '',
+                                        'ejes': '',
+                                        'capacidad': '',
+                                        'iconMarker': 'Carga',
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': ['{{ $requerimiento->longitud }}',
+                                            '{{ $requerimiento->latitud }}'
+                                        ],
+                                    }
                                 },
                             @endforeach
                         @endif
@@ -344,7 +411,6 @@
                             '<br>Capacidad: ' + capacidad +
                             "<br><a href='transportistas/editar/" + id_empresa +
                             "'>Ver Mas</a>"
-
                         )
                         .addTo(map);
                 } else {

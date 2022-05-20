@@ -7,8 +7,10 @@
     <div>
         <a href="{{ route('clientes') }}" class="btn btn-primary"
             style="background:#777;border-color:#777">Clientes</a>
-        <a class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a>
-        <a class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Cargas</a>
+        <a href="{{ route('clientes.contactos.mostrar') }}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a>
+        <a href="{{ route('cargas') }}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Cargas</a>
 
         <p></p>
     </div>
@@ -130,13 +132,14 @@
             <thead>
                 <tr>
                     <td style="width:15%">Tipo de Carga</td>
-                    <td style="width:8%">Volumen</td>
-                    <td style="width:12%">Peso</td>
-                    <td style="width:12%">Unidad Medida</td>
-                    <td style="width:12%">Ubicacion</td>
                     <td style="width:10%">Marca</td>
                     <td style="width:12%">Modelo</td>
                     <td style="width:12%">Placa</td>
+                    <td style="width:8%">Dimensiones(Largo x Ancho x Alto)</td>
+                    <td style="width:12%">Peso</td>
+                    <td style="width:12%">Unidad Medida</td>
+                    <td style="width:12%">Ubicacion</td>
+
                     {{-- <td style="width:8%">Año</td> --}}
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
@@ -173,31 +176,6 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="volumen_c[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text"  name="peso_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<input type="text"  name="medida_c[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-                '<td>' +
-                '<select name="id_ubicacion_c[]" " class="form-control " >' +
-                '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
-                @foreach ($ubicaciones as $ubicacion)
-                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
-                @endforeach
-                '</select>' +
-                '</td>' +
-
-
-                '<td>' +
                 '<input type="text"  name="marca_c[]" ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
@@ -211,6 +189,34 @@
                 '<td>' +
                 '<input type="text" name="placa_c[]" ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="volumen_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="peso_c[]" ' +
+                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</td>' +
+
+                '<td>' +
+                '<select name="medida_c[]" class="form-control "' +
+                '>' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="TN">TN</option>' +
+                '<option value="KG">KG</option>' +
+                '</select>' +
+                '</td>' +
+
+                '<td>' +
+                '<select name="id_ubicacion_c[]" " class="form-control " >' +
+                '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
+                @foreach ($ubicaciones as $ubicacion)
+                    '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
+                @endforeach
+                '</select>' +
                 '</td>' +
 
 

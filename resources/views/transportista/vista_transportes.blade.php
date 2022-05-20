@@ -81,7 +81,7 @@
 
     </div><br>
 
-
+    <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
         <li class="breadcrumb-item"><a href=""></a>Transportes</li>
@@ -170,8 +170,6 @@
                             <th style="width:12%">Propio/Subarrendado</th>
                             <th style="width:12%">Responsable Registro</th>
                             <th>Acciones</th>
-
-
                         </tr>
                     </thead>
                     <tbody>
@@ -184,7 +182,7 @@
     </div>
 </div>
 
-
+<?php $user = Auth::user()->id; ?>
 </div>
 
 <script>
@@ -192,7 +190,7 @@
         var table = $('#tablaClientes').DataTable({
 
             serverSider: true,
-            ajax: '{{ route('lista_vehiculos') }}',
+            ajax: '{{ route('lista_vehiculos_transportista', ['usuario' => $user]) }}',
             columns: [{
                     data: 'empresa'
                 },

@@ -399,7 +399,7 @@
 
 
                 '<td>' +
-                '<select name="medida_peso_c[]" class="form-control "' +
+                '<select name="medida_c[]" class="form-control "' +
                 '>' +
                 '<option value="" selected disabled>Seleccionar</option>' +
                 '<option value="TN">TN</option>' +

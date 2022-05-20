@@ -25,7 +25,7 @@
                 disabled>
             <form method="POST" action="{{ route('crear_administrador') }}">
                 @csrf
-
+                <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}">
 
 
 

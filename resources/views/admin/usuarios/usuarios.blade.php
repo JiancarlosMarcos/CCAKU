@@ -132,33 +132,33 @@
                 <table class="table table-bordered display" id="tablaUsuarios">
                     <thead>
                         <tr>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre"
+                                    data-column="0" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="email"
+                                    data-column="1" /></td>
                             <td>
-                                <select data-column="0" class="form-control filter-select" id="select_tipo_empresa">
+                                <select data-column="2" class="form-control filter-select" id="rol">
                                     <option value=" " selected></option>
-                                    <option value="Empresa">Empresa</option>
-                                    <option value="Persona Natural">Persona Natural</option>
+                                    <option value="administrador">administrador</option>
+                                    <option value="cliente">cliente</option>
+                                    <option value="transportista">transportista</option>
                                 </select>
                             </td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre"
-                                    data-column="2" /></td>
-
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="via_ingreso"
-                                    data-column="4" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input"
+                                    id="responsable_registro" data-column="3" /></td>
 
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="fecha_reacion" data-column="5" /></td>
+                                    id="fecha_creacion" data-column="4" /></td>
 
                             <td></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                            <th>ID</th>
                             <th>Nombre</th>
-                            <th>Email</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Responsable<br>de Registro</th>
                             <th>Fecha de<br>Creacion</th>
-                            <th>Fecha de<br>Modificacion</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -182,19 +182,19 @@
             serverSider: true,
             ajax: '{{ route('lista_usuarios') }}',
             columns: [{
-                    data: 'id'
-                },
-                {
                     data: 'name'
                 },
                 {
                     data: 'email'
                 },
                 {
-                    data: 'created_at'
+                    data: 'rol'
                 },
                 {
-                    data: 'updated_at'
+                    data: 'responsable_registro'
+                },
+                {
+                    data: 'created_at'
                 },
                 {
                     data: 'btn_usuarios'
@@ -235,14 +235,12 @@
     function LimpiarFiltros() {
         var table = $('#tablaUsuarios').DataTable();
         table.search('').columns().search('').draw();
-        document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-        document.getElementById("pagina_web").value = ' ';
+        document.getElementById("nombre").value = ' ';
+        document.getElementById("email").value = ' ';
+        document.getElementById("rol").options.item(0).selected = 'selected';
         document.getElementById("responsable_registro").value = ' ';
         document.getElementById("fecha_creacion").value = ' ';
-        document.getElementById("via_ingreso").value = ' ';
-        document.getElementById("clasificacion").value = ' ';
-        document.getElementById("nombre").value = ' ';
-        document.getElementById("dni_ruc").value = ' ';
+
 
     }
 </script>

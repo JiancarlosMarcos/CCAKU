@@ -31,7 +31,10 @@ class TransportistaController extends Controller
             'pagina_web',
             'responsable_registro',
             'created_at',
-            'tipo_transportista'
+            'updated_at',
+            'nro_contactos',
+            'nro_equipos'
+
         ))
             // ->editColumn('created_at', function (Transportista $prueba) {
             //     return $prueba->created_at->format('d/m/Y');
@@ -65,7 +68,6 @@ class TransportistaController extends Controller
         $empresa->pagina_web = $request->pagina_web;
         $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
-        $empresa->tipo_transportista = $request->tipo_transportista;
         $empresa->save();
         $nombre_empresa = $request->razon_social;
 
@@ -94,6 +96,7 @@ class TransportistaController extends Controller
             $equipos->placa = $request->placa_t[$j];
             $equipos->capacidad = $request->capacidad_t[$j];
             $equipos->estado = $request->estado_t[$j];
+            $equipos->tipo_transporte = $request->tipo_transporte[$j];
             $equipos->id_transportista = $id;
             $equipos->responsable_registro = $usuario;
             $equipos->volumen = $request->volumen_t[$j];
@@ -147,7 +150,6 @@ class TransportistaController extends Controller
         // $empresa->id_via_ingreso = $request->id_via_ingreso;
         // $empresa->id_indicador = $request->id_indicador;
         // $empresa->responsable_registro = $request->usuario;
-        $empresa->tipo_transportista = $request->tipo_transportista;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
 
@@ -214,6 +216,7 @@ class TransportistaController extends Controller
                 $equipos->id_transportista = $id;
                 // $equipos->responsable_registro = $usuario;
                 $equipos->volumen = $request->volumen_t[$j];
+                $equipos->tipo_transporte = $request->tipo_transporte[$j];
                 $equipos->anio = $request->anio_t[$j];
                 $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
                 $equipos->modelo = $request->modelo_t[$j];
@@ -229,6 +232,7 @@ class TransportistaController extends Controller
                 $equipos_nuevo->id_transportista = $id;
                 $equipos_nuevo->responsable_registro = $usuario;
                 $equipos_nuevo->volumen = $request->volumen_t[$j];
+                $equipos_nuevo->tipo_transporte = $request->tipo_transporte[$j];
                 $equipos_nuevo->anio = $request->anio_t[$j];
                 $equipos_nuevo->id_ubicacion = $request->id_ubicacion_t[$j];
                 $equipos_nuevo->modelo = $request->modelo_t[$j];

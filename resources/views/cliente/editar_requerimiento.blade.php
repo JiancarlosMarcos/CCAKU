@@ -118,51 +118,14 @@
                     style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha }}">
             </div>
         </div>
-        {{-- <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777">Origen:</label>
-                <select id="origen" name="origen" class="form-control buscador_origen form_nuevo estilo_campo "
-                    style="width:100%">
-                    @foreach ($departamentos as $departamento)
-                        @if ($departamento->departamento == $requerimiento->origen)
-                            <option value="{{ $departamento->departamento }}" selected>
-                                {{ $requerimiento->origen }}</option>
-                            </option>
-                        @endif
-                    @endforeach
-                    @foreach ($departamentos as $departamento)
-                        <option value="{{ $departamento->departamento }}"
-                            {{ old('origen') == "$departamento->id" ? 'selected' : '' }}>
-                            {{ $departamento->departamento }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label" style="font-weight:600;color:#777">Destino:</label>
-                <select id="destino" name="destino" class="form-control buscador_destino form_nuevo estilo_campo "
-                    style="width:100%">
-                    @foreach ($departamentos as $departamento)
-                        @if ($departamento->departamento == $requerimiento->destino)
-                            <option value="{{ $departamento->departamento }}" selected>
-                                {{ $requerimiento->departamento_destino }}
-                            </option>
-                        @endif
-                    @endforeach
-                    @foreach ($departamentos as $departamento)
-                        <option value="{{ $departamento->departamento }}"
-                            {{ old('destino') == "$departamento->id" ? 'selected' : '' }}>
-                            {{ $departamento->departamento_destino }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div> --}}
+
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label " style="font-weight:600;color:#777">Contacto de destino:</label>
                 <input class="form-control" type="text" id="contacto_destino" name="contacto_destino"
-                    style="font-weight:600;text-align:center" value="">
+                    onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    style="font-weight:600;text-align:center;text-transform:uppercase;"
+                    value="{{ $requerimiento->contacto_destino }}">
             </div>
         </div>
     </div>
@@ -731,6 +694,15 @@
         $('#carga' + id_c).remove();
         document.getElementById("contador_c").value--;
     });
+    $(document).on('click', '.btn_remove_data_t', function() {
+        if (!confirm("¿Estas seguro de eliminar este transporte?")) return;
+
+        var id_t = $(this).attr('id');
+        var data_id_t = $('#id_transporte' + id_t).val();
+        lista_eliminados_t(data_id_t);
+        $('#transporte' + id_t).remove();
+        document.getElementById("contador_t").value--;
+    });
 </script>
 <script>
     let array_lista_c = [];
@@ -740,6 +712,16 @@
         array_lista_c.push(data);
         console.log(array_lista_c);
         $('#ids_eliminar_c').val(array_lista_c);
+
+    }
+
+    let array_lista_t = [];
+
+    function lista_eliminados_t(data) {
+
+        array_lista_t.push(data);
+        console.log(array_lista_t);
+        $('#ids_eliminar_t').val(array_lista_t);
 
     }
 </script>

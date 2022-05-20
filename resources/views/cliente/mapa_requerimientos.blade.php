@@ -52,27 +52,30 @@
                     'features': [
 
                         @foreach ($requerimientos as $requerimiento)
-                            {
-                                'type': 'Feature',
-                                'properties': {
-                                    'message': 'Foo',
-                                    'nombre': '{{ $requerimiento->tipo . ' ' . $requerimiento->marca . ' ' . $requerimiento->modelo }}',
-                                    'empresa': '{{ $requerimiento->empresa }}',
-                                    'origen': '{{ $requerimiento->origen }}',
-                                    'destino': '{{ $requerimiento->destino }}',
-                                    'fecha': '{{ $requerimiento->fecha_transporte }}',
-                                    'transporte': '{{ $requerimiento->transporte_requerido }}',
-                                    'id': '{{ $requerimiento->id }}',
-                                    'peso': '{{ $requerimiento->peso }}',
-                                    'iconMarker': 'Carga',
+                            @if ($requerimiento->id_users == auth()->user()->id)
+                                {
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'message': 'Foo',
+                                        'nombre': '{{ $requerimiento->tipo . ' ' . $requerimiento->marca . ' ' . $requerimiento->modelo }}',
+                                        'empresa': '{{ $requerimiento->empresa }}',
+                                        'origen': '{{ $requerimiento->departamento_origen }}',
+                                        'destino': '{{ $requerimiento->departamento_destino }}',
+                                        'fecha': '{{ $requerimiento->fecha_transporte }}',
+                                        'cargas': '{{ $requerimiento->cargas }}',
+                                        'transportes': '{{ $requerimiento->transportes }}',
+                                        'id': '{{ $requerimiento->id_requerimiento }}',
+                                        'peso': '{{ $requerimiento->peso }}',
+                                        'iconMarker': 'Carga',
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': ['{{ $requerimiento->longitud }}',
+                                            '{{ $requerimiento->latitud }}'
+                                        ],
+                                    }
                                 },
-                                'geometry': {
-                                    'type': 'Point',
-                                    'coordinates': ['{{ $requerimiento->longitud }}',
-                                        '{{ $requerimiento->latitud }}'
-                                    ],
-                                }
-                            },
+                            @endif
                         @endforeach
 
                     ]
@@ -158,8 +161,9 @@
                 var origen = e.features[0].properties.origen;
                 var destino = e.features[0].properties.destino;
                 var fecha = e.features[0].properties.fecha;
-                var transporte = e.features[0].properties.transporte;
-                var url = "{{ route('requerimiento_simple') }}"
+                var transporte = e.features[0].properties.transportes;
+                var carga = e.features[0].properties.cargas;
+                var url = "/user/requerimientos/editar/" + id;
                 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
@@ -171,13 +175,13 @@
                     })
                     .setLngLat(coordinates)
                     .setHTML(
-
                         ' <b>' + nombre +
                         '</b><br>Empresa: ' + empresa +
                         '<br>Origen: ' + origen +
                         '<br>Destino: ' + destino +
                         '<br>Fecha de Transporte: ' + fecha +
-                        '<br>Transporte Requerido: ' + transporte +
+                        '<br>Cant. Transporte Requerido: ' + transporte +
+                        '<br>Cant. Cargas: ' + carga +
                         "<br><a href='" + url + "'>Modificar Requerimiento</a>"
                     )
                     .addTo(map);

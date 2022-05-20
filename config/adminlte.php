@@ -273,7 +273,7 @@ return [
             // 'url'  => ['user/perfil_usuario', ['id' => Auth::user()->id]],
             'url'  => 'user/perfil_usuario',
             'icon' => 'fas fa-fw fa-user',
-            'can' => 'cliente'
+            'can' => 'cliente',
 
         ],
         [
@@ -296,6 +296,25 @@ return [
         //     'can' => 'cliente'
         // ],
         //TRANSPORTISTA
+        [
+            'header' => 'Transportista',
+            'can' => 'transportista'
+        ],
+        [
+            'text' => 'Perfil',
+            // 'url'  => ['user/perfil_usuario', ['id' => Auth::user()->id]],
+            'url'  => 'user/perfil_usuario_transportista',
+            'icon' => 'fas fa-fw fa-user',
+            'can' => 'transportista',
+
+        ],
+        [
+            'text' => 'Mis Equipos',
+            'url'  => 'user/vista_transportes',
+            'icon' => 'fas fa-solid fa-clipboard-list',
+            'can' => 'transportista'
+
+        ],
 
         //ADMINISTRADOR
         [
@@ -306,7 +325,7 @@ return [
         [
             'text' => 'Usuarios',
             'url'  => 'admin/usuarios',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fa fa-fw fa-users',
             'can'     => 'administrador',
         ],
 
