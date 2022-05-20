@@ -9,4 +9,7 @@ class RequerimientoCarga extends Model
 {
     protected $table = "requerimiento_carga";
     use HasFactory;
+
+
+
 }

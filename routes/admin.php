@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\MapaAdminController;
 use App\Http\Controllers\admin\RequerimientoController;
 use App\Http\Controllers\admin\CotizacionController;
 use App\Http\Controllers\admin\CrearUsuarioController;
+use App\Http\Controllers\admin\ConsultasController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
 //BUSCADOR
@@ -135,6 +136,14 @@ Route::get('/requerimientos/eliminar/{id}', [RequerimientoController::class, 'el
 Route::get('/lista_cotizaciones', [CotizacionController::class, 'vista_cotizaciones'])->name('lista_cotizaciones');
 ///MOSTRAR////////////
 Route::get('/cotizaciones', [CotizacionController::class, 'mostrar_cotizaciones'])->name('cotizaciones.mostrar');
+//AGREGAR
+Route::get('/cotizaciones/agregar/{id_requerimiento}', [CotizacionController::class, 'form_agregar_cotizacion'])->name('cotizaciones.formulario.agregar');
+Route::post('/cotizaciones/agregar', [CotizacionController::class, 'agregar_cotizacion'])->name('agregar_cotizacion');
+//EDITAR//
+Route::get('/cotizaciones/editar/{id_cotizacion}', [CotizacionController::class, 'form_editar_cotizacion'])->name('editar_cotizacion');
+Route::post('/cotizaciones/editar/', [CotizacionController::class, 'editar_cotizacion'])->name('actualizar_cotizacion');
+//ELIMINAR//
+Route::get('/cotizaciones/eliminar/{id}', [CotizacionController::class, 'eliminar_cotizacion'])->name('eliminar_cotizacion');
 
 
 //CONSULTA DE CONTACTOS DE CLIENTES
@@ -151,3 +160,7 @@ Route::get('/provincias', [RequerimientoController::class, 'provincias'])->name(
 Route::get('/consultar_provincias', [RequerimientoController::class, 'consultar_provincias'])->name('consultar_provincias');
 ///DISTRITOS////
 Route::get('/distritos', [RequerimientoController::class, 'distritos'])->name('distritos');
+
+//DESCARGAS
+//DESCARGA DE COTIZACIONES X ID
+Route::get('/cotizaciones/clientes/descargar/{id}/{version}' , [CotizacionController::class,'descarga_cotizacion_cliente_PDF'])->name('cotizacion.cliente.descargar');
