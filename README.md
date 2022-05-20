@@ -7,7 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+<<<<<<< HEAD
 ## Acerca de Laravel v8
+=======
+## Acerca de Laravel v8 - 2022
+>>>>>>> ca1b7ff1cf0cd008ce0722b66251d4a51d8486a6
 
  es una aplicacion web de framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
