@@ -7,7 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+<<<<<<< HEAD
 ## Acerca de  v8
+=======
+## Acerca de Laravell v8
+>>>>>>> 846a34067375d7e946ad18c510b63eb52506a85a
 
 Laravel es una aplicacion web de framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
