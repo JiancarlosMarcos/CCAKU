@@ -11,6 +11,7 @@ use App\Models\ContactoCliente;
 use App\Models\Cliente;
 use App\Models\ContactoTransportista;
 use App\Models\Transportista;
+use App\Models\VistaUser;
 
 class UsuarioController extends Controller
 {
@@ -21,18 +22,16 @@ class UsuarioController extends Controller
     public function vista_usuarios(Request $request)
     {
 
-        return DataTables::of(User::select(
+        return DataTables::of(VistaUser::select(
             'id',
             'name',
             'email',
+            'rol',
+            'responsable_registro',
             'created_at',
-            'updated_at',
         ))
-            ->editColumn('created_at', function (User $prueba) {
+            ->editColumn('created_at', function (VistaUser $prueba) {
                 return $prueba->created_at->format('d/m/Y');
-            })
-            ->editColumn('updated_at', function (User $prueba) {
-                return $prueba->updated_at->format('d/m/Y');
             })
             ->addColumn('btn_usuarios', 'admin.botones.btn_usuarios')
             ->rawColumns(['btn_usuarios'])

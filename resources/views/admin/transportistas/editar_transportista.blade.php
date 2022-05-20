@@ -77,24 +77,6 @@
                         autocomplete="off" placeholder="Pagina web" />
                 </div>
             </div>
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777">TIPO TRANSPORTISTA: <a
-                            style="color:#B61A1A"></a></label>
-                    <select class="form-control" name="tipo_transportista">
-                        <option value="{{ $empresa->tipo_transportista }}" disabled selected>
-                            @if ($empresa->tipo_transportista == null)
-                                {{ 'Seleccione' }}
-                            @else
-                                {{ $empresa->tipo_transportista }}
-                            @endif
-                        </option>
-                        <option value="Propietario">Propietario</option>
-                        <option value="Terciarizador">Terciarizador</option>
-                    </select>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -136,6 +118,7 @@
         <tr id="row<?php echo $i; ?>" class="contactos">
             <td>
                 <input type="text" name="nombre_contacto[]" id="nombre_contacto'+i+'" autocomplete="off"
+                    style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                     class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}">
 
                 <input type="hidden" name="id_contacto[]" id="id_contacto<?php echo $i; ?>" autocomplete="off"
@@ -154,6 +137,7 @@
 
             <td>
                 <input type="text" name="cargo[]" autocomplete="off" class="form-control" style="background:#77777710"
+                    style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                     value="{{ $contactos[$i]->cargo }}">
             </td>
 
@@ -197,8 +181,8 @@
                     <td style="width:12%">Dimensiones</td>
                     <td style="width:5%">Año</td>
                     <td style="width:12%">Ubicacion</td>
-                    <td style="width:12%">Estado</td>
-
+                    <td style="width:10%">Estado</td>
+                    <td style="width:10%">Propio/Subarrendado</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -235,18 +219,21 @@
 
                 <td>
                     <input type="text" name="marca_t[]" autocomplete="off" class="form-control"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                         style="background:#77777710" value="{{ $transportes[$j]->marca }}">
                 </td>
 
                 <td>
                     <input type="text" name="modelo_t[]" autocomplete="off" class="form-control"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                         style="background:#77777710" value="{{ $transportes[$j]->modelo }}">
                 </td>
 
                 <td>
                     <input type="text" id="placa_t{{ $j }}" name="placa_t[]" autocomplete="off"
                         class="form-control" style="background:#77777710" style="text-transform:uppercase;"
-                        onkeyup="validar_transporte({{ $j }})" value="{{ $transportes[$j]->placa }}">
+                        onkeyup="validar_transporte({{ $j }});javascript:this.value=this.value.toUpperCase();"
+                        value="{{ $transportes[$j]->placa }}">
                     <input type="text" disabled value="" class="validar_placa" id="valida_placa{{ $j }}">
                 </td>
 
@@ -296,12 +283,18 @@
                     </select>
                 </td>
 
+                <td>
+
+                    <select name="tipo_transporte[]" class="form-control " style="background:#77777710">
+                        <option value="{{ $transportes[$j]->tipo_transporte }}">
+                            {{ $transportes[$j]->tipo_transporte }}</option>
+                        <option value="PROPIO">PROPIO</option>
+                        <option value="SUBARRENDADO">SUBARRENDADO</option>
+
+                    </select>
+                </td>
 
 
-                {{-- <td>
-                <input type="text" name="anio_t[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $contactos[$i]->anio_t }}">
-            </td> --}}
                 <td>
                     <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_t">X</button>
 
@@ -362,7 +355,8 @@
                 '<tr id="row' + i + '" class="contactos">' +
 
                 '<td>' +
-                '<input type="text" name="nombre_contacto[]" required id="nombre_contacto' + i +
+                '<input type="text" name="nombre_contacto[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required id="nombre_contacto' +
+                i +
                 '" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
@@ -378,7 +372,7 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text" name="cargo[]" ' +
+                '<input type="text" name="cargo[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" ' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
@@ -443,13 +437,13 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="marca_t[]" ' +
+                '<input type="text"  name="marca_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 
                 '<td>' +
-                '<input type="text" name="modelo_t[]" ' +
+                '<input type="text" name="modelo_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
@@ -471,7 +465,7 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="volumen_t[]" ' +
+                '<input type="text"  name="volumen_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
                 'autocomplete="off" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
@@ -498,6 +492,13 @@
                 '</select>' +
                 '</td>' +
 
+                '<td>' +
+                '<select name="tipo_transporte[]" required class="form-control " >' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="PROPIO">PROPIO</option>' +
+                '<option value="SUBARRENDADO">SUBARRENADO</option>' +
+                '</select>' +
+                '</td>' +
 
                 '<td style="text-align:center">' +
                 '<button type="button" onclick="eliminar_fila_t(' + j +
@@ -558,7 +559,6 @@
                 $.each(transportes, function(index, value) {
                     $('#valida_placa' + j).css("color", "#be1e37");
                     $('#valida_placa' + j).val("Placa ya registrada");
-                    $('#btn_actualizar').prop('disabled', true);
 
                 })
 
@@ -566,8 +566,6 @@
 
                 $('#valida_placa' + j).css("color", "#35993A");
                 $('#valida_placa' + j).val("Placa no registrada");
-
-                $('#btn_actualizar').prop('disabled', false);
 
             }).then(function(data) {
                 // console.log(data);

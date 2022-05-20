@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use App\Models\UserRole;
-use ContactoCliente;
+
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
@@ -37,6 +37,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         ) {
             $this->updateVerifiedUser($user, $input);
         } else {
+            ContactoCliente::where('id_users', $user->id)->update(['correo' => $input['email']], ['nombre' => $input['name']]);
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
@@ -53,6 +54,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     protected function updateVerifiedUser($user, array $input)
     {
+        ContactoCliente::where('id_users', $user->id)->update(['correo' => $input['email']], ['nombre' => $input['name']]);
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],

@@ -36,7 +36,9 @@ class CrearUsuarioController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ])->assignRole($request->role_id);
-
+        $responsable_registro = User::where('id', $usuario->id)->first();
+        $responsable_registro->responsable_registro = $request->usuario;
+        $responsable_registro->save();
         if ($request->role_id == 3) {
             $contacto_transportista = ContactoTransportista::where('id', $request->id_contacto)->first();
             $contacto_transportista->correo = $request->email;
@@ -58,13 +60,16 @@ class CrearUsuarioController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ])->assignRole($request->role_id);
+        $responsable_registro = User::where('id', $usuario->id)->first();
+        $responsable_registro->responsable_registro = $request->usuario;
+        $responsable_registro->save();
+        $contacto_cliente = new ContactoCliente();
+        $contacto_cliente->nombre = $request->name;
+        $contacto_cliente->correo = $request->email;
+        $contacto_cliente->id_cliente = 1;
+        $contacto_cliente->id_users = $usuario->id;
+        $contacto_cliente->save();
 
-        if ($request->role_id == 3) {
-            $contacto_transportista = ContactoTransportista::where('id', $request->id_contacto)->first();
-            $contacto_transportista->correo = $request->email;
-            $contacto_transportista->id_users = $usuario->id;
-            $contacto_transportista->save();
-        }
         return view('admin.usuarios.usuarios');
     }
 }

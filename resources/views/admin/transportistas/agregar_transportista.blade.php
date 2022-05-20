@@ -88,17 +88,6 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777">TIPO TRANSPORTISTA: <a
-                            style="color:#B61A1A"></a></label>
-                    <select class="form-control" name="tipo_transportista">
-                        <option value="" disabled selected>Seleccione</option>
-                        <option value="Propietario">Propietario</option>
-                        <option value="Terciarizador">Terciarizador</option>
-                    </select>
-                </div>
-            </div>
 
 
         </div>
@@ -159,7 +148,7 @@
                     <td style="width:5%">Año</td>
                     <td style="width:12%">Ubicacion(*)</td>
                     <td style="width:12%">Estado(*)</td>
-                    {{-- <td style="width:8%">Año</td> --}}
+                    <td style="width:8%">Propio/Subarrendado</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -265,7 +254,13 @@
                 '</select>' +
                 '</td>' +
 
-
+                '<td>' +
+                '<select name="tipo_transporte[]" class="form-control " required>' +
+                '<option value="" selected disabled>Seleccionar</option>' +
+                '<option value="PROPIO">PROPIO</option>' +
+                '<option value="SUBARRENDADO">SUBARRENDADO</option>' +
+                '</select>' +
+                '</td>' +
 
 
                 '<td style="text-align:center">' +
@@ -348,7 +343,6 @@
             document.getElementById("contador").value--;
 
         });
-
     })
 </script>
 
@@ -392,8 +386,7 @@
                 placa: placa
             }, function(transportes) {
 
-                var data_tipo_transporte = transportes["tipo_transporte"];
-                var data_placa_transporte = transportes["placa_transporte"];
+
 
 
                 $.each(transportes, function(index, value) {

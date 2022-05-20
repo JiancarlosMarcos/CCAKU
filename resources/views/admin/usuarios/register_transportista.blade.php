@@ -25,7 +25,7 @@
                 disabled>
             <form method="POST" action="{{ route('crear_transportista') }}">
                 @csrf
-
+                <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}">
                 <div>
                     <br>
                     <x-jet-label for="empresa" value="{{ __('Empresa') }}" />
@@ -54,7 +54,8 @@
 
                 <div class="mt-4">
                     <x-jet-label for="email" value="{{ __('Correo') }}" />
-                    <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                    <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                        required />
                 </div>
 
                 <div class="mt-4">

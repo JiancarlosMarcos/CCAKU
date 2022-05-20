@@ -90,8 +90,8 @@ class ClienteController extends Controller
             $equipos->id_cliente = $id;
             $equipos->marca = $request->marca_c[$j];
             $equipos->modelo = $request->modelo_c[$j];
+            // $contacto->responsable_registro = $usuario;
             $equipos->placa = $request->placa_c[$j];
-
             $equipos->save();
         }
         $notification = array(
