@@ -66,11 +66,25 @@
         </div>
 
         <!-- DNI -->
-        {{-- <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="dni" value="{{ __('Dni') }}" />
+         <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="dni" value="{{ __('DNI') }}" />
             <x-jet-input id="dni" type="number" class="mt-1 block w-full" wire:model.defer="state.dni" />
             <x-jet-input-error for="dni" class="mt-2" />
-        </div> --}}
+        </div> 
+
+           <!-- CELULAR -->
+           <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="celular" value="{{ __('Celular') }}" />
+            <x-jet-input id="celular" type="number" class="mt-1 block w-full" wire:model.defer="state.celular" />
+            <x-jet-input-error for="celular" class="mt-2" />
+        </div> 
+
+           <!-- CARGO -->
+           <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="cargo" value="{{ __('Cargo') }}" />
+            <x-jet-input id="cargo" type="text" class="mt-1 block w-full" wire:model.defer="state.cargo" />
+            <x-jet-input-error for="cargo" class="mt-2" />
+        </div> 
 
     </x-slot>
 

@@ -23,6 +23,9 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'dni' => ['required', 'string', 'max:10'],
+            'celular' => ['required', 'string', 'max:9'],
+            'cargo' => [''],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
@@ -35,12 +38,24 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail
         ) {
+          
             $this->updateVerifiedUser($user, $input);
         } else {
-            ContactoCliente::where('id_users', $user->id)->update(['correo' => $input['email']], ['nombre' => $input['name']]);
+            ContactoCliente::where('id_users', $user->id)->update([
+                'correo' => $input['email'],
+                'nombre' => $input['name'],
+                'dni' => $input['dni'],
+                'celular' => $input['celular'],
+                'cargo' => $input['cargo'],
+
+            ]);
+                
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'dni' => $input['dni'],
+                'celular' => $input['celular'],
+                'cargo' => $input['cargo'],
             ])->save();
         }
     }
@@ -54,7 +69,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     protected function updateVerifiedUser($user, array $input)
     {
-        ContactoCliente::where('id_users', $user->id)->update(['correo' => $input['email']], ['nombre' => $input['name']]);
+       // ContactoCliente::where('id_users', '2')->update(['correoo' => 'text'], ['nombre' => 'text']);
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],
