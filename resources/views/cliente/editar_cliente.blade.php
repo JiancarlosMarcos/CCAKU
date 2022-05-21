@@ -1,27 +1,37 @@
 @extends('adminlte::page')
+@section('content_header')
+    <br>
+    <div class="app-title">
+        <div>
+            <h1>
+                <a href="{{ route('cargas.mostrar') }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Lista de Cargas</a>
+                <a href="{{ route('cliente.contactos.mostrar') }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
+            </h1>
 
+        </div><br>
+
+        <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
+            <li class="breadcrumb-item"><a href=""></a>Mis Cargas</li>
+            <li class="breadcrumb-item"><a href=""></a>Editar</li>
+        </ul>
+    </div>
+@stop
 @section('content')
 @section('titulo', 'Editar Cliente')
-<br>
-<br>
-<div class="app-title centrar-title">
-    <div>
-        <a href="{{ route('clientes') }}" class="btn btn-primary"
-            style="background:#777;border-color:#777;color:#fff">Clientes</a>
-        <a href="{{ route('clientes.contactos.mostrar') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Contactos de Clientes</a>
-        <a href="{{ route('cargas') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Cargas</a>
-        <p></p>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a href="{{ route('clientes') }}">Clientes</a></li>
-        <li class="breadcrumb-item"><a> Editar Cliente</a></li>
-    </ul>
+    Cargando...
 </div>
-<!---->
-<form method="POST" action="{{ route('actualizar_cliente') }}" class="centrar-form">
+<form method="POST" action="{{ route('cliente.actualizar_cliente') }}" class="centrar-form">
     @csrf
     @include('notificacion')
     <div class="form-card" style="color:#000">
@@ -36,7 +46,7 @@
                     <label class="control-label" style="font-weight:600;color:#777">RUC O DNI: <a
                             style="color:#B61A1A">*</a></label>
                     <input class="form-control" name="dni_ruc" type="number" value="{{ $empresa->dni_ruc }}"
-                        autocomplete="off" placeholder="RUC O DNI" required />
+                        autocomplete="off" placeholder="RUC O DNI" required readonly />
                 </div>
             </div>
 
@@ -45,7 +55,7 @@
                     <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
                             style="color:#B61A1A">*</a></label>
                     <input class="form-control" name="razon_social" type="text" value="{{ $empresa->nombre }}"
-                        autocomplete="off" placeholder="Nombre de la empresa" required />
+                        autocomplete="off" placeholder="Nombre de la empresa" required readonly />
                 </div>
             </div>
 
@@ -96,7 +106,7 @@
                 <td>Celular</td>
                 <td>Cargo</td>
                 <td>Correo</td>
-                <td style="text-align:center">Eliminar</td>
+                {{-- <td style="text-align:center">Eliminar</td> --}}
             </tr>
         </thead>
         <?php 
@@ -108,7 +118,8 @@
             <td>
                 <input type="text" name="nombre_contacto[]" id="nombre_contacto'+i+'" autocomplete="off"
                     style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}">
+                    class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}"
+                    readonly>
 
                 <input type="hidden" name="id_contacto[]" id="id_contacto<?php echo $i; ?>" autocomplete="off"
                     class="form-control" style="background:#77777710" value="{{ $contactos[$i]->id }}">
@@ -132,24 +143,17 @@
 
             <td>
                 <input type="text" name="correo[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $contactos[$i]->correo }}">
+                    style="background:#77777710" value="{{ $contactos[$i]->correo }}" readonly>
             </td>
 
-            <td style="text-align:center">
+            {{-- <td style="text-align:center">
                 <button type="button" id="{{ $i }}" class="btn btn-danger btn_remove_data">X</button>
-            </td>
+            </td> --}}
         </tr>
         <?php }?>
     </table>
 
 
-    <div class="col-md-3">
-        <div class="form-group">
-            <a class="btn btn-primary" name="add" id="add" style="margin-rigth:auto;width:180px;font-weight:700;
-            font-size:14px;background:#ECDCC2;border-color:#777">
-                ++ Agregar Contacto </a>
-        </div>
-    </div>
 
     <!--TABLA CARGAS DE CLIENTES--><br>
     <h4>Datos de Carga</h4>
@@ -162,10 +166,9 @@
                     <td style="width:15%">Tipo de Carga</td>
                     <td style="width:10%">Marca</td>
                     <td style="width:12%">Modelo</td>
-                    <td style="width:12%">Placa</td>
+                    <td style="width:8%">Placa</td>
                     <td style="width:8%">Dimensiones<br>(Largo x Ancho x Alto)</td>
                     <td style="width:12%">Peso</td>
-                    <td style="width:12%">Unidad Medida</td>
                     <td style="width:12%">Ubicacion</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
@@ -180,7 +183,6 @@
                     <input type="text" name="tipo_c[]" autocomplete="off" class="form-control"
                         style="background:#77777710" style="text-transform:uppercase;"
                         onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->tipo }}">
-
 
                     <input type="hidden" name="id_carga[]" id="id_carga<?php echo $j; ?>" autocomplete="off"
                         class="form-control" style="background:#77777710" value="{{ $cargas[$j]->id }}">
@@ -213,22 +215,13 @@
                         style="background:#77777710" style="text-transform:uppercase;"
                         onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->volumen }}">
                 </td>
-                <td>
+                <td style="display: flex;flex-direction:row,align-items: center;">
                     <input type="text" name="peso_c[]" autocomplete="off" class="form-control"
                         style="background:#77777710" style="text-transform:uppercase;"
                         onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->peso }}">
+                    <label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>
                 </td>
 
-                <td>
-                    <select name="medida_c[]" class="form-control">
-                        <option value="{{ $cargas[$j]->unidad_medida_peso }}">
-                            {{ $cargas[$j]->unidad_medida_peso }}</option>
-                        <option value="KG">KG</option>
-                        <option value="TN">TN</option>
-
-                    </select>
-
-                </td>
 
 
 
@@ -392,19 +385,10 @@
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                '<td>' +
+                '<td style="display: flex;flex-direction:row,align-items: center;">' +
                 '<input type="text"  name="peso_c[]" ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-
-                '<td>' +
-                '<select name="medida_c[]" class="form-control "' +
-                '>' +
-                '<option value="" selected disabled>Seleccionar</option>' +
-                '<option value="TN">TN</option>' +
-                '<option value="KG">KG</option>' +
-                '</select>' +
+                '<label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>' +
                 '</td>' +
 
                 '<td>' +
@@ -415,9 +399,6 @@
                 @endforeach
                 '</select>' +
                 '</td>' +
-
-
-
 
 
                 '<td style="text-align:center">' +
@@ -461,6 +442,12 @@
         console.log(array_lista_c);
         $('#ids_eliminar_c').val(array_lista_c);
 
+    }
+</script>
+<script>
+    window.onload = function() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
     }
 </script>
 @endsection

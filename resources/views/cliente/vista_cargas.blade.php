@@ -4,9 +4,9 @@
     <div class="app-title">
         <div>
             <h1>
-                <a href="{{ route('transportista.vehiculos') }}" class="btn btn-primary "
-                    style="background:#777;border-color:#777">Lista de Transportes</a>
-                <a href="{{ route('transportista.contactos.mostrar') }}" class="btn btn-primary "
+                <a href="{{ route('cargas.mostrar') }}" class="btn btn-primary "
+                    style="background:#777;border-color:#777">Lista de Cargas</a>
+                <a href="{{ route('cliente.contactos.mostrar') }}" class="btn btn-primary "
                     style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
             </h1>
 
@@ -15,16 +15,23 @@
         <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-            <li class="breadcrumb-item"><a href=""></a>Transportes</li>
+            <li class="breadcrumb-item"><a href=""></a>Mis Cargas</li>
+            <li class="breadcrumb-item"><a href=""></a>Cargas</li>
         </ul>
     </div>
 @stop
 @section('content')
 @section('titulo', 'Clientes')
-
-
-
-<h1 style="text-align: center">Lista de Transportes</h1>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    Cargando...
+</div>
+<h1 style="text-align: center">Lista de Cargas</h1>
 <br>
 @include('notificacion')
 <div class="col-md-8" style="max-width:100%">
@@ -44,70 +51,57 @@
             <a class="btn btn-primary" onclick="Editar();" id="editar" style="margin-rigth:auto;width:140px;display:block;
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
-
-            {{-- <a class="btn btn-primary btn-sm" href="{{ route('transportistas.formulario.agregar') }}"
-                style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar Transportista</a> --}}
+            {{-- <a class="btn btn-primary btn-sm" href="{{route('clientes.formulario.agregar')}}" style="margin-left:auto;width:120px;font-size:14px">
+                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar </a> --}}
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
                 <table class="table table-bordered display" id="tablaClientes">
                     <thead>
                         <tr>
-
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="empresa"
-                                    data-column="0" /></td>
                             <td>
-                                <select data-column="1" class="form-control filter-select" id="select_tipo_empresa">
+                                <select data-column="0" class="form-control filter-select" id="select_tipo_empresa">
                                     <option value=" " selected></option>
-                                    <option value="Camion Plataforma">Camion Plataforma</option>
-                                    <option value="Camion Rebatible">Camion Rebatible</option>
-                                    <option value="Camion Normal">Camion Normal</option>
-                                    <option value="Camacuna">Camacuna</option>
-                                    <option value="Camabaja">Camabaja</option>
-                                    <option value="Tracto">Tracto</option>
-                                    <option value="Modulares">Modulares</option>
+                                    <option value="Empresa">Empresa</option>
+                                    <option value="Persona Natural">Persona Natural</option>
                                 </select>
                             </td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="marca"
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
+                                    data-column="1" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="nombre"
                                     data-column="2" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="modelo"
-                                    data-column="3" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="placa"
-                                    data-column="4" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="ubicacion"
-                                    data-column="5" /></td>
-                            <td>
-                                <select data-column="6" class="form-control filter-select" id="estado">
-                                    <option value=" " selected></option>
-                                    <option value="DISPONIBLE">DISPONIBLE</option>
-                                    <option value="NO DISPONIBLE">NO DISPONIBLE</option>
-                                </select>
-                            </td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dimensiones"
-                                    data-column="7" /></td>
-                            <td><select data-column="8" class="form-control filter-select" id="tipo_transporte">
-                                    <option value=" " selected></option>
-                                    <option value="PROPIO">PROPIO</option>
-                                    <option value="SUBARRENDADO">SUBARRENDADO</option>
-                                </select></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                    id="responsable_registro" data-column="9" /></td>
+                                    id="clasificacion" data-column="3" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="via_ingreso"
+                                    data-column="4" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web"
+                                    data-column="5" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input"
+                                    id="fecha_reacion" data-column="5" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
+                                    data-column="1" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
+                                    data-column="1" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
+                                    data-column="1" /></td>
+                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
+                                    data-column="1" /></td>
 
                             <td></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                            <th style="width:12%">Empresa</th>
-                            <th style="width:10%">Tipo Transporte</th>
-                            <th style="width:12%">Marca</th>
-                            <th style="width:10%">Modelo</th>
-                            <th style="width:4%">Placa</th>
-                            <th style="width:8%">Ubicacion</th>
-                            <th style="width:8%">Estado</th>
-                            <th style="width:12%">Dimensiones</th>
-                            <th style="width:12%">Propio/Subarrendado</th>
-                            <th style="width:12%">Responsable Registro</th>
+                            <th>Empresa</th>
+                            <th>Tipo</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Placa</th>
+                            <th>Dimensiones</th>
+                            <th>Peso</th>
+                            <th>Medida</th>
+                            <th>Ubicacion</th>
+                            <th>Fecha de<br>Creacion</th>
+                            <th>Fecha de<br>Modificacion</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -129,7 +123,7 @@
         var table = $('#tablaClientes').DataTable({
 
             serverSider: true,
-            ajax: '{{ route('lista_vehiculos_transportista', ['usuario' => $user]) }}',
+            ajax: '{{ route('lista_cargas_cliente', ['usuario' => $user]) }}',
             columns: [{
                     data: 'empresa'
                 },
@@ -146,22 +140,25 @@
                     data: 'placa'
                 },
                 {
-                    data: 'departamento'
-                },
-                {
-                    data: 'estado'
-                },
-                {
                     data: 'volumen'
                 },
                 {
-                    data: 'tipo_transporte'
+                    data: 'peso'
                 },
                 {
-                    data: 'responsable_registro'
+                    data: 'unidad_medida_peso'
                 },
                 {
-                    data: 'btn_editar_vehiculo'
+                    data: 'ubicacion'
+                },
+                {
+                    data: 'created_at'
+                },
+                {
+                    data: 'updated_at'
+                },
+                {
+                    data: 'btn_editar_carga'
                 },
 
             ],
@@ -199,16 +196,15 @@
     function LimpiarFiltros() {
         var table = $('#tablaClientes').DataTable();
         table.search('').columns().search('').draw();
-        document.getElementById("empresa").value = "";
         document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-        document.getElementById("marca").value = "";
-        document.getElementById("modelo").value = "";
-        document.getElementById("placa").value = "";
-        document.getElementById("ubicacion").value = "";
-        document.getElementById("estado").options.item(0).selected = 'selected';
-        document.getElementById("dimensiones").value = "";
-        document.getElementById("tipo_transporte").options.item(0).selected = 'selected';
-        document.getElementById("responsable_registro").value = "";
+        document.getElementById("pagina_web").value = ' ';
+        document.getElementById("responsable_registro").value = ' ';
+        document.getElementById("fecha_creacion").value = ' ';
+        document.getElementById("via_ingreso").value = ' ';
+        document.getElementById("clasificacion").value = ' ';
+        document.getElementById("nombre").value = ' ';
+        document.getElementById("dni_ruc").value = ' ';
+
     }
 </script>
 
@@ -232,4 +228,5 @@
 @endsection
 @section('css')
 @include('admin.datatable')
+
 @stop

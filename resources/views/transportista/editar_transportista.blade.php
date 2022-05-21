@@ -15,13 +15,10 @@
 <br>
 <div class="app-title centrar-title">
     <div>
-        <a href="{{ route('transportistas') }}" class="btn btn-primary"
-            style="background:#777;border-color:#777;color:#fff">Transportistas</a>
+        <a href="{{ route('transportista.vehiculos') }}" class="btn btn-primary "
+            style="color:#777;background:#fff;border-color:#777">Transportes</a>
         <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
             style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-        <a href="{{ route('vehiculos') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Transportes</a>
-
 
         <p></p>
     </div>
@@ -47,7 +44,7 @@
                     <label class="control-label" style="font-weight:600;color:#777">RUC O DNI: <a
                             style="color:#B61A1A">*</a></label>
                     <input class="form-control" name="dni_ruc" type="number" value="{{ $empresa->dni_ruc }}"
-                        autocomplete="off" placeholder="RUC O DNI" required />
+                        autocomplete="off" placeholder="RUC O DNI" required readonly />
                 </div>
             </div>
 
@@ -56,7 +53,7 @@
                     <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
                             style="color:#B61A1A">*</a></label>
                     <input class="form-control" name="razon_social" type="text" value="{{ $empresa->nombre }}"
-                        autocomplete="off" placeholder="Nombre de la empresa" required />
+                        autocomplete="off" placeholder="Nombre de la empresa" required readonly />
                 </div>
             </div>
 

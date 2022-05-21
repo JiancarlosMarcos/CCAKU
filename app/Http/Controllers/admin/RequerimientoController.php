@@ -135,13 +135,13 @@ class RequerimientoController extends Controller
         $nombre_departamento_destino = Ubicacion::where('id', $request->departamento_destino)->first();
         $requerimientos->departamento_destino =   $nombre_departamento_destino->departamento;
         $nombre_provincia_origen = Provincia::where('id', $request->provincia_origen)->first();
-        $requerimientos->provincia_origen = $nombre_provincia_origen->nombre;
+        $requerimientos->provincia_origen = $nombre_provincia_origen->nombre ?? NULL;
         $nombre_provincia_destino = Provincia::where('id', $request->provincia_destino)->first();
-        $requerimientos->provincia_destino = $nombre_provincia_destino->nombre;
+        $requerimientos->provincia_destino = $nombre_provincia_destino->nombre ?? NULL;
         $nombre_distrito_origen = Distrito::where('id', $request->distrito_origen)->first();
-        $requerimientos->distrito_origen = $nombre_distrito_origen->nombre;
+        $requerimientos->distrito_origen = $nombre_distrito_origen->nombre ?? NULL;
         $nombre_distrito_destino = Distrito::where('id', $request->distrito_destino)->first();
-        $requerimientos->distrito_destino = $nombre_distrito_destino->nombre;
+        $requerimientos->distrito_destino = $nombre_distrito_destino->nombre ?? NULL;
         $requerimientos->direccion_origen = $request->direccion_origen;
         $requerimientos->direccion_destino = $request->direccion_destino;
 
@@ -237,7 +237,7 @@ class RequerimientoController extends Controller
             if ($contador_transportes > 1) {
                 $requerimientos->transporte_requerido = "CONVOY";
             } else {
-                $requerimientos->transporte_requerido = $request->tipo_transporte[0];
+                $requerimientos->transporte_requerido = $request->tipo_transporte[0] ?? NULL;
             }
             $requerimientos->save();
             $contador_cargas = count((is_countable($request->tipo_c_e) ? $request->tipo_c_e : []));
@@ -369,6 +369,7 @@ class RequerimientoController extends Controller
         $departamentos = Ubicacion::all();
         $provincias = Provincia::all();
         $distritos = Distrito::all();
+        $usuarios = User::all();
         $transportes[] = RequerimientoTransporte::where('id_requerimiento', $request->id)->get();
 
         return view('admin.requerimientos.editar_requerimiento', [
@@ -380,7 +381,8 @@ class RequerimientoController extends Controller
             'departamentos' => $departamentos,
             'provincias' => $provincias,
             'distritos' => $distritos,
-            'transportes' => $transportes[0]
+            'transportes' => $transportes[0],
+            'usuarios' => $usuarios
         ]);
     }
 
@@ -421,7 +423,7 @@ class RequerimientoController extends Controller
         if ($contador_transportes > 1) {
             $requerimiento->transporte_requerido = "CONVOY";
         } else {
-            $requerimiento->transporte_requerido = $request->tipo_transporte[0];
+            $requerimiento->transporte_requerido = $request->tipo_transporte[0] ?? NULL;
         }
         $requerimiento->save();
 

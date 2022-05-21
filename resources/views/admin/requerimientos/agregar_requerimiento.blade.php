@@ -65,10 +65,11 @@
     </div>
 
 
-    <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}"
+    <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->id }}"
         autocomplete="off" />
 
-    <button type="submit" class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">
+    <button type="submit" class="btn btn-primary btn-sm" id=crear style="background:#123;color:#fff;border-color:#777"
+        disabled>
         <i class="fa fa-file-text"></i>Crear Requerimiento</button>
 </form>
 <br>

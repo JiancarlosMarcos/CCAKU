@@ -73,6 +73,7 @@
 
         </div>
     </div>
+
 </div>
 
 
@@ -415,7 +416,12 @@
         var j = $(".cargas_n").length;
 
         $('#add_carga_n').click(function() {
-
+            console.log(j);
+            if (j >= 0) {
+                $('#crear').prop('disabled', false);
+            } else {
+                $('#crear').prop('disabled', true);
+            }
             $('#tabla_carga_n').append(
 
                 '<tr id="carga_n' + j + '" class="cargas_n" >' +
@@ -488,10 +494,17 @@
 
 <script>
     var j = $(".cargas_e").length;
+
     $(document).ready(function() {
 
 
         $('#add_carga_e').click(function() {
+            console.log(j);
+            if (j >= 0) {
+                $('#crear').prop('disabled', false);
+            } else {
+                $('#crear').prop('disabled', true);
+            }
 
             $('#tabla_carga_e').append(
 
@@ -600,7 +613,7 @@
             '<td>' +
             '<select class="form-control buscador_cargas required_cliente_existente"' +
             'onchange="valida_nueva_carga(' + j + ');" id="buscador_carga_tabla' + j +
-            '" name="id_carga"  style="width:100%">' +
+            '" name="id_carga"  style="width:100%" required>' +
             '<option value="" disabled selected> ⌛ Cargando lista ...</option>' +
             '</select>' +
 
