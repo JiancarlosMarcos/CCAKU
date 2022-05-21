@@ -8,3 +8,9 @@
         href="{{ route('eliminar_cotizacion', $id) }}" id="delete" title="Eliminar" type="button">
         <i class="fas fa-trash-alt" aria-hidden="true"></i></a>
 </div>
+
+
+    <a class="btn btn-primary btn-sm"  data-toggle="modal" id="mostrar{{$id}}" 
+        data-target="#showModal{{$id}}" title="" value="{{$id}}"
+        style="display:none">
+    </a>

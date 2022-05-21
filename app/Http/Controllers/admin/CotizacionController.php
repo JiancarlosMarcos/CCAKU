@@ -10,6 +10,7 @@ use App\Models\Carga;
 use App\Models\Vista_Cotizaciones;
 use App\Models\Cotizacion;
 use App\Models\CotizacionTransporte;
+use App\Models\CotizacionHistorialPDF;
 use App\Models\Ubicacion;
 use App\Models\Provincia;
 use App\Models\Distrito;
@@ -44,6 +45,15 @@ class CotizacionController extends Controller
             ->addColumn('btn_cotizaciones', 'admin.botones.btn_cotizaciones')
             ->rawColumns(['btn_cotizaciones'])
             ->toJson();
+    }
+
+    public function vista_historial_cotizaciones(Request $request){
+        return DataTables::of(CotizacionHistorialPDF::all()->where('id_cotizacion',$request->id))
+        ->editColumn('created_at', function(CotizacionHistorialPDF $prueba){
+            return $prueba->created_at->format('d/m/Y');
+        })
+        ->addColumn('btn_descargar','')
+        ->toJson();
     }
 
     public function form_agregar_cotizacion(Request $request)
@@ -358,14 +368,31 @@ class CotizacionController extends Controller
             //DATOS ASESOR
             'nombre_asesor','correo_asesor','cargo_asesor'
             ))->output();
-        Storage::disk('cotizaciones_clientes')->put('Cotizacion'.$cotizaciones->id.'-v'.$cotizaciones->version_cotizacion.'.pdf', $pdf2);
+            $d_origen_ = $cotizaciones->departamento_origen->departamento;
+            $d_destino = $cotizaciones->departamento_destino->departamento;
+            $nombre_cotizacion = 'COT-'.$cotizaciones->id.'_'.$empresa_nombre.'_ORIGEN-'.$d_origen_.'_DESTINO-'.$d_destino.'-v'.$version_cotizacion.'.pdf';
+        Storage::disk('cotizaciones_clientes')
+        ->put($nombre_cotizacion, $pdf2);
 
+        $cotizacion_historial = new CotizacionHistorialPDF;
+        $cotizacion_historial->id_cotizacion = $cotizaciones->id;
+        $cotizacion_historial->version = $version_cotizacion;
+        $cotizacion_historial->nombre_cotizacion = $nombre_cotizacion;
+        $cotizacion_historial->save();
     }
 
 
     public function descarga_cotizacion_cliente_PDF(Request $request){
-  
-        return Storage::disk('cotizaciones_clientes')->download('Cotizacion'.$request->id.'-v'.$request->version.'.pdf');
+        $id_cotizacion = $request->id;
+        $version_cotizacion = $request->version;
+        $data_historial_pdf = CotizacionHistorialPDF::where(['id_cotizacion' => $id_cotizacion,'version'=> $version_cotizacion])->first();
+        $nombre_pdf = $data_historial_pdf->nombre_cotizacion;
+        
+
+        return Storage::disk('cotizaciones_clientes')->download($nombre_pdf);
        }
+
+
+
 
 }

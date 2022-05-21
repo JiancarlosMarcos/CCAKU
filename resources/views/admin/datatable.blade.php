@@ -129,6 +129,7 @@
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
 
+
     <!-- The javascript plugin to display page loading on top-->
     <script src="{{ asset('js2/plugins/pace.min.js') }}"></script>
     <!-- Page specific javascripts-->
