@@ -91,7 +91,7 @@
         <!--OCULTO-->
         <input class="form-control" name="contador" id="contador" type="hidden" value="0" autocomplete="off" />
         <input class="form-control" name="contador" id="contador_c" type="hidden" value="0" autocomplete="off" />
-        <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}"
+        <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->id }}"
             autocomplete="off" />
         <!---->
     </div>

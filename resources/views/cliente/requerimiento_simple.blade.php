@@ -53,7 +53,7 @@
 
     <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->id }}">
 
-    <h5> Fecha de transporte:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
+    <h5> Fecha de Salida:<b style="color:#B61A1A;outline:none">(*)</b>:</h5>
 
     <input type="date" name="fecha_requerimiento" id="fecha_cotizacion" class="form-control fecha" style="width:200px"
         onchange="validar_fecha_cotizacion();" required>

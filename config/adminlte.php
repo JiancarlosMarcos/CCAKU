@@ -249,6 +249,14 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text'        => 'Dashboards',
+            'url'         => 'dashboard',
+            'icon'        => 'fa fa-fw fa-pie-chart',
+            'can' => 'administrador',
+            // 'label'       => 4,
+            // 'label_color' => 'success',
+        ],
+        [
             'text'        => 'Buscador',
             'url'         => 'admin/buscador',
             'icon'        => 'fas fa-solid fa-globe',
@@ -256,6 +264,7 @@ return [
             // 'label'       => 4,
             // 'label_color' => 'success',
         ],
+
 
         [
             'text' => 'Mapa',
@@ -277,24 +286,36 @@ return [
 
         ],
         [
-            'text' => 'Mis Requerimientos',
-            'url'  => 'user/vista_requerimientos_cliente',
-            'icon' => 'fas fa-solid fa-clipboard-list',
+            'text' => 'Empresa',
+            'url'  => 'user/vista_cargas',
+            'icon' => 'fa fa-fw fa-building-o',
             'can' => 'cliente'
 
         ],
         [
-            'text' => 'Mapa de Requerimientos',
-            'url'  => 'user/mapa/requerimientos_propios',
-            'icon' => 'fas fa-solid fa-map',
-            'can' =>  'cliente'
+            'text'    => 'Mis Requerimientos',
+            'icon'    => 'fas fa-solid fa-clipboard-list',
+            'can'     => 'cliente',
+            'submenu' => [
+                [
+                    'text' => 'Lista Requerimientos',
+                    'url'  => 'user/vista_requerimientos_cliente',
+                    'icon' => 'fa fa-fw fa-th-large',
+                ],
+                [
+                    'text' => 'Mapa Requerimientos',
+                    'url'  => 'user/mapa/requerimientos_propios',
+                    'icon'    => 'fas fa-solid fa-map',
+                ],
+            ],
         ],
-        // [
-        //     'text' => 'Mapa de Transportes',
-        //     'url'  => 'admin/mapa/transportes',
-        //     'icon' => 'fas fa-solid fa-map',
-        //     'can' => 'cliente'
-        // ],
+
+        [
+            'text' => 'Seguimiento de Cargas',
+            'url'  => '',
+            'icon' => 'fa fa-fw fa-eye',
+            'can' => 'cliente'
+        ],
         //TRANSPORTISTA
         [
             'header' => 'Transportista',
@@ -311,11 +332,24 @@ return [
         [
             'text' => 'Mis Equipos',
             'url'  => 'user/vista_transportes',
-            'icon' => 'fas fa-solid fa-clipboard-list',
+            'icon' => 'fa fa-fw fa-truck',
+            'can' => 'transportista'
+
+        ],
+        [
+            'text' => 'Seguimiento de Equipos',
+            'url'  => '',
+            'icon' => 'fa fa-fw fa-eye',
             'can' => 'transportista'
 
         ],
 
+        [
+            'text' => 'Requerimientos Clientes',
+            'url'  => '',
+            'icon' => 'fas fa-solid fa-clipboard-list',
+            'can' => 'transportista'
+        ],
         //ADMINISTRADOR
         [
             'header' => 'Administrador',

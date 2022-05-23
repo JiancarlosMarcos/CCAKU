@@ -73,6 +73,7 @@
 
         </div>
     </div>
+
 </div>
 
 
@@ -488,10 +489,12 @@
 
 <script>
     var j = $(".cargas_e").length;
+
     $(document).ready(function() {
 
 
         $('#add_carga_e').click(function() {
+
 
             $('#tabla_carga_e').append(
 
@@ -600,7 +603,7 @@
             '<td>' +
             '<select class="form-control buscador_cargas required_cliente_existente"' +
             'onchange="valida_nueva_carga(' + j + ');" id="buscador_carga_tabla' + j +
-            '" name="id_carga"  style="width:100%">' +
+            '" name="id_carga"  style="width:100%" required>' +
             '<option value="" disabled selected> ⌛ Cargando lista ...</option>' +
             '</select>' +
 

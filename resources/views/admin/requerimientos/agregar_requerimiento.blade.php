@@ -65,10 +65,10 @@
     </div>
 
 
-    <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}"
+    <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->id }}"
         autocomplete="off" />
 
-    <button type="submit" class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">
+    <button type="submit" class="btn btn-primary btn-sm" id=crear style="background:#123;color:#fff;border-color:#777">
         <i class="fa fa-file-text"></i>Crear Requerimiento</button>
 </form>
 <br>
@@ -249,32 +249,21 @@
 </script>
 
 
-{{-- <script>
+<script>
     $('#add_requerimientos').on('submit', function(evt) {
 
-        // var servicio_select = document.getElementById("valor_tipo_coti").value;
-        var cliente_select = document.getElementById("select_tipo_cliente").value;
-        var proyecto_select = document.getElementById("valida_select_proyecto").value;
-        var count_transportes = $('.transportes').length;
+        var count_tabla_carga_n = $('.cargas_n').length;
+        var count_tabla_carga_e = $('.cargas_e').length;
+        var suma_count = count_tabla_carga_n + count_tabla_carga_e;
 
 
-        // if (servicio_select == 0) {
-        //     alert('No has seleccionado ningun tipo de servicio');
-        //     evt.preventDefault();
-        //     return;
-        // }
 
-        if (cliente_select == 0) {
-            alert('No has seleccionado ningun tipo de cliente');
+        if (suma_count == 0) {
+            alert('No has seleccionado ninguna carga');
             evt.preventDefault();
             return;
         }
 
-        // if (proyecto_select == 0) {
-        //     alert('No has seleccionado ningun proyecto');
-        //     evt.preventDefault();
-        //     return;
-        // }
 
         if (count_transportes == 0) {
             alert('No has agregado ningun transporte');
@@ -286,7 +275,7 @@
         $('.contenido').addClass('hidden');
 
     });
-</script> --}}
+</script>
 {{-- <script type="text/javascript">
     $(document).ready(function() {
         $("table").keypress(function(e) {

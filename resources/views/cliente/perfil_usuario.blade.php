@@ -124,6 +124,7 @@
         }
 
     </style>
+    @include('admin.datatable')
 @stop
 
 @section('js')

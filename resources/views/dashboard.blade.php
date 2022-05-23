@@ -21,7 +21,7 @@
 @stop
 
 @section('css')
-
+    @include('admin.datatable')
 @stop
 
 @section('js')

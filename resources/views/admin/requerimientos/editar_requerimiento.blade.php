@@ -33,7 +33,15 @@
         <h1> Detalles del Requerimiento de Transporte || Cod. {{ $requerimiento->id }}</h1>
     </div>
 </div>
-
+@if ($requerimiento->responsable_registro == 'Cliente')
+    <?php $responsable = $requerimiento->responsable_registro; ?>
+@else
+    @foreach ($usuarios as $user)
+        @if ($user->id == $requerimiento->responsable_registro)
+            <?php $responsable = $user->name; ?>
+        @endif
+    @endforeach
+@endif
 @include('errores')
 <form method="POST" action="{{ route('actualizar_requerimiento') }}" autocomplete="nope" id="add_requerimientos"
     class="contenido " name="add_requerimientos">
@@ -44,7 +52,7 @@
     <?php $contador_t = count($transportes); ?>
     <?php $contador_c = count($cargas_reqs); ?>
     <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
-        value="{{ auth()->user()->name }}" autocomplete="off" />
+        value="{{ auth()->user()->id }}" autocomplete="off" />
     <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="<?php echo $contador_t; ?>" value="0"
         autocomplete="off" />
 
@@ -71,8 +79,8 @@
             <div class="form-group">
                 <label class="control-label" style="font-weight:600;color:#777"> Responsable de registro:</label>
                 <input type="text" id="responsable_registro" class="form-control " name="responsable_registro"
-                    style="font-weight:600;text-align:center" disabled
-                    value="{{ $requerimiento->responsable_registro }}">
+                    style="font-weight:600;text-align:center" disabled value="{{ $responsable }}">
+
             </div>
         </div>
         <div class="col-md-3">
@@ -424,8 +432,9 @@
             <tr id="transporte<?php echo $j; ?>" class="transportes">
                 <td>
 
-                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
-                        class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
+                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>"
+                        autocomplete="off" class="form-control" style="background:#77777710"
+                        value="{{ $transportes[$j]->id }}">
 
                     <select name="tipo_transporte[]" class="form-control " id="tipo_t'+i+'"
                         style="background:#77777710" required>
@@ -484,7 +493,7 @@
     </div>
 
     {{-- BOTONES --}}
-    <a class="btn btn-primary btn-sm" href="{{ route('cotizaciones.formulario.agregar',$requerimiento->id) }}"
+    <a class="btn btn-primary btn-sm" href="{{ route('cotizaciones.formulario.agregar', $requerimiento->id) }}"
         style="background:#123;color:#fff;border-color:#777">
         <i class="fa fa-file-text"></i>Realizar Cotización</a>
     <a class="btn btn-primary btn-sm" style="background:#123;color:#fff;border-color:#777">

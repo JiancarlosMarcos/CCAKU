@@ -48,10 +48,6 @@ class RequerimientoClienteController extends Controller
     public function form_agregar_requerimiento(Request $request)
     {
 
-        // $proyectos = VistaCarga::latest()->get();
-        // $contacto = ContactoCliente::where('id_users', $request->usuario)->get();
-        // $cliente = Cliente::where('id', $contacto->id_cliente)->first();
-        // $cargas = Carga::all();
         $cargas = Carga::all();
         $contactos = ContactoCliente::all();
         $departamentos = Ubicacion::all();
@@ -69,13 +65,13 @@ class RequerimientoClienteController extends Controller
         $nombre_departamento_destino = Ubicacion::where('id', $request->departamento_destino)->first();
         $requerimientos->departamento_destino =   $nombre_departamento_destino->departamento;
         $nombre_provincia_origen = Provincia::where('id', $request->provincia_origen)->first();
-        $requerimientos->provincia_origen = $nombre_provincia_origen->nombre;
+        $requerimientos->provincia_origen = $nombre_provincia_origen->nombre ?? NULL;
         $nombre_provincia_destino = Provincia::where('id', $request->provincia_destino)->first();
-        $requerimientos->provincia_destino = $nombre_provincia_destino->nombre;
+        $requerimientos->provincia_destino = $nombre_provincia_destino->nombre ?? NULL;
         $nombre_distrito_origen = Distrito::where('id', $request->distrito_origen)->first();
-        $requerimientos->distrito_origen = $nombre_distrito_origen->nombre;
+        $requerimientos->distrito_origen = $nombre_distrito_origen->nombre ?? NULL;
         $nombre_distrito_destino = Distrito::where('id', $request->distrito_destino)->first();
-        $requerimientos->distrito_destino = $nombre_distrito_destino->nombre;
+        $requerimientos->distrito_destino = $nombre_distrito_destino->nombre ?? NULL;
         $requerimientos->direccion_origen = $request->direccion_origen;
         $requerimientos->direccion_destino = $request->direccion_destino;
 
@@ -145,61 +141,6 @@ class RequerimientoClienteController extends Controller
             'tipo' => 'success'
         );
         return Redirect()->back()->with($notification);
-
-
-
-        // $requerimientos = new Requerimiento;
-        // $requerimientos->fecha = $request->fecha_requerimiento;
-        // $requerimientos->origen = $request->origen;
-        // $requerimientos->destino = $request->destino;
-        // $requerimientos->transporte_requerido = $request->tipo;
-        // $requerimientos->estado = 'No atendido';
-        // $requerimientos->responsable_registro = "Cliente";
-
-        // $contacto = ContactoCliente::where('id_users', $request->usuario)->first();
-        // $cliente = Cliente::where('id', $contacto->id_cliente)->first();
-        // $requerimientos->id_contacto = $contacto->id;
-        // $requerimientos->id_cliente = $cliente->id;
-        // $select_carga = $request->id_carga;
-        // ///NUEVO
-        // if ($select_carga == null) {
-        //     $cargas = new Carga;
-        //     $cargas->tipo = $request->tipo_carga;
-        //     $cargas->marca = $request->marca_carga;
-        //     $cargas->modelo = $request->modelo_carga;
-
-        //     $cargas->peso = $request->peso;
-        //     $cargas->unidad_medida_peso = $request->medida;
-        //     $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-        //     $cargas->id_ubicacion = $ubicacion->id;
-        //     $cargas->id_cliente = $requerimientos->id_cliente;
-        //     $cargas->save();
-        //     $requerimientos->id_carga_cliente = $cargas->id;
-        // } else {
-        //     $cargas = Carga::where('id', $request->id_carga)->first();
-        //     $ubicacion = Ubicacion::where('departamento', $request->origen)->first();
-        //     $cargas->id_ubicacion = $ubicacion->id;
-        //     $cargas->save();
-        //     $requerimientos->id_carga_cliente = $request->id_carga;
-        // }
-        // $requerimientos->save();
-
-        // $id_requerimiento = $requerimientos->id;
-
-        // $transporte = new RequerimientoTransporte;
-        // $transporte->tipo = $request->tipo;
-        // // $transporte->cantidad_ejes = $request->cantidad_ejes;
-        // $transporte->id_requerimiento = $id_requerimiento;
-        // $transporte->cantidad_ejes = $request->ejes;
-        // $transporte->cantidad = "1";
-        // // $transporte->parte_carga = $request->parte_carga[$i];
-        // $transporte->save();
-
-        // $notification = array(
-        //     'mensaje' => 'Requerimiento registrado correctamente!',
-        //     'tipo' => 'success'
-        // );
-        // return Redirect()->back()->with($notification);
     }
 
     public function consulta_cargas_nuevo(Request $request)

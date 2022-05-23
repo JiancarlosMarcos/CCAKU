@@ -131,6 +131,7 @@
         }
 
     </style>
+    @include('admin.datatable')
 @stop
 
 @section('js')
@@ -140,11 +141,11 @@
             var options = {
                 data: {
                     @foreach ($equipos as $equipo)
-                        '{{ $equipo->tipo . ' ' . $equipo->marca . ' ' . $equipo->modelo . ' ' . $equipo->departamento }}':null,
+                        '{{ $equipo->tipo . ' ' . $equipo->marca . ' ' . $equipo->modelo . ' ' . $equipo->departamento }}': null,
                     @endforeach
 
                     @foreach ($departamentos as $departamento)
-                        '{{ $departamento->departamento }}':null,
+                        '{{ $departamento->departamento }}': null,
                     @endforeach
 
 

@@ -44,7 +44,7 @@
     <?php $contador_t = count($transportes); ?>
     <?php $contador_c = count($cargas_reqs); ?>
     <input class="form-control" name="responsable_registro" id="responsable_registro" type="hidden"
-        value="{{ auth()->user()->name }}" autocomplete="off" />
+        value="{{ auth()->user()->id }}" autocomplete="off" />
     <input class="form-control" name="contador_t" id="contador_t" type="hidden" value="<?php echo $contador_t; ?>" value="0"
         autocomplete="off" />
 
@@ -72,7 +72,9 @@
                 <label class="control-label" style="font-weight:600;color:#777"> Responsable de registro:</label>
                 <input type="text" id="responsable_registro" class="form-control " name="responsable_registro"
                     style="font-weight:600;text-align:center" disabled
-                    value="{{ $requerimiento->responsable_registro }}">
+                    @if ($requerimiento->responsable_registro != 'Cliente') @foreach ($usuarios as $user)
+                            valur="{{ $user->name }}"
+                        @endforeach @endif>
             </div>
         </div>
         <div class="col-md-3">

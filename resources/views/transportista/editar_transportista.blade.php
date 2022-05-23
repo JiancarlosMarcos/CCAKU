@@ -1,5 +1,21 @@
 @extends('adminlte::page')
-
+@section('content_header')
+    <br>
+    <div class="app-title centrar-title">
+        <div>
+            <a href="{{ route('transportista.vehiculos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Lista de Transportes</a>
+            <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
+            <p></p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="{{ route('vehiculos') }}">Transportistas</a></li>
+            <li class="breadcrumb-item"><a href=""> Editar Transportista</a></li>
+        </ul>
+    </div>
+@stop
 @section('content')
 @section('titulo', 'Editar Transportista')
 <style>
@@ -11,25 +27,14 @@
     }
 
 </style>
-<br>
-<br>
-<div class="app-title centrar-title">
-    <div>
-        <a href="{{ route('transportistas') }}" class="btn btn-primary"
-            style="background:#777;border-color:#777;color:#fff">Transportistas</a>
-        <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-        <a href="{{ route('vehiculos') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Transportes</a>
-
-
-        <p></p>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a href="{{ route('vehiculos') }}">Transportistas</a></li>
-        <li class="breadcrumb-item"><a href=""> Editar Transportista</a></li>
-    </ul>
+    Cargando...
 </div>
 <!---->
 <form method="POST" action="{{ route('actualizar_transportista') }}" class="centrar-form">
@@ -47,7 +52,7 @@
                     <label class="control-label" style="font-weight:600;color:#777">RUC O DNI: <a
                             style="color:#B61A1A">*</a></label>
                     <input class="form-control" name="dni_ruc" type="number" value="{{ $empresa->dni_ruc }}"
-                        autocomplete="off" placeholder="RUC O DNI" required />
+                        autocomplete="off" placeholder="RUC O DNI" required readonly />
                 </div>
             </div>
 
@@ -56,7 +61,7 @@
                     <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
                             style="color:#B61A1A">*</a></label>
                     <input class="form-control" name="razon_social" type="text" value="{{ $empresa->nombre }}"
-                        autocomplete="off" placeholder="Nombre de la empresa" required />
+                        autocomplete="off" placeholder="Nombre de la empresa" required readonly />
                 </div>
             </div>
 
@@ -578,7 +583,12 @@
 
     }
 </script>
-
+<script>
+    window.onload = function() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
+    }
+</script>
 @endsection
 @section('css')
 @include('admin.datatable')
