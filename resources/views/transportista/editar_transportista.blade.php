@@ -1,5 +1,21 @@
 @extends('adminlte::page')
-
+@section('content_header')
+    <br>
+    <div class="app-title centrar-title">
+        <div>
+            <a href="{{ route('transportista.vehiculos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Lista de Transportes</a>
+            <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
+            <p></p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="{{ route('vehiculos') }}">Transportistas</a></li>
+            <li class="breadcrumb-item"><a href=""> Editar Transportista</a></li>
+        </ul>
+    </div>
+@stop
 @section('content')
 @section('titulo', 'Editar Transportista')
 <style>
@@ -11,22 +27,14 @@
     }
 
 </style>
-<br>
-<br>
-<div class="app-title centrar-title">
-    <div>
-        <a href="{{ route('transportista.vehiculos') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Transportes</a>
-        <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-
-        <p></p>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a href="{{ route('vehiculos') }}">Transportistas</a></li>
-        <li class="breadcrumb-item"><a href=""> Editar Transportista</a></li>
-    </ul>
+    Cargando...
 </div>
 <!---->
 <form method="POST" action="{{ route('actualizar_transportista') }}" class="centrar-form">
@@ -575,7 +583,12 @@
 
     }
 </script>
-
+<script>
+    window.onload = function() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
+    }
+</script>
 @endsection
 @section('css')
 @include('admin.datatable')

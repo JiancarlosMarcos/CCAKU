@@ -23,7 +23,15 @@
 @section('titulo', 'Clientes')
 
 
-
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    Cargando...
+</div>
 <h1 style="text-align: center">Lista de Transportes</h1>
 <br>
 @include('notificacion')
@@ -45,9 +53,10 @@
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
-            {{-- <a class="btn btn-primary btn-sm" href="{{ route('transportistas.formulario.agregar') }}"
+            {{-- <a class="btn btn-primary btn-sm"
+                href="{{ route('transportista.editar_transportista', $id_transportista) }}"
                 style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar Transportista</a> --}}
+                <i class="fas fa-plus-square" aria-hidden="true"></i> Editar Informacion</a> --}}
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">

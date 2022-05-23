@@ -249,6 +249,14 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text'        => 'Dashboards',
+            'url'         => 'dashboard',
+            'icon'        => 'fa fa-fw fa-pie-chart',
+            'can' => 'administrador',
+            // 'label'       => 4,
+            // 'label_color' => 'success',
+        ],
+        [
             'text'        => 'Buscador',
             'url'         => 'admin/buscador',
             'icon'        => 'fas fa-solid fa-globe',
@@ -256,6 +264,7 @@ return [
             // 'label'       => 4,
             // 'label_color' => 'success',
         ],
+
 
         [
             'text' => 'Mapa',
@@ -306,7 +315,6 @@ return [
             'url'  => '',
             'icon' => 'fa fa-fw fa-eye',
             'can' => 'cliente'
-
         ],
         //TRANSPORTISTA
         [

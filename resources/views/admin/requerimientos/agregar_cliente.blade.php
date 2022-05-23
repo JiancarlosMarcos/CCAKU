@@ -416,12 +416,7 @@
         var j = $(".cargas_n").length;
 
         $('#add_carga_n').click(function() {
-            console.log(j);
-            if (j >= 0) {
-                $('#crear').prop('disabled', false);
-            } else {
-                $('#crear').prop('disabled', true);
-            }
+
             $('#tabla_carga_n').append(
 
                 '<tr id="carga_n' + j + '" class="cargas_n" >' +
@@ -499,12 +494,7 @@
 
 
         $('#add_carga_e').click(function() {
-            console.log(j);
-            if (j >= 0) {
-                $('#crear').prop('disabled', false);
-            } else {
-                $('#crear').prop('disabled', true);
-            }
+
 
             $('#tabla_carga_e').append(
 
