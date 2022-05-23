@@ -134,6 +134,8 @@ Route::get('/requerimientos/eliminar/{id}', [RequerimientoController::class, 'el
 
 //COTIZACIONES
 Route::get('/lista_cotizaciones', [CotizacionController::class, 'vista_cotizaciones'])->name('lista_cotizaciones');
+Route::get('/lista_historial_cotizaciones',[CotizacionController::class,'vista_historial_cotizaciones'])->name('lista_historial_cotizaciones');
+
 ///MOSTRAR////////////
 Route::get('/cotizaciones', [CotizacionController::class, 'mostrar_cotizaciones'])->name('cotizaciones.mostrar');
 //AGREGAR
@@ -144,6 +146,9 @@ Route::get('/cotizaciones/editar/{id_cotizacion}', [CotizacionController::class,
 Route::post('/cotizaciones/editar/', [CotizacionController::class, 'editar_cotizacion'])->name('actualizar_cotizacion');
 //ELIMINAR//
 Route::get('/cotizaciones/eliminar/{id}', [CotizacionController::class, 'eliminar_cotizacion'])->name('eliminar_cotizacion');
+//DESCARGA DE COTIZACIONES X ID
+Route::get('/cotizaciones/clientes/descargar/{id}/{version}' , [CotizacionController::class,'descarga_cotizacion_cliente_PDF'])->name('cotizacion.cliente.descargar');
+
 
 
 //CONSULTA DE CONTACTOS DE CLIENTES
@@ -161,6 +166,4 @@ Route::get('/consultar_provincias', [RequerimientoController::class, 'consultar_
 ///DISTRITOS////
 Route::get('/distritos', [RequerimientoController::class, 'distritos'])->name('distritos');
 
-//DESCARGAS
-//DESCARGA DE COTIZACIONES X ID
-Route::get('/cotizaciones/clientes/descargar/{id}/{version}' , [CotizacionController::class,'descarga_cotizacion_cliente_PDF'])->name('cotizacion.cliente.descargar');
+

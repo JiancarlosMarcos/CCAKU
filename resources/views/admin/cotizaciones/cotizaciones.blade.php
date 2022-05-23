@@ -4,8 +4,8 @@
 @section('titulo', 'Cotizaciones')
 <style>
 .hidden {
-    overflow: hidden;
-    visibility: hidden;
+
+    display: none;
 }
 
 .centrado {
@@ -64,7 +64,7 @@
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
-                <table class="table table-bordered display" id="tablaCotizaciones">
+                <table class="table table-bordered display table-hover" id="tablaCotizaciones" >
                     <thead>
                         <tr>
 
@@ -87,13 +87,8 @@
                                     data-column="7" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="peso"
                                     data-column="8" /></td>
-
-
-
-
-
-
                             <td></td>
+                            <td class="hidden"></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
@@ -105,16 +100,13 @@
                             <th>Carga</th>
                             <th>Monto Total</th>
                             <th>Moneda</th>
-
-
-
                             <th>Estado</th>
-
                             <th>Acciones</th>
+                            <th class="hidden">NRO VERSION</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                    @include('admin.cotizaciones.historial_pdf.mostrar_historial')
 
                     </tbody>
                 </table>
@@ -162,10 +154,17 @@ $(document).ready(function() {
             {
                 data: 'btn_cotizaciones'
             },
+            {
+                data: 'version_cotizacion'
+            },
 
 
         ],
         "columnDefs": [
+            {
+                "sClass":"hidden",
+                "targets": 10,
+            },
 
             {
                 "render": function(data, type, row) {
@@ -191,9 +190,6 @@ $(document).ready(function() {
                     if (row["moneda"] == "Dolares") {
                         return "<center>" + nfd.format(row["monto_total"]) + " " + row["moneda"] + "</center>";
                     }}
-
-                    
-                   
                 },
                 "targets": 6
             },
@@ -220,6 +216,11 @@ $(document).ready(function() {
         table.column($(this).data('column'))
             .search($(this).val())
             .draw();
+    });
+      ////CLICK EN FILA DE TABLA
+    $('#tablaCotizaciones tbody').on('dblclick', 'tr', function () {
+        var data_tabla = table.row(this).data();
+        mostrar_vista(data_tabla["id"],data_tabla["version_cotizacion"]);
     });
 });
 </script>
@@ -272,6 +273,8 @@ function Eliminar() {
 
 }
 </script>
+@include('admin.cotizaciones.historial_pdf.form_historial')
+
 @endsection
 @section('css')
 @include('admin.datatable')
