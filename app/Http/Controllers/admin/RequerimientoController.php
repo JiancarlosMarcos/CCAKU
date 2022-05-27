@@ -77,15 +77,16 @@ class RequerimientoController extends Controller
         if ($request->ajax()) {
             $cargas = Carga::where('id_cliente', $request->id_cliente)->get();
             foreach ($cargas as $carga) {
-
-                $tipoArray[] = (isset($carga->tipo)) ? $carga->tipo : '';
-                $marcaArray[] = (isset($carga->marca)) ? $carga->marca : '';
-                $modeloArray[] = (isset($carga->modelo)) ? $carga->modelo : '';
-                $placaArray[] = (isset($carga->placa)) ? $carga->placa : '';
-                $pesoArray[] = (isset($carga->peso)) ? $carga->peso : '';
-                $volumenArray[] = (isset($carga->volumen)) ? $carga->volumen : '';
-                $medidaArray[] = (isset($carga->unidad_medida_peso)) ? $carga->unidad_medida_peso : '';
-                $idArray[] = $carga->id;
+                if ($carga->estado == 'OPERATIVO') {
+                    $tipoArray[] = (isset($carga->tipo)) ? $carga->tipo : '';
+                    $marcaArray[] = (isset($carga->marca)) ? $carga->marca : '';
+                    $modeloArray[] = (isset($carga->modelo)) ? $carga->modelo : '';
+                    $placaArray[] = (isset($carga->placa)) ? $carga->placa : '';
+                    $pesoArray[] = (isset($carga->peso)) ? $carga->peso : '';
+                    $volumenArray[] = (isset($carga->volumen)) ? $carga->volumen : '';
+                    $medidaArray[] = (isset($carga->unidad_medida_peso)) ? $carga->unidad_medida_peso : '';
+                    $idArray[] = $carga->id;
+                }
             }
             return response()->json([
                 'tipo' => $tipoArray,
@@ -104,14 +105,17 @@ class RequerimientoController extends Controller
     {
         if ($request->ajax()) {
             $carga = Carga::where('id', $request->id_carga)->first();
-            $tipoArray = $carga->tipo;
-            $marcaArray = $carga->marca;
-            $modeloArray = $carga->modelo;
-            $placaArray = $carga->placa;
-            $pesoArray = $carga->peso;
-            $volumenArray = $carga->volumen;
-            $medidaArray = $carga->unidad_medida_peso;
-            $idArray = $carga->id;
+            if ($carga->estado == "OPERATIVO") {
+                $tipoArray = $carga->tipo;
+                $marcaArray = $carga->marca;
+                $modeloArray = $carga->modelo;
+                $placaArray = $carga->placa;
+                $pesoArray = $carga->peso;
+                $volumenArray = $carga->volumen;
+                $medidaArray = $carga->unidad_medida_peso;
+                $idArray = $carga->id;
+            }
+
 
             return response()->json([
                 'tipo' => $tipoArray,
@@ -196,7 +200,7 @@ class RequerimientoController extends Controller
                 $cargas->peso = $request->peso_c_n[$i];
                 // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
                 $cargas->id_ubicacion = $request->departamento_origen;
-                $cargas->unidad_medida_peso = $request->medida_peso_c_n[$i];
+                $cargas->unidad_medida_peso = "TN";
                 $cargas->id_cliente = $cliente->id;
                 $cargas->save();
                 //ID CARGA PARA REGISTRAR EN REQUERIMIENTO_CARGA
@@ -252,7 +256,7 @@ class RequerimientoController extends Controller
                     $cargas->peso = $request->peso_c_e[$i];
                     // $ubicacion = Ubicacion::where('departamento', $request->departamento_origen)->first();
                     $cargas->id_ubicacion = $request->departamento_origen;
-                    $cargas->unidad_medida_peso = $request->medida_peso_c_e[$i];
+                    $cargas->unidad_medida_peso = "TN";
                     $cargas->id_cliente = $id_cliente;
                     $cargas->save();
                 } else {
@@ -365,7 +369,7 @@ class RequerimientoController extends Controller
         $clientes = Cliente::all();
         $contacto = ContactoCliente::where('id', $requerimiento->id_contacto)->first();
         $cargas_reqs[] = VistaRequerimientoCarga::where('id_requerimiento', $request->id)->get();
-        $cargas = Carga::where('id_cliente', $requerimiento->id_cliente)->get();
+        $cargas = Carga::where('id_cliente', $requerimiento->id_cliente)->where('estado', 'OPERATIVO')->get();
         $departamentos = Ubicacion::all();
         $provincias = Provincia::all();
         $distritos = Distrito::all();

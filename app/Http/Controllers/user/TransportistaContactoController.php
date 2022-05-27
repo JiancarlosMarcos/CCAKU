@@ -14,9 +14,9 @@ class TransportistaContactoController extends Controller
     public function mostrar_transportistas_contactos()
     {
 
-        $empresas = Transportista::all();
+        $transportistas = Transportista::all();
         $contactos = ContactoTransportista::all();
-        return view('transportista.vista_contactos', compact('empresas', 'contactos'));
+        return view('transportista.vista_contactos', compact('transportistas', 'contactos'));
     }
 
 
@@ -32,8 +32,7 @@ class TransportistaContactoController extends Controller
             // ->editColumn('updated_at', function (Vista_Clientes_Contactos $prueba) {
             //     return $prueba->updated_at->format('d/m/Y');
             // })
-            ->addColumn('btn_editar_vehiculo', 'transportista.btn_editar_vehiculo')
-            ->rawColumns(['btn_editar_vehiculo'])
+
             ->toJson();
     }
 }

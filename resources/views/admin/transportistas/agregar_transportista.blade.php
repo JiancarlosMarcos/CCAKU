@@ -51,7 +51,8 @@
                         </a></label>
                     <input class="form-control" name="dni_ruc" type="number" value="{{ old('dni_ruc') }}"
                         autocomplete="off" id="dni_ruc" onkeyup="validar_transportista()" placeholder="RUC O DNI"
-                        required pattern="[0-9]" maxlength="11" />
+                        required pattern="[0-9]" maxlength="11"
+                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                     <input type="text" value="" class="alerta_1" id="valida_dni_ruc_1"
                         style="font-size:14px;background:transparent;border:0px solid transparent;width:400px;color:#be1e37;margin-top:-50px"
                         disabled>
@@ -144,7 +145,7 @@
                     <td style="width:7%">Placa</td>
                     <td style="width:4%">Cant. Ejes</td>
                     <td style="width:8%">Capacidad</td>
-                    <td style="width:12%">Dimensiones</td>
+                    <td style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
                     <td style="width:5%">Año</td>
                     <td style="width:12%">Ubicacion(*)</td>
                     <td style="width:12%">Estado(*)</td>
@@ -194,6 +195,9 @@
                 '<option value="Tracto">Tracto</option>' +
                 '<option value="Modulares">Modulares</option>' +
                 '</select>' +
+
+
+
                 '</td>' +
 
                 '<td>' +
@@ -210,7 +214,7 @@
                 '<td>' +
                 '<input type="text" id="placa_t' + j + '" name="placa_t[]" ' +
                 'autocomplete="off" onkeyup="validar_transporte(' + j +
-                ')" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                ')" style="text-transform:uppercase;" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
                 '">' +
 
@@ -305,12 +309,12 @@
 
                 '<td>' +
                 '<input type="text"  name="dni[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="celular[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 

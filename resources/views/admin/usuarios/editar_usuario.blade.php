@@ -1,69 +1,71 @@
 @extends('adminlte::page')
-
-@section('content')
 @section('titulo', 'Editar Usuario')
-<br>
-<br>
-<div class="app-title centrar-title">
-    <div>
-        <a href="{{ route('usuarios') }}" class="btn btn-primary"
-            style="background:#777;border-color:#777;color:#fff">Usuarios</a>
+@section('content_header')
+    <br>
 
+    <div class="app-title">
+        <div>
+            <a href="{{ route('usuarios') }}" class="btn btn-primary"
+                style="color:#777;background:#fff;border-color:#777">Usuarios</a>
+            <a href="{{ route('usuarios.formulario.agregar.administrador') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Registrar Administrador</a>
+            <a href="{{ route('usuarios.formulario.agregar.transportista') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Registrar Transportista</a>
 
-
-        <p></p>
+            <p></p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a>Editar Usuarios</a></li>
+        </ul>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a>Usuarios</a></li>
-        <li class="breadcrumb-item"><a href=""> Editar Usuario</a></li>
-    </ul>
-</div>
-<!---->
-<form method="POST" action="{{ route('actualizar_usuario') }}" class="centrar-form">
-    @csrf
-    @include('notificacion')
-    <div class="form-card" style="color:#000">
-        <h4>Datos del Usuario</h4>
+@stop
+@section('content')
+    <!---->
+    <form method="POST" action="{{ route('actualizar_usuario') }}" class="centrar-form">
+        @csrf
+        @include('notificacion')
+        <div class="form-card" style="color:#000">
+            <h4>Datos del Usuario</h4>
 
-        <div class="row">
+            <div class="row">
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <!--ID DE EMPRESA OCULTO-->
-                    <input class="form-control" name="id" type="hidden" value="{{ $usuario->id }}">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <!--ID DE EMPRESA OCULTO-->
+                        <input class="form-control" name="id" type="hidden" value="{{ $usuario->id }}">
 
-                    <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
-                            style="color:#B61A1A">*</a></label>
-                    <input class="form-control" name="name" type="text" value="{{ $usuario->name }}"
-                        autocomplete="off" placeholder="Nombres" required />
+                        <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
+                                style="color:#B61A1A">*</a></label>
+                        <input class="form-control" name="name" type="text" value="{{ $usuario->name }}"
+                            autocomplete="off" placeholder="Nombres" required />
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777">EMAIL: <a
-                            style="color:#B61A1A">*</a></label>
-                    <input class="form-control" name="email" type="text" value="{{ $usuario->email }}"
-                        autocomplete="off" placeholder="Email" required />
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="font-weight:600;color:#777">EMAIL: <a
+                                style="color:#B61A1A">*</a></label>
+                        <input class="form-control" name="email" type="text" value="{{ $usuario->email }}"
+                            autocomplete="off" placeholder="Email" required />
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777">ROL: <a
-                            style="color:#B61A1A">*</a></label>
-                    <select class="form-control" name="roles" id="">
-                        @foreach ($roles as $rol)
-                            <option value="{{ $rol->id }}"
-                                {{ $usuario->roles->pluck('id')->contains($rol->id) ? 'selected' : '' }}>
-                                {{ $rol->name }}</option>
-                        @endforeach
-                    </select>
-                    {{-- <input class="form-control" name="rol" type="text" value="" autocomplete="off" placeholder="Rol"
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="font-weight:600;color:#777">ROL: <a
+                                style="color:#B61A1A">*</a></label>
+                        <select class="form-control" name="roles" id="">
+                            @foreach ($roles as $rol)
+                                <option value="{{ $rol->id }}"
+                                    {{ $usuario->roles->pluck('id')->contains($rol->id) ? 'selected' : '' }}>
+                                    {{ $rol->name }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="rol" type="text" value="" autocomplete="off" placeholder="Rol"
                         required /> --}}
+                    </div>
                 </div>
-            </div>
-            {{-- <div class="col-md-3">
+                {{-- <div class="col-md-3">
          <div class="form-group">
          <label class="control-label" style="font-weight:600;color:#777">DIRECCION: <a style="color:#B61A1A"></a></label>
          <input class="form-control" name="direccion" type="text" value="{{$usuario->direccion}}"
@@ -80,10 +82,10 @@
           placeholder="Pagina web" />
          </div>
         </div> --}}
+            </div>
         </div>
-    </div>
 
-    {{-- <!----><br>
+        {{-- <!----><br>
        <h4>Datos de Contacto</h4>
       <div class="row">
            <!--OCULTO-->
@@ -93,10 +95,10 @@
             <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{auth()->user()->Nombres}}"
             autocomplete ="off" />
           <!----> --}}
-    </div>
+        </div>
 
 
-    {{-- <input type="hidden" name="ids_eliminar" id="ids_eliminar">
+        {{-- <input type="hidden" name="ids_eliminar" id="ids_eliminar">
         <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
 
     <thead>
@@ -147,23 +149,23 @@
     
     </table> --}}
 
-    <script>
-        $(document).on('click', '.btn_remove_data', function() {
-            if (!confirm("¿Estas seguro de eliminar este contacto?")) return;
+        <script>
+            $(document).on('click', '.btn_remove_data', function() {
+                if (!confirm("¿Estas seguro de eliminar este contacto?")) return;
 
-            var id = $(this).attr('id');
-            var data_id = $('#id_contacto' + id).val();
-            lista_eliminados(data_id);
-            $('#row' + id).remove();
-            document.getElementById("contador").value--;
-
-
+                var id = $(this).attr('id');
+                var data_id = $('#id_contacto' + id).val();
+                lista_eliminados(data_id);
+                $('#row' + id).remove();
+                document.getElementById("contador").value--;
 
 
-        });
-    </script>
 
-    {{-- <div class="col-md-3">
+
+            });
+        </script>
+
+        {{-- <div class="col-md-3">
          <div class="form-group">
             <a class="btn btn-primary" name="add" id="add" 
             style="margin-rigth:auto;width:180px;font-weight:700;
@@ -172,114 +174,114 @@
          </div>
         </div> --}}
 
-    <div class="col-md-12" style="text-align:center">
-        <div class="form-group">
-            <button class="btn btn-primary" type="Submit"> <i class="fa fa-refresh"></i>Actualizar </button>
+        <div class="col-md-12" style="text-align:center">
+            <div class="form-group">
+                <button class="btn btn-primary" type="Submit"> <i class="fa fa-refresh"></i>Actualizar </button>
+            </div>
         </div>
-    </div>
-    </div>
-</form>
-<script>
-    $(document).ready(function() {
-        var i = $(".contactos").length;
+        </div>
+    </form>
+    <script>
+        $(document).ready(function() {
+            var i = $(".contactos").length;
 
-        $('#add').click(function() {
+            $('#add').click(function() {
 
-            $('#dynamic_field').append(
+                $('#dynamic_field').append(
 
-                '<tr id="row' + i + '" class="contactos">' +
+                    '<tr id="row' + i + '" class="contactos">' +
 
-                '<td>' +
-                '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                    '<td>' +
+                    '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
+                    'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                    '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="dni[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                    '<td>' +
+                    '<input type="text"  name="dni[]" ' +
+                    'autocomplete="off" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
+                    '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="celular[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                    '<td>' +
+                    '<input type="text"  name="celular[]" ' +
+                    'autocomplete="off" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
+                    '</td>' +
 
-                '<td>' +
-                '<input type="text" name="cargo[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                    '<td>' +
+                    '<input type="text" name="cargo[]" ' +
+                    'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                    '</td>' +
 
-                '<td>' +
-                '<input type="text" name="correo[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                    '<td>' +
+                    '<input type="text" name="correo[]" ' +
+                    'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                    '</td>' +
 
-                '<td style="text-align:center">' +
-                '<button type="button" id="' + i +
-                '" class="btn btn-danger btn_remove">X</button>' +
-                '</td>' +
-                '</tr>'
-            );
-            i++;
-            //PasarValores();
-            //LimpiarForm();
-            document.getElementById("contador").value++;
-
-
-        });
-
-        $(document).on('click', '.btn_remove', function() {
-            if (!confirm("¿Estas seguro de eliminar este contacto?")) return;
-
-            var id = $(this).attr('id');
-            $('#row' + id).remove();
-            document.getElementById("contador").value--;
+                    '<td style="text-align:center">' +
+                    '<button type="button" id="' + i +
+                    '" class="btn btn-danger btn_remove">X</button>' +
+                    '</td>' +
+                    '</tr>'
+                );
+                i++;
+                //PasarValores();
+                //LimpiarForm();
+                document.getElementById("contador").value++;
 
 
+            });
 
-        });
+            $(document).on('click', '.btn_remove', function() {
+                if (!confirm("¿Estas seguro de eliminar este contacto?")) return;
 
-    })
-</script>
-<script>
-    let array_lista = [];
-
-    function lista_eliminados(data) {
+                var id = $(this).attr('id');
+                $('#row' + id).remove();
+                document.getElementById("contador").value--;
 
 
-        array_lista.push(data);
-        console.log(array_lista);
-        $('#ids_eliminar').val(array_lista);
 
-    }
-</script>
-<script>
-    function LimpiarForm() {
+            });
 
-        document.getElementById("nombre_registrador").value = "";
-        document.getElementById("celular_registrador").value = "";
-        document.getElementById("cargo_registrador").value = "";
-        document.getElementById("correo_registrador").value = "";
-    }
-</script>
-<script>
-    function PasarValores() {
+        })
+    </script>
+    <script>
+        let array_lista = [];
 
-        var cont = $(".contactos").length;
+        function lista_eliminados(data) {
 
-        var nombre_contacto = document.getElementsByName("nombre_contacto[]");
-        var celular = document.getElementsByName("dni[]");
-        var celular = document.getElementsByName("celular[]");
-        var cargo = document.getElementsByName("cargo[]");
-        var correo = document.getElementsByName("correo[]");
 
-        nombre_contacto[cont - 1].value = document.getElementById("nombre_registrador").value;
-        celular[cont - 1].value = document.getElementById("celular_registrador").value;
-        cargo[cont - 1].value = document.getElementById("cargo_registrador").value;
-        correo[cont - 1].value = document.getElementById("correo_registrador").value;
+            array_lista.push(data);
+            console.log(array_lista);
+            $('#ids_eliminar').val(array_lista);
 
-    }
-</script>
+        }
+    </script>
+    <script>
+        function LimpiarForm() {
+
+            document.getElementById("nombre_registrador").value = "";
+            document.getElementById("celular_registrador").value = "";
+            document.getElementById("cargo_registrador").value = "";
+            document.getElementById("correo_registrador").value = "";
+        }
+    </script>
+    <script>
+        function PasarValores() {
+
+            var cont = $(".contactos").length;
+
+            var nombre_contacto = document.getElementsByName("nombre_contacto[]");
+            var celular = document.getElementsByName("dni[]");
+            var celular = document.getElementsByName("celular[]");
+            var cargo = document.getElementsByName("cargo[]");
+            var correo = document.getElementsByName("correo[]");
+
+            nombre_contacto[cont - 1].value = document.getElementById("nombre_registrador").value;
+            celular[cont - 1].value = document.getElementById("celular_registrador").value;
+            cargo[cont - 1].value = document.getElementById("cargo_registrador").value;
+            correo[cont - 1].value = document.getElementById("correo_registrador").value;
+
+        }
+    </script>
 
 
 
@@ -349,9 +351,7 @@
     <script src="{{ asset('js2/plugins/pace.min.js') }}"></script>
     <!-- Page specific javascripts-->
     <script type="text/javascript" src="{{ asset('js2/plugins/chart.js') }}"></script>
-    <script type="text/javascript">
-
-    </script>
+    <script type="text/javascript"></script>
 
 
 

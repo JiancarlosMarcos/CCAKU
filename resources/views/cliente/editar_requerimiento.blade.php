@@ -35,6 +35,17 @@
 </div>
 
 @include('errores')
+
+@if ($requerimiento->responsable_registro == 'Cliente')
+    <?php $responsable = $requerimiento->responsable_registro; ?>
+@else
+    @foreach ($usuarios as $user)
+        @if ($user->id == $requerimiento->responsable_registro)
+            <?php $responsable = $user->name; ?>
+        @endif
+    @endforeach
+@endif
+
 <form method="POST" action="{{ route('actualizar_requerimiento') }}" autocomplete="nope" id="add_requerimientos"
     class="contenido " name="add_requerimientos">
     @csrf
@@ -71,10 +82,7 @@
             <div class="form-group">
                 <label class="control-label" style="font-weight:600;color:#777"> Responsable de registro:</label>
                 <input type="text" id="responsable_registro" class="form-control " name="responsable_registro"
-                    style="font-weight:600;text-align:center" disabled
-                    @if ($requerimiento->responsable_registro != 'Cliente') @foreach ($usuarios as $user)
-                            valur="{{ $user->name }}"
-                        @endforeach @endif>
+                    style="font-weight:600;text-align:center" disabled value="{{ $responsable }}">
             </div>
         </div>
         <div class="col-md-3">
@@ -115,9 +123,10 @@
     <div class="row" style="margin-bottom:0px">
         <div class="col-md-3">
             <div class="form-group">
-                <label class="control-label " style="font-weight:600;color:#777">Fecha de Transporte:</label>
-                <input class="form-control" type="date" id="fecha_transporte" name="fecha_transporte"
-                    style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha }}">
+                <label class="control-label " style="font-weight:600;color:#777">Fecha de Transporte: </label>
+                <input class="form-control" type="date" name="fecha_transporte"
+                    style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha->format('Y-m-d') }}">
+
             </div>
         </div>
 
@@ -310,7 +319,6 @@
                     <td style="width:10%">Placa</td>
                     <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto)</td>
                     <td style="width:10%">Peso</td>
-                    <td style="width:10%">Unidad Medida</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -345,15 +353,12 @@
                     <input type="text" name="volumen_c[]" autocomplete="off" class="form-control"
                         style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->volumen }}">
                 </td>
-                <td>
+                <td style="display: flex;flex-direction:row,align-items: center;">
                     <input type="text" name="peso_c[]" autocomplete="off" class="form-control"
                         style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->peso }}">
+                    <label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>
                 </td>
 
-                <td>
-                    <input type="text" name="medida_peso_c[]" autocomplete="off" class="form-control"
-                        style="background:#77777710" readonly value="{{ $cargas_reqs[$j]->unidad_medida_peso }}">
-                </td>
 
                 <td style="text-align:center">
                     <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_c">X</button>
@@ -388,8 +393,9 @@
             <tr id="transporte<?php echo $j; ?>" class="transportes">
                 <td>
 
-                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
-                        class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
+                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>"
+                        autocomplete="off" class="form-control" style="background:#77777710"
+                        value="{{ $transportes[$j]->id }}">
 
                     <select name="tipo_transporte[]" class="form-control " id="tipo_t'+i+'"
                         style="background:#77777710" required>
@@ -583,18 +589,16 @@
             ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
             '</td>' +
 
-            '<td>' +
+            '<td  style="display: flex;flex-direction:row,align-items: center;">' +
             '<input type="text" id="peso' + j + '"  name="peso_c[]" ' +
-            'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control tabla_carga_existente' +
+            'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control hidden tabla_carga_existente' +
             j +
-            ' hidden" readonly  >' +
+            ' " readonly  >' +
+            ' <label class="form-control tabla_carga_existente' + j +
+            ' hidden" style="background:#77777710;width:3rem" for="">TN</label>' +
             '</td>' +
 
-            '<td>' +
-            '<input type="text" id="medida' + j + '"  name="medida_peso_c[]" ' +
-            'autocomplete="off" readonly style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
-            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
-            '</td>' +
+
 
             '<td style="text-align:center">' +
             '<button type="button" onclick="eliminar_fila(' + j +
@@ -646,19 +650,10 @@
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                '<td>' +
+                '<td style="display: flex;flex-direction:row,align-items: center;">' +
                 '<input type="text"  name="peso_c[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-
-                '<td>' +
-                '<select name="medida_peso_c[]" class="form-control "' +
-                '>' +
-                '<option value="" selected disabled>Seleccionar</option>' +
-                '<option value="TN">TN</option>' +
-                '<option value="KG">KG</option>' +
-                '</select>' +
+                'autocomplete="off" class="form-control"  >' +
+                ' <label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>' +
                 '</td>' +
 
 

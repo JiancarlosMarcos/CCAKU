@@ -9,7 +9,9 @@ use App\Models\Transportista;
 use App\Models\VistaTransportista;
 use App\Models\Vehiculo;
 use App\Models\Ubicacion;
+use App\Models\ImagenesTransportes;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class TransportistaController extends Controller
 {
@@ -56,7 +58,7 @@ class TransportistaController extends Controller
             []
         );
         $dni_ruc = $request->dni_ruc;
-        if (strlen($dni_ruc) == '11') {
+        if (strlen($dni_ruc) == '11' and substr($dni_ruc, 0, 2) == "20") {
             $tipo_empresa = '1';
         } else {
             $tipo_empresa = '2';
@@ -104,6 +106,7 @@ class TransportistaController extends Controller
             $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
             $equipos->modelo = $request->modelo_t[$j];
             $equipos->cantidad_ejes = $request->ejes_t[$j];
+            $nombre_imagen_equipo = $request->tipo;
             $equipos->save();
         }
         $notification = array(
@@ -118,12 +121,14 @@ class TransportistaController extends Controller
         $empresa = Transportista::findOrFail($id);
         $contactos[] = ContactoTransportista::where('id_transportista', $id)->get();
         $transportes[] = Vehiculo::where('id_transportista', $id)->get();
+        $imagenes = ImagenesTransportes::all();
         $ubicaciones = Ubicacion::all();
         return view("admin.transportistas.editar_transportista", [
             "empresa" => $empresa,
             "contactos" => $contactos[0],
             "transportes" => $transportes[0],
-            "ubicaciones" => $ubicaciones
+            "ubicaciones" => $ubicaciones,
+            "imagenes" => $imagenes
         ]);
     }
 
@@ -135,7 +140,7 @@ class TransportistaController extends Controller
         );
         $dni_ruc = $request->dni_ruc;
 
-        if (strlen($dni_ruc) == '11') {
+        if (strlen($dni_ruc) == '11' and substr($dni_ruc, 0, 2) == "20") {
             $tipo_empresa = '1';
         } else {
             $tipo_empresa = '2';
@@ -191,7 +196,7 @@ class TransportistaController extends Controller
                 $contacto->cargo = $request->cargo[$i];
                 $contacto->correo = $request->correo[$i];
                 $contacto->id_transportista = $id;
-                // $contacto->responsable_registro = $usuario;
+                // $contacto->responsable_actualizacion = $usuario;
                 $contacto->save();
             } else {
                 $contacto_nuevo = new ContactoTransportista;
@@ -214,7 +219,7 @@ class TransportistaController extends Controller
                 $equipos->capacidad = $request->capacidad_t[$j];
                 $equipos->estado = $request->estado_t[$j];
                 $equipos->id_transportista = $id;
-                // $equipos->responsable_registro = $usuario;
+                // $equipos->responsable_actualizacion = $usuario;
                 $equipos->volumen = $request->volumen_t[$j];
                 $equipos->tipo_transporte = $request->tipo_transporte[$j];
                 $equipos->anio = $request->anio_t[$j];
@@ -222,6 +227,7 @@ class TransportistaController extends Controller
                 $equipos->modelo = $request->modelo_t[$j];
                 $equipos->cantidad_ejes = $request->ejes_t[$j];
                 $equipos->save();
+                $id_transporte = $equipos->id;
             } else {
                 $equipos_nuevo = new Vehiculo;
                 $equipos_nuevo->tipo = $request->tipo_t[$j];
@@ -238,10 +244,29 @@ class TransportistaController extends Controller
                 $equipos_nuevo->modelo = $request->modelo_t[$j];
                 $equipos_nuevo->cantidad_ejes = $request->ejes_t[$j];
                 $equipos_nuevo->save();
+                $id_transporte = $equipos_nuevo->id;
+            }
+
+            $eq_valida = $request->file("imagen");
+            $f = 0;
+            if (is_array($eq_valida) || is_object($eq_valida)) {
+                foreach ($request->file("imagen") as $documento) {
+                    $filename = pathinfo($documento->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = pathinfo($documento->getClientOriginalName(), PATHINFO_EXTENSION);
+
+                    $nombre_original = $filename . "." . $extension;
+                    Storage::disk('imagenes_transporte')->putFileAs("", $documento, $id_transporte . "-" . time() .  "-" . $nombre_original);
+                    $imagen = new ImagenesTransportes;
+                    $imagen->id_transporte = $id_transporte;
+                    $imagen->nombre = $id_transporte . "-" . time() . "-" .  $nombre_original;
+                    $imagen->ruta = "imagenes/transporte";
+                    $imagen->save();
+                    $f++;
+                }
             }
         }
         $notification = array(
-            'mensaje' => 'Transportista actualizado correctamente!',
+            'mensaje' => 'Transportista actualizado correctamente!' . $filename,
             'tipo' => 'success'
         );
         return Redirect()->back()->with($notification);
@@ -296,8 +321,10 @@ class TransportistaController extends Controller
     {
         if ($request->ajax()) {
             $transportes = Vehiculo::where('placa', $request->placa)->first();
-            $tipo_transporte = $transportes->tipo;
-            $placa_transporte = $transportes->placa;
+            if ($transportes->estado != 'DADO DE BAJA') {
+                $tipo_transporte = $transportes->tipo;
+                $placa_transporte = $transportes->placa;
+            }
 
             return response()->json([
                 'tipo_transporte' => $tipo_transporte,

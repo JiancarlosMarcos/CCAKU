@@ -208,9 +208,8 @@
                     <td style="width:10%">Marca</td>
                     <td style="width:10%">Modelo</td>
                     <td style="width:10%">Placa</td>
-                    <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto)</td>
+                    <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
                     <td style="width:10%">Peso</td>
-                    <td style="width:10%">Unidad Medida</td>
 
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
@@ -275,14 +274,16 @@
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>DNI: </b>
                 <b style="color:#B61A1A">(*)</b></label>
-            <input class="form-control estilo_campo required_contacto_nuevo" name="dni" type="text"
+            <input class="form-control estilo_campo required_contacto_nuevo" name="dni" type="text" maxlength="8"
+                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 value="{{ old('dni') }}" autocomplete="off" placeholder="Nombre de contacto" />
         </div>
     </div>
     <div class="col-md-2 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>CELULAR </b></label>
-            <input class="form-control estilo_campo" name="celular_contacto_nuevo" type="text"
+            <input class="form-control estilo_campo" name="celular_contacto_nuevo" type="text" maxlength="9"
+                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 value="{{ old('celular_contacto_nuevo') }}" autocomplete="off" placeholder="Celular de contacto" />
         </div>
     </div>
@@ -343,7 +344,6 @@
                     <td style="width:10%">Placa</td>
                     <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto)</td>
                     <td style="width:10%">Peso</td>
-                    <td style="width:10%">Unidad Medida</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -439,7 +439,7 @@
 
                 '<td>' +
                 '<input type="text" name="placa_c_n[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -447,18 +447,10 @@
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                '<td>' +
-                '<input type="number"  name="peso_c_n[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710">' +
-                '</td>' +
-
-                '<td>' +
-                '<select name="medida_peso_c_n[]" class="form-control "' +
-                '>' +
-                '<option value="" selected disabled>Seleccionar</option>' +
-                '<option value="TN">TN</option>' +
-                '<option value="KG">KG</option>' +
-                '</select>' +
+                '<td style="display: flex;flex-direction:row,align-items: center;">' +
+                '<input type="text"  name="peso_c_n[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '<label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>' +
                 '</td>' +
 
                 '<td style="text-align:center">' +
@@ -519,7 +511,7 @@
 
                 '<td>' +
                 '<input type="text" name="placa_c_e[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -527,19 +519,11 @@
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                '<td>' +
+
+                '<td style="display: flex;flex-direction:row,align-items: center;">' +
                 '<input type="text"  name="peso_c_e[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-
-                '<td>' +
-                '<select name="medida_peso_c_e[]" class="form-control "' +
-                '>' +
-                '<option value="" selected disabled>Seleccionar</option>' +
-                '<option value="TN">TN</option>' +
-                '<option value="KG">KG</option>' +
-                '</select>' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                '<label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>' +
                 '</td>' +
 
 
@@ -629,7 +613,7 @@
 
             '<td>' +
             '<input type="text" id="placa' + j + '" name="placa_c_e[]" ' +
-            'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly ' +
+            'autocomplete="off" style="text-transform:uppercase;" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly ' +
             'class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
             '</td>' +
 
@@ -639,17 +623,13 @@
             ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
             '</td>' +
 
-            '<td>' +
+            '<td  style="display: flex;flex-direction:row,align-items: center;">' +
             '<input type="text" id="peso' + j + '"  name="peso_c_e[]" ' +
-            'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control tabla_carga_existente' +
+            'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control hidden tabla_carga_existente' +
             j +
-            ' hidden" readonly  >' +
-            '</td>' +
-
-            '<td>' +
-            '<input type="text" id="medida' + j + '"  name="medida_peso_c_e[]" ' +
-            'autocomplete="off" style="text-transform:uppercase;" readonly  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
-            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
+            ' " readonly  >' +
+            ' <label class="form-control tabla_carga_existente' + j +
+            ' hidden" style="background:#77777710;width:3rem" for="">TN</label>' +
             '</td>' +
 
             '<td style="text-align:center">' +

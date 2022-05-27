@@ -278,7 +278,7 @@ return [
             'can' => 'cliente'
         ],
         [
-            'text' => 'Perfil',
+            'text' => 'Mi Perfil',
             // 'url'  => ['user/perfil_usuario', ['id' => Auth::user()->id]],
             'url'  => 'user/perfil_usuario',
             'icon' => 'fas fa-fw fa-user',
@@ -286,7 +286,7 @@ return [
 
         ],
         [
-            'text' => 'Empresa',
+            'text' => 'Mi Empresa',
             'url'  => 'user/vista_cargas',
             'icon' => 'fa fa-fw fa-building-o',
             'can' => 'cliente'
@@ -322,7 +322,7 @@ return [
             'can' => 'transportista'
         ],
         [
-            'text' => 'Perfil',
+            'text' => 'Mi Perfil',
             // 'url'  => ['user/perfil_usuario', ['id' => Auth::user()->id]],
             'url'  => 'user/perfil_usuario_transportista',
             'icon' => 'fas fa-fw fa-user',
@@ -330,9 +330,9 @@ return [
 
         ],
         [
-            'text' => 'Mis Equipos',
+            'text' => 'Mi empresa',
             'url'  => 'user/vista_transportes',
-            'icon' => 'fa fa-fw fa-truck',
+            'icon' => 'fa fa-fw fa-building-o',
             'can' => 'transportista'
 
         ],
@@ -345,10 +345,21 @@ return [
         ],
 
         [
-            'text' => 'Requerimientos Clientes',
-            'url'  => '',
-            'icon' => 'fas fa-solid fa-clipboard-list',
-            'can' => 'transportista'
+            'text'    => 'Requerimientos',
+            'icon'    => 'fas fa-solid fa-clipboard-list',
+            'can'     => 'transportista',
+            'submenu' => [
+                [
+                    'text' => 'Lista Requerimientos',
+                    'url'  => 'user/transportista_requerimientos',
+                    'icon' => 'fa fa-fw fa-th-large',
+                ],
+                [
+                    'text' => 'Mapa Requerimientos',
+                    'url'  => 'user/mapa/requerimientos',
+                    'icon'    => 'fas fa-solid fa-map',
+                ],
+            ],
         ],
         //ADMINISTRADOR
         [

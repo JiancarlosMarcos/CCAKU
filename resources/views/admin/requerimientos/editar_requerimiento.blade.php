@@ -123,7 +123,7 @@
             <div class="form-group">
                 <label class="control-label " style="font-weight:600;color:#777">Fecha de Transporte:</label>
                 <input class="form-control" type="date" id="fecha_transporte" name="fecha_transporte"
-                    style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha }}">
+                    style="font-weight:600;text-align:center" value="{{ $requerimiento->fecha->format('Y-m-d') }}">
             </div>
         </div>
         {{-- <div class="col-md-3">

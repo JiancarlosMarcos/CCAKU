@@ -141,6 +141,7 @@ class ContactoController extends Controller
         $contacto->cargo = $request->cargo_contacto_editar;
         $contacto->celular = $request->celular_contacto_editar;
         $contacto->correo = $request->correo_contacto_editar;
+        $contacto->responsable_actualizacion = $request->usuario;
         $empresa = $request->id_empresa;
         if ($empresa == "") {
         } else {

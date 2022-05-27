@@ -2,15 +2,32 @@
 @section('title', 'Registro de Usuario')
 
 @section('content_header')
+    <br>
 
+    <div class="app-title">
+        <div>
+            <a href="{{ route('usuarios') }}" class="btn btn-primary"
+                style="color:#777;background:#fff;border-color:#777">Usuarios</a>
+            <a href="{{ route('usuarios.formulario.agregar.administrador') }}" class="btn btn-primary "
+                style="background:#777;border-color:#777">Registrar Administrador</a>
+            <a href="{{ route('usuarios.formulario.agregar.transportista') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Registrar Transportista</a>
+
+            <p></p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a>Registrar Administrador</a></li>
+        </ul>
+    </div>
 @stop
 
 @section('content')
 
-
+    <h2 style="color:#7f7f7f;font-size:3rem;text-align:center">Registro de Administradores</h2>
+    @include('notificacion')
     <x-guest-layout>
-        <x-jet-authentication-card>
-            <h3 class="title" style="color:#7f7f7f">Registro de Administrador</h3>
+        <x-jet-authentication-card class="card">
 
             <x-slot name="logo">
                 <figure class="avatar" style="padding: 0">
@@ -25,7 +42,8 @@
                 disabled>
             <form method="POST" action="{{ route('crear_administrador') }}">
                 @csrf
-                <input class="form-control" name="usuario" id="usuario" type="hidden" value="{{ auth()->user()->name }}">
+                <input class="form-control" name="usuario" id="usuario" type="hidden"
+                    value="{{ auth()->user()->name }}">
 
 
 
@@ -36,7 +54,8 @@
 
                 <div class="mt-4">
                     <x-jet-label for="email" value="{{ __('Correo') }}" />
-                    <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                    <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                        required />
                 </div>
 
                 <div class="mt-4">
@@ -91,6 +110,7 @@
 @stop
 
 @section('css')
+    @include('admin.datatable')
     <style>
         .title {
             text-align: center;
@@ -141,6 +161,10 @@
 
         .alerta_1 {
             text-align: center
+        }
+
+        .sm\:justify-center {
+            justify-content: start !important;
         }
 
     </style>

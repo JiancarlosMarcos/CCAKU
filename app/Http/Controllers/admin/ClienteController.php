@@ -56,9 +56,6 @@ class ClienteController extends Controller
         $empresa->nombre = $request->razon_social;
         $empresa->direccion = $request->direccion;
         $empresa->pagina_web = $request->pagina_web;
-        // $empresa->id_clasificacion = $request->id_clasificacion;
-        // $empresa->id_via_ingreso = $request->id_via_ingreso;
-        // $empresa->id_indicador = $request->id_indicador;
         $empresa->responsable_registro = $request->usuario;
         $empresa->id_tipo = $tipo_empresa;
         $empresa->save();
@@ -68,29 +65,31 @@ class ClienteController extends Controller
         $contador = $request->contador;
         $contador_c = $request->contador_c;
         $usuario = $request->usuario;
-
-        for ($i = 0; $i < $contador; $i++) {
-            $contacto = new ContactoCliente;
-            $contacto->nombre = $request->nombre_contacto[$i];
-            $contacto->celular = $request->celular[$i];
-            $contacto->cargo = $request->cargo[$i];
-            $contacto->correo = $request->correo[$i];
-            $contacto->id_cliente = $id;
-            $contacto->dni = $request->dni[$i];
-            // $contacto->responsable_registro = $usuario;
-            $contacto->save();
+        if ($contador > 0) {
+            for ($i = 0; $i < $contador; $i++) {
+                $contacto = new ContactoCliente;
+                $contacto->nombre = $request->nombre_contacto[$i];
+                $contacto->celular = $request->celular[$i];
+                $contacto->cargo = $request->cargo[$i];
+                $contacto->correo = $request->correo[$i];
+                $contacto->id_cliente = $id ?? NULL;
+                $contacto->dni = $request->dni[$i];
+                $contacto->responsable_registro = $usuario;
+                $contacto->save();
+            }
         }
         for ($j = 0; $j < $contador_c; $j++) {
             $equipos = new Carga;
             $equipos->tipo = $request->tipo_c[$j];
             $equipos->volumen = $request->volumen_c[$j];
             $equipos->peso = $request->peso_c[$j];
-            $equipos->unidad_medida_peso = $request->medida_c[$j];
+            $equipos->estado = "OPERATIVO";
+            $equipos->unidad_medida_peso = "TN";
             $equipos->id_ubicacion = $request->id_ubicacion_c[$j];
             $equipos->id_cliente = $id;
             $equipos->marca = $request->marca_c[$j];
             $equipos->modelo = $request->modelo_c[$j];
-            // $contacto->responsable_registro = $usuario;
+            $equipos->responsable_registro = $usuario;
             $equipos->placa = $request->placa_c[$j];
             $equipos->save();
         }
@@ -100,6 +99,8 @@ class ClienteController extends Controller
         );
         return Redirect()->back()->with($notification);
     }
+
+
     public function form_editar_cliente(Request $request)
     {
         $id = $request->id;
@@ -200,7 +201,9 @@ class ClienteController extends Controller
                 $equipos->tipo = $request->tipo_c[$j];
                 $equipos->volumen = $request->volumen_c[$j];
                 $equipos->peso = $request->peso_c[$j];
-                $equipos->unidad_medida_peso = $request->medida_c[$j];
+                $equipos->unidad_medida_peso = "TN";
+                $equipos->estado = $request->estado_c[$j];
+                $equipos->observaciones = $request->observaciones_c[$j] ?? NULL;
                 $equipos->id_ubicacion = $request->id_ubicacion_c[$j];
                 $equipos->id_cliente = $id;
                 $equipos->marca = $request->marca_c[$j];
@@ -212,7 +215,8 @@ class ClienteController extends Controller
                 $equipos_nuevo->tipo = $request->tipo_c[$j];
                 $equipos_nuevo->volumen = $request->volumen_c[$j];
                 $equipos_nuevo->peso = $request->peso_c[$j];
-                $equipos_nuevo->unidad_medida_peso = $request->medida_c[$j];
+                $equipos_nuevo->estado = "OPERATIVO";
+                $equipos_nuevo->unidad_medida_peso = "TN";
                 $equipos_nuevo->id_ubicacion = $request->id_ubicacion_c[$j];
                 $equipos_nuevo->id_cliente = $id;
                 $equipos_nuevo->marca = $request->marca_c[$j];

@@ -2,13 +2,25 @@
 @section('titulo', 'Contactos')
 @section('content_header')
     <br>
+    <?php $user = Auth::user()->id; ?>
+    @foreach ($contactos as $contacto)
+        @if ($contacto->id_users == $user)
+            @foreach ($clientes as $cliente)
+                @if ($contacto->id_cliente == $cliente->id)
+                    <?php $id_cliente = $cliente->id; ?>
+                @endif
+            @endforeach
+        @endif
+    @endforeach
     <div class="app-title">
         <div>
             <h1>
                 <a href="{{ route('cargas.mostrar') }}" class="btn btn-primary "
-                    style="color:#777;background:#fff;border-color:#777">Lista de Cargas</a>
+                    style="color:#777;background:#fff;border-color:#777">Lista de Equipos</a>
                 <a href="{{ route('cliente.contactos.mostrar') }}" class="btn btn-primary "
                     style="background:#777;border-color:#777">Lista de Contactos</a>
+                <a href="{{ route('cliente.editar_cliente', $id_cliente) }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Agregar/Modificar Datos</a>
             </h1>
 
         </div><br>
@@ -16,7 +28,7 @@
         <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-            <li class="breadcrumb-item"><a href=""></a>Mis Cargas</li>
+            <li class="breadcrumb-item"><a href=""></a>Empresa</li>
             <li class="breadcrumb-item"><a href=""></a>Contactos</li>
         </ul>
     </div>
@@ -45,20 +57,13 @@
 
                 <a class="btn btn-primary " onclick="LimpiarFiltros();"
                     style="margin-rigth:auto;width:140px;
-                                                                                                                                                        font-size:14px;background:#ECDCC2;border-color:#777">
+                                                                                                                                                                                            font-size:14px;background:#ECDCC2;border-color:#777">
                     <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a class="btn btn-primary" onclick="Eliminar();" id="eliminar"
-                    style="margin-rigth:auto;width:140px;yo
-                                                                                                                                                        font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
-                    <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a class="btn btn-primary" onclick="Editar();" id="editar"
-                    style="margin-rigth:auto;width:140px;display:block;
-                                                                                                                                                        font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
-                    <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
-
+                {{-- <a class="btn btn-primary btn-sm" href="{{ route('cliente.editar_cliente', $id_cliente) }}"
+                    style="margin-left:auto;width:140px;font-size:14px">
+                    Agregar/Modificar </a> --}}
             </div><br>
             <div class="tile-body">
                 <div class="table-responsive">
@@ -80,7 +85,7 @@
                                 <td><input autocomplete="off" type="text" class="form-control filter-input"
                                         id="fecha_creacion" data-column="6" /></td>
 
-                                <td></td>
+                                {{-- <td></td> --}}
                             </tr>
                             <tr style="background:#00000099;color:#fff;border:3px solid #fff">
                                 <th>DNI</th>
@@ -90,7 +95,7 @@
                                 <th>Correo</th>
                                 <th>Empresa</th>
                                 <th>Fecha<br>de Creacion</th>
-                                <th>Acciones</th>
+                                {{-- <th>Acciones</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -132,9 +137,9 @@
                     {
                         data: 'created_at'
                     },
-                    {
-                        data: 'btn_editar_carga'
-                    }
+                    // {
+                    //     data: 'btn_editar_carga'
+                    // }
                 ],
 
                 "pageLength": 10,

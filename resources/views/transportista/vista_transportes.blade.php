@@ -1,5 +1,16 @@
 @extends('adminlte::page')
 @section('content_header')
+
+    <?php $user = Auth::user()->id; ?>
+    @foreach ($contactos as $contacto)
+        @if ($contacto->id_users == $user)
+            @foreach ($transportistas as $transportista)
+                @if ($contacto->id_transportista == $transportista->id)
+                    <?php $id_transportista = $transportista->id; ?>
+                @endif
+            @endforeach
+        @endif
+    @endforeach
     <br>
     <div class="app-title">
         <div>
@@ -8,6 +19,8 @@
                     style="background:#777;border-color:#777">Lista de Transportes</a>
                 <a href="{{ route('transportista.contactos.mostrar') }}" class="btn btn-primary "
                     style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
+                <a href="{{ route('transportista.editar_transportista', $id_transportista) }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Agregar/Modificar Equipos</a>
             </h1>
 
         </div><br>
@@ -15,7 +28,8 @@
         <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-            <li class="breadcrumb-item"><a href=""></a>Transportes</li>
+            <li class="breadcrumb-item"><a href=""></a>Mi Empresa</li>
+            <li class="breadcrumb-item"><a href=""></a>Equipos</li>
         </ul>
     </div>
 @stop
@@ -32,7 +46,7 @@
     </div>
     Cargando...
 </div>
-<h1 style="text-align: center">Lista de Transportes</h1>
+<h1 style="text-align: center">Lista de Equipos de Transporte</h1>
 <br>
 @include('notificacion')
 <div class="col-md-8" style="max-width:100%">
@@ -52,11 +66,10 @@
             <a class="btn btn-primary" onclick="Editar();" id="editar" style="margin-rigth:auto;width:140px;display:block;
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
-
-            {{-- <a class="btn btn-primary btn-sm"
+            <a class="btn btn-primary btn-sm"
                 href="{{ route('transportista.editar_transportista', $id_transportista) }}"
-                style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Editar Informacion</a> --}}
+                style="margin-left:auto;width:140px;font-size:14px">
+                Agregar/Modificar </a>
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
@@ -91,6 +104,7 @@
                                     <option value=" " selected></option>
                                     <option value="DISPONIBLE">DISPONIBLE</option>
                                     <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+                                    <option value="DADO DE BAJA">DADO DE BAJA</option>
                                 </select>
                             </td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="dimensiones"
@@ -103,7 +117,7 @@
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
                                     id="responsable_registro" data-column="9" /></td>
 
-                            <td></td>
+
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
@@ -114,10 +128,10 @@
                             <th style="width:4%">Placa</th>
                             <th style="width:8%">Ubicacion</th>
                             <th style="width:8%">Estado</th>
-                            <th style="width:12%">Dimensiones</th>
+                            <th style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</th>
                             <th style="width:12%">Propio/Subarrendado</th>
                             <th style="width:12%">Responsable Registro</th>
-                            <th>Acciones</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -169,9 +183,7 @@
                 {
                     data: 'responsable_registro'
                 },
-                {
-                    data: 'btn_editar_vehiculo'
-                },
+
 
             ],
 

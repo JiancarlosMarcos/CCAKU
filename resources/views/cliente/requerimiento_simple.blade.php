@@ -13,16 +13,6 @@
         display: none;
     }
 
-    .disponible {
-        background-color: #5afa8f !important;
-        color: white !important;
-    }
-
-    .no_disponible {
-        background-color: #fa5050 !important;
-        color: white !important;
-    }
-
 </style>
 
 
@@ -197,7 +187,6 @@
                         <td style="width:10%">Placa</td>
                         <td style="width:15%">Dimensiones<br>(Largo x Ancho x Alto)</td>
                         <td style="width:10%">Peso</td>
-                        <td style="width:10%">Unidad Medida</td>
                         <td style="text-align:center;width:6%">Eliminar</td>
                     </tr>
                 </thead>
@@ -351,19 +340,10 @@
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
-                '<td>' +
+                '<td style="display: flex;flex-direction:row,align-items: center;">' +
                 '<input type="text"  name="peso_c_e[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
-
-
-                '<td>' +
-                '<select name="medida_peso_c_e[]" class="form-control "' +
-                '>' +
-                '<option value="" selected disabled>Seleccionar</option>' +
-                '<option value="TN">TN</option>' +
-                '<option value="KG">KG</option>' +
-                '</select>' +
+                'autocomplete="off" class="form-control"  >' +
+                '<label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>' +
                 '</td>' +
 
 
@@ -463,18 +443,15 @@
             ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
             '</td>' +
 
-            '<td>' +
+            '<td style="display: flex;flex-direction:row,align-items: center;">' +
             '<input type="text" id="peso' + j + '"  name="peso_c_e[]" ' +
             'autocomplete="off" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control tabla_carga_existente' +
             j +
-            ' hidden" readonly  >' +
+            ' " readonly  >' +
+            '<label class="form-control" style="background:#77777710;width:3rem" for="">TN</label>' +
             '</td>' +
 
-            '<td>' +
-            '<input type="text" id="medida' + j + '"  name="medida_peso_c_e[]" ' +
-            'autocomplete="off" style="text-transform:uppercase;" readonly  onkeyup="javascript:this.value=this.value.toUpperCase();"' +
-            ' class="form-control tabla_carga_existente' + j + ' hidden" style="background:#77777710" >' +
-            '</td>' +
+
 
             '<td style="text-align:center">' +
             '<button type="button" onclick="eliminar_fila(' + j +

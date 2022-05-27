@@ -1,19 +1,7 @@
 @extends('adminlte::page')
 @section('titulo', 'Clientes')
 @section('content_header')
-@stop
-@section('content')
     <br>
-    <br>
-    <div class="centrado" id="onload">
-        <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        Cargando...
-    </div>
     <div class="app-title">
         <div>
             <h1>
@@ -33,6 +21,18 @@
             <li class="breadcrumb-item"><a href=""></a>Clientes</li>
         </ul>
     </div>
+@stop
+@section('content')
+    <div class="centrado" id="onload">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        Cargando...
+    </div>
+
     @include('notificacion')
     <div class="col-md-8" style="max-width:100%">
 
@@ -42,17 +42,17 @@
 
                 <a class="btn btn-primary " onclick="LimpiarFiltros();"
                     style="margin-rigth:auto;width:140px;
-                                                                            font-size:14px;background:#ECDCC2;border-color:#777">
+                                                                                font-size:14px;background:#ECDCC2;border-color:#777">
                     <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Eliminar();" id="eliminar"
                     style="margin-rigth:auto;width:140px;yo
-                                                                            font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Editar();" id="editar"
                     style="margin-rigth:auto;width:140px;display:block;
-                                                                            font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
                 <a class="btn btn-primary btn-sm" href="{{ route('clientes.formulario.agregar') }}"

@@ -10,6 +10,56 @@
         margin-top: -50px
     }
 
+    .tooltip.top .tiptext {
+        margin-left: -60px;
+        bottom: 150%;
+        left: 50%;
+    }
+
+    .tooltip.top .tiptext::after {
+        margin-left: -5px;
+        top: 100%;
+        left: 50%;
+        border-color: #2E2E2E transparent transparent transparent;
+    }
+
+    .modalContainer {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modalContainer .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid lightgray;
+        border-top: 10px solid #cf8d13;
+        width: 60%;
+    }
+
+    .modalContainer .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .modalContainer .close:hover,
+    .modalContainer .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
 </style>
 <br>
 <br>
@@ -32,7 +82,8 @@
     </ul>
 </div>
 <!---->
-<form method="POST" action="{{ route('actualizar_transportista') }}" class="centrar-form">
+<form method="POST" action="{{ route('actualizar_transportista') }}" class="centrar-form"
+    enctype="multipart/form-data">
     @csrf
     @include('notificacion')
     <div class="form-card" style="color:#000">
@@ -46,8 +97,9 @@
                     <input class="form-control" name="id" type="hidden" value="{{ $empresa->id }}">
                     <label class="control-label" style="font-weight:600;color:#777">RUC O DNI: <a
                             style="color:#B61A1A">*</a></label>
-                    <input class="form-control" name="dni_ruc" type="number" value="{{ $empresa->dni_ruc }}"
-                        autocomplete="off" placeholder="RUC O DNI" required />
+                    <input class="form-control" name="dni_ruc" type="number" maxlength="11"
+                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        value="{{ $empresa->dni_ruc }}" autocomplete="off" placeholder="RUC O DNI" required />
                 </div>
             </div>
 
@@ -127,11 +179,14 @@
 
             <td>
                 <input type="text" name="dni[]" autocomplete="off" class="form-control" style="background:#77777710"
+                    maxlength="8"
+                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                     value="{{ $contactos[$i]->dni }}">
             </td>
 
             <td>
-                <input type="text" name="celular[]" autocomplete="off" class="form-control"
+                <input type="text" name="celular[]" autocomplete="off" class="form-control" maxlength="9"
+                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                     style="background:#77777710" value="{{ $contactos[$i]->celular }}">
             </td>
 
@@ -178,7 +233,7 @@
                     <td style="width:7%">Placa</td>
                     <td style="width:4%">Cant. Ejes</td>
                     <td style="width:8%">Capacidad</td>
-                    <td style="width:12%">Dimensiones</td>
+                    <td style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
                     <td style="width:5%">Año</td>
                     <td style="width:12%">Ubicacion</td>
                     <td style="width:10%">Estado</td>
@@ -213,7 +268,48 @@
                         <option value="Tracto">Tracto</option>
                         <option value="Modulares">Modulares</option>
                     </select>
+                    <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
+                            class="fa-solid fa-image"></i></a>
+                    <div id="myModal<?php echo $j; ?>" class="modalContainer">
+                        <div class="modal-content">
+                            <span class="close">×</span>
+                            <h2>Imagenes de {{ $transportes[$j]->tipo }}</h2>
+                            <div id="imagenes">
+                                <h6><b>Imagen Nro. 1</b></h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="fieldlabels">Cargar imagen :</label>
+                                        <input type="file" id="image{{ $j }}" name="imagen[]"
+                                            accept="image/*" />
+                                    </div>
 
+                                    <div class="form-group">
+                                        <img id="showImage{{ $j }}" class="ix1"
+                                            src="{{ asset('imagenes/transporte/2044-1653663494-camabaja2.jpg') }}"
+                                            alt="" style="width:625px; height:369px;">
+                                        <a class="btn btn-danger icon-btn btn_remove_image" onclick="remover1(1)"
+                                            style="color:#dc3545;background:transparent">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <a class="btn btn-primary" name="add_imagen" id="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;
+                                    font-size:13px;background:#F1CF98;border-color:#777">
+                                            <i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen ++</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
 
                 </td>
 
@@ -232,6 +328,8 @@
                 <td>
                     <input type="text" id="placa_t{{ $j }}" name="placa_t[]" autocomplete="off"
                         class="form-control" style="background:#77777710" style="text-transform:uppercase;"
+                        maxlength="6"
+                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         onkeyup="validar_transporte({{ $j }});javascript:this.value=this.value.toUpperCase();"
                         value="{{ $transportes[$j]->placa }}">
                     <input type="text" disabled value="" class="validar_placa" id="valida_placa{{ $j }}">
@@ -279,7 +377,7 @@
                             {{ $transportes[$j]->estado }}</option>
                         <option value="DISPONIBLE">DISPONIBLE</option>
                         <option value="NO DISPONIBLE">NO DISPONIBLE</option>
-
+                        <option value="DADO DE BAJA">DADO DE BAJA</option>
                     </select>
                 </td>
 
@@ -363,12 +461,12 @@
 
                 '<td>' +
                 '<input type="text"  name="dni[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
                 '<input type="text"  name="celular[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -450,7 +548,7 @@
                 '<td>' +
                 '<input type="text" id="placa_t' + j + '" name="placa_t[]" ' +
                 'autocomplete="off" onkeyup="validar_transporte(' + j +
-                ')" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                ')" style="text-transform:uppercase;" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
                 '">' +
 
@@ -578,7 +676,100 @@
 
     }
 </script>
+<script>
+    function abrirModal(j) {
+        vista_previa(j);
+        var modal = document.getElementById("myModal" + j);
+        var span = document.getElementsByClassName("close")[j];
+        var body = document.getElementsByTagName("body")[0];
 
+
+        modal.style.display = "block";
+        body.style.position = "static";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
+
+        span.onclick = function() {
+            modal.style.display = "none";
+            body.style.position = "inherit";
+            body.style.height = "auto";
+            body.style.overflow = "visible";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+
+                body.style.position = "inherit";
+                body.style.height = "auto";
+                body.style.overflow = "visible";
+            }
+        }
+    }
+
+    function vista_previa(index) {
+        $('#image' + index).change(function(e) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#showImage' + index).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(e.target.files['0']);
+        });
+
+
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        vista_previa(1);
+        var j = 2;
+
+        $('#add_imagen').click(function() {
+
+            $('#imagenes').append(
+                '<center><h6><b>Imagen Nro.' + j + '</b></h6></center>' +
+                '<div class ="row">' +
+                '<div class="col-md-6">' +
+                '<label class="fieldlabels">Cargar imagen:</label>' +
+                '<input type="file" name="imagen[]" accept="image/*" id="image' + j + '"/>' +
+                '</div>' +
+                '</div>' +
+
+                '<div class ="row">' +
+                '<div class="col-md-12">' +
+                '<label class="fieldlabels">Vista Previa:</label>' +
+                '<div class="form-group">' +
+                '<img id="showImage' + j +
+                '" class="ix1" src="{{ asset('image/imagendefault.png') }}" alt="" style="width:600px; height:600px;">' +
+                '<a id="a' + j +
+                '" class="btn btn-danger icon-btn btn_remove_image" onclick="remover1(' + j +
+                ')" style="color:#dc3545;background:transparent">' +
+                '<i class="fas fa-trash"></i>' +
+                '</a>' +
+                '</div>' +
+                '</div>');
+
+            vista_previa(j);
+            const $imagen = document.querySelector("#image" + j);
+            $imagen.addEventListener("change", () => {
+
+                document.getElementById("contador_imagenes").value++;
+            });
+            j++;
+
+
+        });
+
+        $(document).on('click', '.btn_remove_image', function() {
+
+
+            if (!confirm("¿Estas seguro de eliminar esta imagen?")) return;
+
+
+        });
+    })
+</script>
 @endsection
 @section('css')
 @include('admin.datatable')

@@ -1,9 +1,26 @@
 @extends('adminlte::page')
 @section('titulo', 'Contactos')
+@section('content_header')
+    <br>
+    <div class="app-title">
+        <div>
+            <h1>
+                <a href="{{ route('clientes') }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Clientes</a>
+                <a href="{{ route('clientes.contactos.mostrar') }}" class="btn btn-primary"
+                    style="background:#777;border-color:#777;color:#fff">Contactos de Clientes</a>
+                <a href="{{ route('cargas') }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Cargas</a>
+            </h1>
+        </div><br>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
+            <li class="breadcrumb-item"><a href=""></a>Contactos</li>
+        </ul>
+    </div>
 
+@stop
 @section('content')
-    <br>
-    <br>
     <div class="centrado" id="onload">
         <div class="lds-ring">
             <div></div>
@@ -14,28 +31,6 @@
         Cargando...
     </div>
 
-    <div class="app-title contenido hidden">
-        <div>
-            <h1>
-                <a href="{{ route('clientes') }}" class="btn btn-primary "
-                    style="color:#777;background:#fff;border-color:#777">Clientes</a>
-                <a href="{{ route('clientes.contactos.mostrar') }}" class="btn btn-primary"
-                    style="background:#777;border-color:#777;color:#fff">Contactos de Clientes</a>
-                <a href="{{ route('cargas') }}" class="btn btn-primary "
-                    style="color:#777;background:#fff;border-color:#777">Carga</a>
-
-
-            </h1>
-
-        </div><br>
-
-
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-            <li class="breadcrumb-item"><a href=""></a>Contactos</li>
-        </ul>
-    </div>
-
     @include('notificacion')
 
     <div class="col-md-8 contenido hidden" style="max-width:100%">
@@ -44,18 +39,19 @@
 
             <div style="display:flex">
 
-                <a class="btn btn-primary " onclick="LimpiarFiltros();" style="margin-rigth:auto;width:140px;
-                                                            font-size:14px;background:#ECDCC2;border-color:#777">
+                <a class="btn btn-primary " onclick="LimpiarFiltros();"
+                    style="margin-rigth:auto;width:140px;
+                                                                                    font-size:14px;background:#ECDCC2;border-color:#777">
                     <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Eliminar();" id="eliminar"
                     style="margin-rigth:auto;width:140px;yo
-                                                            font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Editar();" id="editar"
                     style="margin-rigth:auto;width:140px;display:block;
-                                                            font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
 
@@ -98,9 +94,7 @@
                         <tbody>
 
 
-                            @include(
-                                'admin.contactos.editar_contacto_cliente'
-                            )
+                            @include('admin.contactos.editar_contacto_cliente')
 
                         </tbody>
                     </table>

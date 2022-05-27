@@ -143,6 +143,7 @@
                                     <option value=" " selected></option>
                                     <option value="DISPONIBLE">DISPONIBLE</option>
                                     <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+                                    <option value="DADO DE BAJA">DADO DE BAJA</option>
                                 </select>
                             </td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="dimensiones"
@@ -166,7 +167,7 @@
                             <th style="width:4%">Placa</th>
                             <th style="width:8%">Ubicacion</th>
                             <th style="width:8%">Estado</th>
-                            <th style="width:12%">Dimensiones</th>
+                            <th style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</th>
                             <th style="width:12%">Propio/Subarrendado</th>
                             <th style="width:12%">Responsable Registro</th>
                             <th>Acciones</th>

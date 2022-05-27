@@ -51,7 +51,7 @@
     }
 
 </style>
-<x-guest-layout>
+<x-guest-layout style="margin-top:200px">
     <x-jet-authentication-card>
         <h3 class="title" style="color:#7f7f7f">Bienvenido </h3>
         <p class="subtitle" style="color:#7f7f7f"><b>Registrarse al Sistema</b></p>
