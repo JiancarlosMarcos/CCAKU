@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\ChartJsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Clientes;
 use App\Http\Livewire\Transportistas;
@@ -9,6 +10,8 @@ use App\Http\Controllers\MapaController;
 use App\Http\Controllers\BuscadorController;
 use App\Http\Controllers\cliente\RequerimientoClienteController;
 use App\Http\Controllers\admin\ClienteController;
+use App\Http\Controllers\admin\DasboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,13 +56,14 @@ Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'f
 
 Route::get('/consulta_clientes', [ClienteController::class, 'consulta_clientes'])->name('consulta_clientes');
 
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard/',[DasboardController::class,'index'])->name('dashboard');
+    // Route::get('/dashboard/{id}',[DasboardController::class,'index'])->name('dashboard');
 });
+
+
+// Route::get('tienda/{id}',[TiendaController::class,'show'])->name('tienda.show');
