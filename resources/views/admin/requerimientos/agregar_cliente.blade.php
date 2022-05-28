@@ -274,7 +274,7 @@
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>DNI: </b>
                 <b style="color:#B61A1A">(*)</b></label>
-            <input class="form-control estilo_campo required_contacto_nuevo" name="dni" type="text" maxlength="8"
+            <input class="form-control estilo_campo required_contacto_nuevo" name="dni" type="number" maxlength="8"
                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 value="{{ old('dni') }}" autocomplete="off" placeholder="Nombre de contacto" />
         </div>
@@ -282,7 +282,7 @@
     <div class="col-md-2 nuevo_contacto hidden">
         <div class="form-group">
             <label class="control-label" style="font-weight:600;color:#777"><b>CELULAR </b></label>
-            <input class="form-control estilo_campo" name="celular_contacto_nuevo" type="text" maxlength="9"
+            <input class="form-control estilo_campo" name="celular_contacto_nuevo" type="number" maxlength="9"
                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 value="{{ old('celular_contacto_nuevo') }}" autocomplete="off" placeholder="Celular de contacto" />
         </div>

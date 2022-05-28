@@ -73,7 +73,7 @@
                     <div class="form-group">
                         <label class="control-label" style="font-weight:600;color:#777">TELEFONO: <a
                                 style="color:#B61A1A"></a></label>
-                        <input class="form-control" name="telefono" type="text" autocomplete="off"
+                        <input class="form-control" name="telefono" type="number" autocomplete="off"
                             value="{{ $telefono }}" />
                     </div>
                 </div>

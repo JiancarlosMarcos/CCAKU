@@ -210,6 +210,7 @@ class TransportistaController extends Controller
                 $contacto_nuevo->save();
             }
         }
+        $mensaje_error = "";
         for ($j = 0; $j < $contador_t; $j++) {
             if (isset($request->id_transporte[$j])) {
                 $equipos = Vehiculo::where('id', $request->id_transporte[$j])->first();
@@ -228,6 +229,49 @@ class TransportistaController extends Controller
                 $equipos->cantidad_ejes = $request->ejes_t[$j];
                 $equipos->save();
                 $id_transporte = $equipos->id;
+                //////////////////////////////
+                // if (isset($request->eliminar_imagen[$j]) == TRUE) {
+                //     if (($request->eliminar_imagen[$j]) == 'si') {
+                //         $imagen = ImagenesTransportes::findOrFail($request->id_imagen[$j]);
+                //         $imagen->delete();
+                //     }
+                // }
+                /////////////////////////////
+                $input_id_imagen = $request->input("id_imagen" . $j);
+                $eliminar_imagen = $request->input("eliminar_imagen" . $j);
+
+                $contador_imagenes = $request->contador_imagenes;
+
+                for ($z = 0; $z < $contador_imagenes; $z++) {
+                    if (isset($eliminar_imagen[$z]) == TRUE) {
+                        if ($eliminar_imagen[$z] == 'si') {
+                            $imagen = ImagenesTransportes::findOrFail($input_id_imagen[$z]);
+                            $imagen->delete();
+                        }
+                        if ($eliminar_imagen[$z] == 'editar') {
+                            $imagen = ImagenesTransportes::findOrFail($input_id_imagen[$z]);
+                            $imagen_valida = $request->file("imagen" . $j);
+                            $filename = pathinfo($imagen_valida[$z]->getClientOriginalName(), PATHINFO_FILENAME);
+                            $extension = pathinfo($imagen_valida[$z]->getClientOriginalName(), PATHINFO_EXTENSION);
+                            $nombre_imagen =  $filename . "." . $extension;
+                            $imagen->nombre = $nombre_imagen;
+                            $imagen->save();
+                        }
+                        if ($eliminar_imagen[$z] == 'nuevo') {
+                            $imagen_nuevo = $request->file("imagen" . $j);
+                            $filename = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_FILENAME);
+                            $extension = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_EXTENSION);
+
+                            $nombre_original = $filename . "." . $extension;
+
+                            Storage::disk('imagenes_transporte')->putFileAs("",  $imagen_nuevo[$z], $id_transporte . "-" . $nombre_original);
+                            $imagen = new ImagenesTransportes;
+                            $imagen->id_transporte = $id_transporte;
+                            $imagen->nombre = $nombre_original;
+                            $imagen->save();
+                        }
+                    }
+                }
             } else {
                 $equipos_nuevo = new Vehiculo;
                 $equipos_nuevo->tipo = $request->tipo_t[$j];
@@ -247,26 +291,27 @@ class TransportistaController extends Controller
                 $id_transporte = $equipos_nuevo->id;
             }
 
-            $eq_valida = $request->file("imagen");
-            $f = 0;
-            if (is_array($eq_valida) || is_object($eq_valida)) {
-                foreach ($request->file("imagen") as $documento) {
-                    $filename = pathinfo($documento->getClientOriginalName(), PATHINFO_FILENAME);
-                    $extension = pathinfo($documento->getClientOriginalName(), PATHINFO_EXTENSION);
 
-                    $nombre_original = $filename . "." . $extension;
-                    Storage::disk('imagenes_transporte')->putFileAs("", $documento, $id_transporte . "-" . time() .  "-" . $nombre_original);
-                    $imagen = new ImagenesTransportes;
-                    $imagen->id_transporte = $id_transporte;
-                    $imagen->nombre = $id_transporte . "-" . time() . "-" .  $nombre_original;
-                    $imagen->ruta = "imagenes/transporte";
-                    $imagen->save();
-                    $f++;
-                }
-            }
+            // $f = 1;
+            // $eq_valida = $request->file("imagen" . $f);
+            // if (is_array($eq_valida) || is_object($eq_valida)) {
+            //     foreach ($request->file("imagen" . $f) as $documento) {
+            //         $filename = pathinfo($documento->getClientOriginalName(), PATHINFO_FILENAME);
+            //         $extension = pathinfo($documento->getClientOriginalName(), PATHINFO_EXTENSION);
+
+            //         $nombre_original = $filename . "." . $extension;
+            //         Storage::disk('imagenes_transporte')->putFileAs("", $documento, $id_transporte . "-" . time() .  "-" . $nombre_original);
+            //         $imagen = new ImagenesTransportes;
+            //         $imagen->id_transporte = $id_transporte;
+            //         $imagen->nombre = $id_transporte . "-" . time() . "-" .  $nombre_original;
+            //         $imagen->ruta = "imagenes/transporte";
+            //         $imagen->save();
+            //         $f++;
+            //     }
+            // }
         }
         $notification = array(
-            'mensaje' => 'Transportista actualizado correctamente!' . $filename,
+            'mensaje' => 'Transportista actualizado correctamente!' . $contador_imagenes,
             'tipo' => 'success'
         );
         return Redirect()->back()->with($notification);
@@ -332,5 +377,12 @@ class TransportistaController extends Controller
 
             ]);
         }
+    }
+
+    public function descargar_imagenes(Request $request)
+    {
+        $nombre_imagen = $request->nombre_imagen;
+
+        return Storage::disk('imagenes_transporte')->download($nombre_imagen);
     }
 }

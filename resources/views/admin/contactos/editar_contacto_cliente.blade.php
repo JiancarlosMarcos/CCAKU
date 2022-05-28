@@ -41,7 +41,7 @@
             nombre + '"><br>' +
 
             '<label for="" class="control-label">Celular</label>' +
-            '<input type="text" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="celular_contacto_editar" class="form-control" value="' +
+            '<input type="number" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="celular_contacto_editar" class="form-control" value="' +
             celular + '"><br>' +
 
             '<label for="" class="control-label">Cargo</label>' +

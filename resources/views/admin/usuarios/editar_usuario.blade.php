@@ -197,12 +197,12 @@
                     '</td>' +
 
                     '<td>' +
-                    '<input type="text"  name="dni[]" ' +
+                    '<input type="number"  name="dni[]" ' +
                     'autocomplete="off" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                     '</td>' +
 
                     '<td>' +
-                    '<input type="text"  name="celular[]" ' +
+                    '<input type="number"  name="celular[]" ' +
                     'autocomplete="off" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                     '</td>' +
 

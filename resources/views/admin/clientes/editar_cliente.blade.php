@@ -119,14 +119,14 @@
                 </td>
 
                 <td>
-                    <input type="text" name="dni[]" autocomplete="off" class="form-control" style="background:#77777710"
+                    <input type="number" name="dni[]" autocomplete="off" class="form-control" style="background:#77777710"
                         maxlength="8"
                         oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         value="{{ $contactos[$i]->dni }}">
                 </td>
 
                 <td>
-                    <input type="text" name="celular[]" autocomplete="off" class="form-control" maxlength="9"
+                    <input type="number" name="celular[]" autocomplete="off" class="form-control" maxlength="9"
                         oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         style="background:#77777710" value="{{ $contactos[$i]->celular }}">
                 </td>
@@ -154,7 +154,7 @@
             <div class="form-group">
                 <a class="btn btn-primary" name="add" id="add"
                     style="margin-rigth:auto;width:180px;font-weight:700;
-                                                                        font-size:14px;background:#ECDCC2;border-color:#777">
+                                                                                font-size:14px;background:#ECDCC2;border-color:#777">
                     ++ Agregar Contacto </a>
             </div>
         </div>
@@ -267,8 +267,9 @@
 
             <div class="col-md-2">
                 <div class="form-group">
-                    <a class="btn btn-primary" name="add_carga" id="add_carga" style="margin-rigth:auto;width:100%;font-weight:700;
-                                                                 font-size:14px;background:#ECDCC2;border-color:#777">
+                    <a class="btn btn-primary" name="add_carga" id="add_carga"
+                        style="margin-rigth:auto;width:100%;font-weight:700;
+                                                                         font-size:14px;background:#ECDCC2;border-color:#777">
                         ++ Agregar Carga </a>
                 </div>
             </div>
@@ -320,12 +321,12 @@
                     '</td>' +
 
                     '<td>' +
-                    '<input type="text"  name="dni[]" ' +
+                    '<input type="number"  name="dni[]" ' +
                     'autocomplete="off" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                     '</td>' +
 
                     '<td>' +
-                    '<input type="text"  name="celular[]" ' +
+                    '<input type="number"  name="celular[]" ' +
                     'autocomplete="off" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                     '</td>' +
 
