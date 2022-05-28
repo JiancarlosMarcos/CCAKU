@@ -9,6 +9,7 @@ use App\Http\Controllers\MapaController;
 use App\Http\Controllers\BuscadorController;
 use App\Http\Controllers\cliente\ClienteRequerimientoController;
 use App\Http\Controllers\admin\ClienteController;
+use App\Http\Controllers\admin\DasboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,7 +60,6 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard/', [DasboardController::class, 'index'])->name('dashboard');
+    // Route::get('/dashboard/{id}',[DasboardController::class,'index'])->name('dashboard');
 });
