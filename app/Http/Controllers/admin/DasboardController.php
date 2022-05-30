@@ -27,6 +27,7 @@ class DasboardController extends Controller
         // $administradores1 = $administradores->name;
 
         $vehiculos = VistaVehiculo::all();
+
         $camabajas = count(VistaVehiculo::where('tipo', 'Camabaja')->get());
         $camacunas = count(VistaVehiculo::where('tipo', 'Camacuna')->get());
         $tractos = count(VistaVehiculo::where('tipo', 'Tracto')->get());
@@ -58,6 +59,7 @@ class DasboardController extends Controller
         $total_clientes = count($clientes);
         $total_transportistas = count(VistaTransportista::all());
         $total_vehiculos = count($vehiculos);
+
 
         return view('dashboard', compact(
             'total_clientes',
@@ -106,6 +108,7 @@ class DasboardController extends Controller
      */
     public function store(Request $request)
     {
+
     }
 
     /**

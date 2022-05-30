@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\RequerimientoController;
 use App\Http\Controllers\admin\CotizacionController;
 use App\Http\Controllers\admin\CrearUsuarioController;
 use App\Http\Controllers\admin\ConsultasController;
+use App\Http\Controllers\admin\DasboardController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
 //BUSCADOR
@@ -31,7 +32,6 @@ Route::get('/mapa/requerimientos', [MapaAdminController::class, 'ubicacion_reque
 //RUTAS DE MAPA DE EQUIPOS
 // Route::get('/mapa/cargas/{equipos}', [MapaAdminController::class, 'ubicacion_equipos_admin'])->name('mapa_equipos_admin');
 // Route::get('/mapa/cargas', [MapaAdminController::class, 'ubicacion_todos_equipos_admin'])->name('mapa_todos_equipos_admin');
-
 
 
 

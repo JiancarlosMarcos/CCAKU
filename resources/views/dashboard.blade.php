@@ -6,7 +6,9 @@
 @stop
 
 @section('content')
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <div class="container">
         @php
@@ -15,28 +17,34 @@
         <div class="grid grid-cols-3 gap-4 pt-4 mb-3">
             <div class="">
                 <div class="bg-white w-full rounded-xl shadow-sm flex items-center justify-around p-2">
+
                     <img src="https://img.icons8.com/ios/50/000000/interstate-plow-truck.png" />
                     <div class="text-center">
                         <h1 class="text-4xl font-bold text-gray-800"> {{ $total_vehiculos }} </h1>
                         <span class="text-gray-500">Transportes</span>
+
                     </div>
                 </div>
             </div>
             <div class="">
                 <div class="bg-white w-full rounded-xl shadow-sm flex items-center justify-around p-2">
+
                     <img src="https://img.icons8.com/material/48/000000/driving.png" />
                     <div class="text-center">
                         <h1 class="text-4xl font-bold text-gray-800"> {{ $total_transportistas }} </h1>
                         <span class="text-gray-500">Transportistas</span>
+
                     </div>
                 </div>
             </div>
             <div class="">
                 <div class="bg-white w-full rounded-xl shadow-sm flex items-center justify-around p-2">
+
                     <img src="https://img.icons8.com/material-outlined/48/000000/new-company.png" />
                     <div class="text-center">
                         <h1 class="text-4xl font-bold text-gray-800"> {{ $total_clientes }} </h1>
                         <span class="text-gray-500">Clientes</span>
+
                     </div>
                 </div>
             </div>
@@ -61,6 +69,7 @@
             </div>
         </div>
     </div>
+
     <script>
         const ctx = document.getElementById('myChart');
         const myChart = new Chart(ctx, {
@@ -500,6 +509,7 @@
         //     }
         // });
     </script>
+
 
 @stop
 
