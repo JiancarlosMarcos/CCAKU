@@ -273,8 +273,9 @@
                         value="{{ $transportes[$j]->tipo }}"> --}}
 
 
-                    <input type="text" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
-                        class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
+                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>"
+                        autocomplete="off" class="form-control" style="background:#77777710"
+                        value="{{ $transportes[$j]->id }}">
 
                     <select name="tipo_t[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710"
                         required>
@@ -288,8 +289,8 @@
                         <option value="Tracto">Tracto</option>
                         <option value="Modulares">Modulares</option>
                     </select>
-                    <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
-                            class="fa-solid fa-image"></i></a>
+                    {{-- <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
+                            class="fa-solid fa-image"></i></a> --}}
                     <div id="myModal<?php echo $j; ?>" class="modalContainer">
                         <div class="modal-content">
                             <span class="close">×</span>
@@ -374,13 +375,13 @@
                 <td>
                     <input type="text" name="marca_t[]" autocomplete="off" class="form-control"
                         style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        style="background:#77777710" value="{{ $transportes[$j]->marca }}" required>
+                        style="background:#77777710" value="{{ $transportes[$j]->marca }}">
                 </td>
 
                 <td>
                     <input type="text" name="modelo_t[]" autocomplete="off" class="form-control"
                         style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        style="background:#77777710" value="{{ $transportes[$j]->modelo }}" required>
+                        style="background:#77777710" value="{{ $transportes[$j]->modelo }}">
                 </td>
 
                 <td>
@@ -389,7 +390,7 @@
                         maxlength="6"
                         oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         onkeyup="validar_transporte({{ $j }});javascript:this.value=this.value.toUpperCase();"
-                        value="{{ $transportes[$j]->placa }}" required>
+                        value="{{ $transportes[$j]->placa }}">
                     <input type="text" disabled value="" class="validar_placa" id="valida_placa{{ $j }}">
                 </td>
 
@@ -594,13 +595,13 @@
 
                 '<td>' +
                 '<input type="text"  name="marca_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" class="form-control" style="background:#77777710" required >' +
                 '</td>' +
 
 
                 '<td>' +
                 '<input type="text" name="modelo_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" class="form-control" style="background:#77777710" required>' +
                 '</td>' +
 
                 '<td>' +
@@ -608,7 +609,7 @@
                 'autocomplete="off" onkeyup="validar_transporte(' + j +
                 ')" style="text-transform:uppercase;" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
-                '">' +
+                '" required>' +
 
                 '<td>' +
                 '<input type="text"  name="ejes_t[]" ' +
@@ -649,7 +650,7 @@
                 '</td>' +
 
                 '<td>' +
-                '<select name="tipo_transporte[]" required class="form-control " >' +
+                '<select name="tipo_transporte[]" required class="form-control " required>' +
                 '<option value="" selected disabled>Seleccionar</option>' +
                 '<option value="PROPIO">PROPIO</option>' +
                 '<option value="SUBARRENDADO">SUBARRENADO</option>' +
