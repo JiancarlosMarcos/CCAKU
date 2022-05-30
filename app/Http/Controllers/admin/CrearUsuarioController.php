@@ -45,7 +45,11 @@ class CrearUsuarioController extends Controller
             $contacto_transportista->id_users = $usuario->id;
             $contacto_transportista->save();
         }
-        return view('admin.usuarios.usuarios');
+        $notification = array(
+            'mensaje' => 'Transportista creado correctamente!',
+            'tipo' => 'success'
+        );
+        return Redirect()->back()->with($notification);
     }
     public function create_administrador(Request $request)
     {
@@ -69,7 +73,10 @@ class CrearUsuarioController extends Controller
         $contacto_cliente->id_cliente = 1;
         $contacto_cliente->id_users = $usuario->id;
         $contacto_cliente->save();
-
-        return view('admin.usuarios.usuarios');
+        $notification = array(
+            'mensaje' => 'Administrador creado correctamente!',
+            'tipo' => 'success'
+        );
+        return Redirect()->back()->with($notification);
     }
 }

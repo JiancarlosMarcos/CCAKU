@@ -33,14 +33,16 @@
             '<input type="hidden"  name="id_contacto" class="form-control" value="' + id + '"><br>' +
 
             '<label for="" class="control-label">DNI</label>' +
-            '<input type="number" name="dni_contacto_editar" class="form-control" value="' + dni + '"><br>' +
+            '<input type="number" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="dni_contacto_editar" class="form-control" value="' +
+            dni + '"><br>' +
 
             '<label for="" class="control-label">Nombres</label>' +
-            '<input type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre_contacto_editar" class="form-control" value="' +
+            '<input type="text"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre_contacto_editar" class="form-control" value="' +
             nombre + '"><br>' +
 
             '<label for="" class="control-label">Celular</label>' +
-            '<input type="text" name="celular_contacto_editar" class="form-control" value="' + celular + '"><br>' +
+            '<input type="number" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="celular_contacto_editar" class="form-control" value="' +
+            celular + '"><br>' +
 
             '<label for="" class="control-label">Cargo</label>' +
             '<input type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" name="cargo_contacto_editar" class="form-control" value="' +

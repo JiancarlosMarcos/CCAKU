@@ -8,7 +8,7 @@ use App\Http\Livewire\Cargas;
 use App\Http\Livewire\Vehiculos;
 use App\Http\Controllers\MapaController;
 use App\Http\Controllers\BuscadorController;
-use App\Http\Controllers\cliente\RequerimientoClienteController;
+use App\Http\Controllers\cliente\ClienteRequerimientoController;
 use App\Http\Controllers\admin\ClienteController;
 use App\Http\Controllers\admin\DasboardController;
 
@@ -51,7 +51,7 @@ Route::get('/mapa/cargas', [MapaController::class, 'ubicacion_requerimientos'])-
 
 Route::get('/mapa/requerimientos', [MapaController::class, 'ubicacion_requerimientos'])->name('mapa_requerimientos');
 
-Route::get('/requerimientos/agregar', [RequerimientoClienteController::class, 'form_agregar_requerimiento'])->middleware('can:cliente')->name('requerimientos.formulario.agregar');
+Route::get('/requerimientos/agregar', [ClienteRequerimientoController::class, 'form_agregar_requerimiento'])->middleware('can:cliente')->name('requerimientos.formulario.agregar');
 
 
 Route::get('/consulta_clientes', [ClienteController::class, 'consulta_clientes'])->name('consulta_clientes');
@@ -61,7 +61,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard/',[DasboardController::class,'index'])->name('dashboard');
+
+    Route::get('/dashboard/', [DasboardController::class, 'index'])->name('dashboard');
+
     // Route::get('/dashboard/{id}',[DasboardController::class,'index'])->name('dashboard');
 });
 

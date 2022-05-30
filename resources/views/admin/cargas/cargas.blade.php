@@ -138,14 +138,6 @@
                                     data-column="1" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
                                     data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
 
                             <td></td>
 
@@ -156,12 +148,8 @@
                             <th>Marca</th>
                             <th>Modelo</th>
                             <th>Placa</th>
-                            <th>Volumen</th>
-                            <th>Largo</th>
-                            <th>Ancho</th>
-                            <th>Altura</th>
+                            <th>Dimensiones<br>(Largo x Ancho x Alto) Metros</th>
                             <th>Peso</th>
-                            <th>Medida</th>
                             <th>Ubicacion</th>
                             <th>Fecha de<br>Creacion</th>
                             <th>Fecha de<br>Modificacion</th>
@@ -205,20 +193,9 @@
                 {
                     data: 'volumen'
                 },
-                {
-                    data: 'largo'
-                },
-                {
-                    data: 'ancho'
-                },
-                {
-                    data: 'altura'
-                },
+
                 {
                     data: 'peso'
-                },
-                {
-                    data: 'unidad_medida_peso'
                 },
                 {
                     data: 'ubicacion'
@@ -364,9 +341,7 @@
 <script src="{{ asset('js2/plugins/pace.min.js') }}"></script>
 <!-- Page specific javascripts-->
 <script type="text/javascript" src="{{ asset('js2/plugins/chart.js') }}"></script>
-<script type="text/javascript">
-
-</script>
+<script type="text/javascript"></script>
 
 
 

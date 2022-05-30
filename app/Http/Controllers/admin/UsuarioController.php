@@ -29,6 +29,7 @@ class UsuarioController extends Controller
             'rol',
             'responsable_registro',
             'created_at',
+            'empresa'
         ))
             ->editColumn('created_at', function (VistaUser $prueba) {
                 return $prueba->created_at->format('d/m/Y');

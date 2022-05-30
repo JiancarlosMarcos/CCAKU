@@ -15,9 +15,9 @@ class ClienteContactoController extends Controller
     public function mostrar_clientes_contactos()
     {
 
-        $empresas = Cliente::all();
+        $clientes = Cliente::all();
         $contactos = ContactoCliente::all();
-        return view('cliente.vista_contactos', compact('empresas', 'contactos'));
+        return view('cliente.vista_contactos', compact('clientes', 'contactos'));
     }
 
 

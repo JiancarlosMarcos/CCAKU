@@ -1,8 +1,29 @@
 @extends('adminlte::page')
+@section('content_header')
+    <br>
+    <div class="app-title">
+        <div>
+            <a href="{{ route('transportistas') }}" class="btn btn-primary"
+                style="color:#777;background:#fff;border-color:#777">Transportistas</a>
+            <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
+            <a href="{{ route('vehiculos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Transportes</a>
+            {{-- <a href="{{route('proveedores.contactos.mostrar')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Proveedores</a> --}}
+            {{-- <a href="{{route('grupo_mdn.mostrar')}}" class="btn btn-primary " style="background:#fff;border-color:#777;color:#777">Grupo MDN</a> --}}
+
+            <p></p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a>Transportistas</a></li>
+            <li class="breadcrumb-item"><a href=""> Transportista Nuevo</a></li>
+        </ul>
+    </div>
+@stop
 @section('content')
 @section('titulo', 'Agregar Transportistas')
-<br>
-<br>
+
 <style>
     .validar_placa {
         background: transparent;
@@ -12,24 +33,14 @@
     }
 
 </style>
-<div class="app-title">
-    <div>
-        <a href="{{ route('transportistas') }}" class="btn btn-primary"
-            style="background:#777;border-color:#777">Transportistas</a>
-        <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-        <a href="{{ route('vehiculos') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Transportes</a>
-        {{-- <a href="{{route('proveedores.contactos.mostrar')}}" class="btn btn-primary " style="color:#777;background:#fff;border-color:#777">Contactos de Proveedores</a> --}}
-        {{-- <a href="{{route('grupo_mdn.mostrar')}}" class="btn btn-primary " style="background:#fff;border-color:#777;color:#777">Grupo MDN</a> --}}
-
-        <p></p>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a>Transportistas</a></li>
-        <li class="breadcrumb-item"><a href=""> Transportista Nuevo</a></li>
-    </ul>
+    Cargando...
 </div>
 <!---->
 <form method="POST" action="{{ route('agregar_transportista') }}">
@@ -43,15 +54,15 @@
             <div class="col-md-3">
                 <div class="form-group">
 
-                    <label class="control-label" style="font-weight:600;color:#777">RUC O DNI: <a
-                            style="color:#B61A1A">*
+                    <label class="control-label" style="font-weight:600;color:#777">RUC: <a style="color:#B61A1A">(*)
                             @error('dni_ruc')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </a></label>
                     <input class="form-control" name="dni_ruc" type="number" value="{{ old('dni_ruc') }}"
-                        autocomplete="off" id="dni_ruc" onkeyup="validar_transportista()" placeholder="RUC O DNI"
-                        required pattern="[0-9]" maxlength="11" />
+                        autocomplete="off" id="dni_ruc" onkeyup="validar_transportista()" placeholder="RUC" required
+                        pattern="[0-9]" maxlength="11"
+                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                     <input type="text" value="" class="alerta_1" id="valida_dni_ruc_1"
                         style="font-size:14px;background:transparent;border:0px solid transparent;width:400px;color:#be1e37;margin-top:-50px"
                         disabled>
@@ -61,8 +72,8 @@
 
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="control-label" style="font-weight:600;color:#777">NOMBRE: <a
-                            style="color:#B61A1A">*</a></label>
+                    <label class="control-label" style="font-weight:600;color:#777">Razón Social: <a
+                            style="color:#B61A1A">(*)</a></label>
                     <input class="form-control" name="razon_social" type="text" style="text-transform:uppercase;"
                         onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ old('razon_social') }}"
                         autocomplete="off" placeholder="Nombre de la empresa" required />
@@ -112,9 +123,9 @@
 
         <thead>
             <tr>
-                <td>Nombres</td>
+                <td>Nombres<b style="color:#B61A1A;outline:none">(*)</td>
                 <td>Dni</td>
-                <td>Celular</td>
+                <td>Celular<b style="color:#B61A1A;outline:none">(*)</td>
                 <td>Cargo</td>
                 <td>Correo</td>
                 <td style="text-align:center">Eliminar</td>
@@ -138,17 +149,17 @@
 
             <thead>
                 <tr>
-                    <td style="width:10%">Tipo Transporte(*)</td>
-                    <td style="width:8%">Marca</td>
-                    <td style="width:8%">Modelo</td>
-                    <td style="width:7%">Placa</td>
+                    <td style="width:10%">Tipo Transporte<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:8%">Marca<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:8%">Modelo<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:7%">Placa<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:4%">Cant. Ejes</td>
                     <td style="width:8%">Capacidad</td>
-                    <td style="width:12%">Dimensiones</td>
+                    <td style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
                     <td style="width:5%">Año</td>
-                    <td style="width:12%">Ubicacion(*)</td>
-                    <td style="width:12%">Estado(*)</td>
-                    <td style="width:8%">Propio/Subarrendado</td>
+                    <td style="width:12%">Ubicacion<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:12%">Estado<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:8%">Propio/Subarrendado<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -194,23 +205,26 @@
                 '<option value="Tracto">Tracto</option>' +
                 '<option value="Modulares">Modulares</option>' +
                 '</select>' +
+
+
+
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="marca_t[]" ' +
+                '<input type="text"  name="marca_t[]" required ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 
                 '<td>' +
-                '<input type="text" name="modelo_t[]" ' +
+                '<input type="text" name="modelo_t[]" required ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
-                '<input type="text" id="placa_t' + j + '" name="placa_t[]" ' +
+                '<input type="text" id="placa_t' + j + '" name="placa_t[]" required ' +
                 'autocomplete="off" onkeyup="validar_transporte(' + j +
-                ')" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                ')" style="text-transform:uppercase;" maxlength="6" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
                 '">' +
 
@@ -300,17 +314,17 @@
 
                 '<td>' +
                 '<input type="text" name="nombre_contacto[]" id="nombre_contacto' + i + '" ' +
-                'autocomplete="off"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                'autocomplete="off" required style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="dni[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '<input type="number"  name="dni[]" ' +
+                'autocomplete="off" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="celular[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '<input type="number" required name="celular[]" ' +
+                'autocomplete="off"  class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 
@@ -415,15 +429,15 @@
     }
 </script>
 
+<script>
+    window.onload = function() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
+    }
+</script>
 @endsection
 
-
-
-
-
-
 @section('css')
-
 
 @include('admin.datatable')
 @stop

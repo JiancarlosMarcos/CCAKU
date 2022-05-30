@@ -55,7 +55,7 @@ Route::get('/transportistas/agregar', [TransportistaController::class, 'form_agr
 Route::post('/transportistas/agregar', [TransportistaController::class, 'agregar_transportista'])->name('agregar_transportista');
 //EDITAR TRANSPORTISTA
 Route::get('/transportistas/editar/{id}', [TransportistaController::class, 'form_editar_transportista'])->name('editar_transportista');
-Route::post('/transportistas/editar/', [TransportistaController::class, 'editar_transportista'])->name('actualizar_transportista');
+Route::post('/transportistas/actualizar/', [TransportistaController::class, 'editar_transportista'])->name('actualizar_transportista');
 //ELIMINAR TRANSPORTISTA
 Route::get('/transportistas/eliminar/{id}', [TransportistaController::class, 'eliminar_transportista'])->name('eliminar_transportista');
 
@@ -116,7 +116,8 @@ Route::get('/lista_vehiculos', [VehiculosController::class, 'vista_vehiculos'])-
 //ELIMINAR VEHICULOS
 Route::get('/vehiculos/eliminar/{id}', [VehiculosController::class, 'eliminar_vehiculo'])->middleware('can:administrador')->name('eliminar_vehiculo');
 
-
+//DESCARGAR IMAGENES DE TRANSPORTE - VEHICULOS
+Route::get('/vehiculos/descargar/imagen/{nombre_imagen}', [TransportistaController::class, 'descargar_imagenes'])->middleware('can:administrador')->name('descargar_vehiculo_imagen');
 
 //REQUERIMIENTOS
 Route::get('/lista_requerimientos', [RequerimientoController::class, 'vista_requerimientos'])->name('lista_requerimientos');
@@ -134,7 +135,7 @@ Route::get('/requerimientos/eliminar/{id}', [RequerimientoController::class, 'el
 
 //COTIZACIONES
 Route::get('/lista_cotizaciones', [CotizacionController::class, 'vista_cotizaciones'])->name('lista_cotizaciones');
-Route::get('/lista_historial_cotizaciones',[CotizacionController::class,'vista_historial_cotizaciones'])->name('lista_historial_cotizaciones');
+Route::get('/lista_historial_cotizaciones', [CotizacionController::class, 'vista_historial_cotizaciones'])->name('lista_historial_cotizaciones');
 
 ///MOSTRAR////////////
 Route::get('/cotizaciones', [CotizacionController::class, 'mostrar_cotizaciones'])->name('cotizaciones.mostrar');
@@ -147,7 +148,7 @@ Route::post('/cotizaciones/editar/', [CotizacionController::class, 'editar_cotiz
 //ELIMINAR//
 Route::get('/cotizaciones/eliminar/{id}', [CotizacionController::class, 'eliminar_cotizacion'])->name('eliminar_cotizacion');
 //DESCARGA DE COTIZACIONES X ID
-Route::get('/cotizaciones/clientes/descargar/{id}/{version}' , [CotizacionController::class,'descarga_cotizacion_cliente_PDF'])->name('cotizacion.cliente.descargar');
+Route::get('/cotizaciones/clientes/descargar/{id}/{version}', [CotizacionController::class, 'descarga_cotizacion_cliente_PDF'])->name('cotizacion.cliente.descargar');
 
 
 
@@ -165,5 +166,3 @@ Route::get('/provincias', [RequerimientoController::class, 'provincias'])->name(
 Route::get('/consultar_provincias', [RequerimientoController::class, 'consultar_provincias'])->name('consultar_provincias');
 ///DISTRITOS////
 Route::get('/distritos', [RequerimientoController::class, 'distritos'])->name('distritos');
-
-

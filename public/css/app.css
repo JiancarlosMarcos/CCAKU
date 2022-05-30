@@ -730,11 +730,11 @@ select {
   list-style-type: lower-alpha;
 }
 
-.prose :where(ol[type="A"s]):not(:where([class~="not-prose"] *)) {
+.prose :where(ol[type="A" s]):not(:where([class~="not-prose"] *)) {
   list-style-type: upper-alpha;
 }
 
-.prose :where(ol[type="a"s]):not(:where([class~="not-prose"] *)) {
+.prose :where(ol[type="a" s]):not(:where([class~="not-prose"] *)) {
   list-style-type: lower-alpha;
 }
 
@@ -746,11 +746,11 @@ select {
   list-style-type: lower-roman;
 }
 
-.prose :where(ol[type="I"s]):not(:where([class~="not-prose"] *)) {
+.prose :where(ol[type="I" s]):not(:where([class~="not-prose"] *)) {
   list-style-type: upper-roman;
 }
 
-.prose :where(ol[type="i"s]):not(:where([class~="not-prose"] *)) {
+.prose :where(ol[type="i" s]):not(:where([class~="not-prose"] *)) {
   list-style-type: lower-roman;
 }
 
@@ -2483,9 +2483,9 @@ select {
     justify-content: flex-start;
   }
 
-  .sm\:justify-center {
+  /* .sm\:justify-center {
     justify-content: center;
-  }
+  } */
 
   .sm\:justify-between {
     justify-content: space-between;
@@ -2535,7 +2535,7 @@ select {
   }
 
   .sm\:pt-0 {
-    padding-top: 0px;
+    padding-top: 100px;
   }
 
   .sm\:pb-4 {

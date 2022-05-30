@@ -3,19 +3,20 @@
 @section('content')
 @section('titulo', 'Cotizaciones')
 <style>
-.hidden {
+    .hidden {
 
-    display: none;
-}
+        display: none;
+    }
 
-.centrado {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    .centrado {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
 
-}
+    }
+
 </style>
 
 
@@ -60,11 +61,11 @@
     font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                 <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
-         
+
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
-                <table class="table table-bordered display table-hover" id="tablaCotizaciones" >
+                <table class="table table-bordered display table-hover" id="tablaCotizaciones">
                     <thead>
                         <tr>
 
@@ -106,7 +107,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @include('admin.cotizaciones.historial_pdf.mostrar_historial')
+                        @include('admin.cotizaciones.historial_pdf.mostrar_historial')
 
                     </tbody>
                 </table>
@@ -118,160 +119,162 @@
 </div>
 
 <script>
-$(document).ready(function() {
-    var table = $('#tablaCotizaciones').DataTable({
+    $(document).ready(function() {
+        var table = $('#tablaCotizaciones').DataTable({
 
-        serverSider: true,
-        ajax: '{{ route('lista_cotizaciones') }}',
-        columns: [{
-                data: 'id'
-            },
-            {
-                data: 'empresa'
-            },
-            {
-                data: 'fecha_transporte'
-            },
-            {
-                data: 'departamento_origen'
-            },
-            {
-                data: 'departamento_destino'
-            },
-            {
-                data: 'carga'
-            },
-            {
-                data: 'monto_total'
-            },
-            {
-                data: 'moneda'
-            },
-
-            {
-                data: 'estado'
-            },
-            {
-                data: 'btn_cotizaciones'
-            },
-            {
-                data: 'version_cotizacion'
-            },
-
-
-        ],
-        "columnDefs": [
-            {
-                "sClass":"hidden",
-                "targets": 10,
-            },
-
-            {
-                "render": function(data, type, row) {
-                    var nfs = new Intl.NumberFormat("es-PE", {
-                        style: "currency",
-                        currency: "PEN",
-                        maximumFractionDigits: 2,
-                        roundingIncrement: 5
-                    });
-                    var nfd = new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 2,
-                        roundingIncrement: 5
-                    });
-               
-                    if(row["monto_total"]==null || row["moneda"]==null){
-                        return "<center>-</center>";
-                    }else{
-                    if (row["moneda"] == "Soles") {
-                        return "<center>" + nfs.format(row["monto_total"]) + " " + row["moneda"] + "</center>";
-                    }    
-                    if (row["moneda"] == "Dolares") {
-                        return "<center>" + nfd.format(row["monto_total"]) + " " + row["moneda"] + "</center>";
-                    }}
+            serverSider: true,
+            ajax: '{{ route('lista_cotizaciones') }}',
+            columns: [{
+                    data: 'id'
                 },
-                "targets": 6
-            },
+                {
+                    data: 'empresa'
+                },
+                {
+                    data: 'fecha_transporte'
+                },
+                {
+                    data: 'departamento_origen'
+                },
+                {
+                    data: 'departamento_destino'
+                },
+                {
+                    data: 'carga'
+                },
+                {
+                    data: 'monto_total'
+                },
+                {
+                    data: 'moneda'
+                },
 
-        ],
-        "order": [
-            [0, "desc"]
-        ],
-        "pageLength": 10,
-        "lengthMenu": [10, 50],
+                {
+                    data: 'estado'
+                },
+                {
+                    data: 'btn_cotizaciones'
+                },
+                {
+                    data: 'version_cotizacion'
+                },
 
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-        }
+
+            ],
+            "columnDefs": [{
+                    "sClass": "hidden",
+                    "targets": 10,
+                },
+
+                {
+                    "render": function(data, type, row) {
+                        var nfs = new Intl.NumberFormat("es-PE", {
+                            style: "currency",
+                            currency: "PEN",
+                            maximumFractionDigits: 2,
+                            roundingIncrement: 5
+                        });
+                        var nfd = new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            maximumFractionDigits: 2,
+                            roundingIncrement: 5
+                        });
+
+                        if (row["monto_total"] == null || row["moneda"] == null) {
+                            return "<center>-</center>";
+                        } else {
+                            if (row["moneda"] == "Soles") {
+                                return "<center>" + nfs.format(row["monto_total"]) + " " + row[
+                                    "moneda"] + "</center>";
+                            }
+                            if (row["moneda"] == "Dolares") {
+                                return "<center>" + nfd.format(row["monto_total"]) + " " + row[
+                                    "moneda"] + "</center>";
+                            }
+                        }
+                    },
+                    "targets": 6
+                },
+
+            ],
+            "order": [
+                [0, "desc"]
+            ],
+            "pageLength": 10,
+            "lengthMenu": [10, 50],
+
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            }
+        });
+        // text search
+        $('.filter-input').keyup(function() {
+            table.column($(this).data('column'))
+                .search($(this).val())
+                .draw();
+        });
+        // dropdown
+        $('.filter-select').change(function() {
+            table.column($(this).data('column'))
+                .search($(this).val())
+                .draw();
+        });
+        //   ////CLICK EN FILA DE TABLA
+        // $('#tablaCotizaciones tbody').on('dblclick', 'tr', function () {
+        //     var data_tabla = table.row(this).data();
+        //     mostrar_vista(data_tabla["id"],data_tabla["version_cotizacion"]);
+        // });
     });
-    // text search
-    $('.filter-input').keyup(function() {
-        table.column($(this).data('column'))
-            .search($(this).val())
-            .draw();
-    });
-    // dropdown
-    $('.filter-select').change(function() {
-        table.column($(this).data('column'))
-            .search($(this).val())
-            .draw();
-    });
-      ////CLICK EN FILA DE TABLA
-    $('#tablaCotizaciones tbody').on('dblclick', 'tr', function () {
-        var data_tabla = table.row(this).data();
-        mostrar_vista(data_tabla["id"],data_tabla["version_cotizacion"]);
-    });
-});
 </script>
 
 <script>
-window.onload = function() {
-    $('#onload').fadeOut();
-    $('.contenido').removeClass('hidden');
-}
+    window.onload = function() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
+    }
 </script>
 
 <script>
-function LimpiarFiltros() {
-    var table = $('#tablaCotizaciones').DataTable();
-    table.search('').columns().search('').draw();
-    document.getElementById("empresa").value = ' ';
-    document.getElementById("fecha").value = ' ';
+    function LimpiarFiltros() {
+        var table = $('#tablaCotizaciones').DataTable();
+        table.search('').columns().search('').draw();
+        document.getElementById("empresa").value = ' ';
+        document.getElementById("fecha").value = ' ';
 
-    // document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
-    document.getElementById("origen").value = ' ';
-    document.getElementById("destino").value = ' ';
-    document.getElementById("carga").value = ' ';
-    document.getElementById("marca").value = ' ';
-    document.getElementById("modelo").value = ' ';
-    document.getElementById("volumen").value = ' ';
-    document.getElementById("peso").value = ' ';
-    document.getElementById("unidad").value = ' ';
-    // document.getElementById("transporte").value = ' ';
-    document.getElementById("observaciones").value = ' ';
-    document.getElementById("estado").value = ' ';
-    document.getElementById("fecha_creacion").value = ' ';
-    document.getElementById("fecha_modificacion").value = ' ';
-}
+        // document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
+        document.getElementById("origen").value = ' ';
+        document.getElementById("destino").value = ' ';
+        document.getElementById("carga").value = ' ';
+        document.getElementById("marca").value = ' ';
+        document.getElementById("modelo").value = ' ';
+        document.getElementById("volumen").value = ' ';
+        document.getElementById("peso").value = ' ';
+        document.getElementById("unidad").value = ' ';
+        // document.getElementById("transporte").value = ' ';
+        document.getElementById("observaciones").value = ' ';
+        document.getElementById("estado").value = ' ';
+        document.getElementById("fecha_creacion").value = ' ';
+        document.getElementById("fecha_modificacion").value = ' ';
+    }
 </script>
 
 <script>
-function Editar() {
+    function Editar() {
 
-    document.getElementById("eliminar").style.display = "block";
-    $('.btn-eliminar').addClass('hidden');
-    $('.btn-editar').removeClass('hidden');
+        document.getElementById("eliminar").style.display = "block";
+        $('.btn-eliminar').addClass('hidden');
+        $('.btn-editar').removeClass('hidden');
 
-}
+    }
 
-function Eliminar() {
+    function Eliminar() {
 
-    document.getElementById("editar").style.display = "block";
-    $('.btn-eliminar').removeClass('hidden');
-    $('.btn-editar').addClass('hidden');
+        document.getElementById("editar").style.display = "block";
+        $('.btn-eliminar').removeClass('hidden');
+        $('.btn-editar').addClass('hidden');
 
-}
+    }
 </script>
 @include('admin.cotizaciones.historial_pdf.form_historial')
 

@@ -1,13 +1,26 @@
 @extends('adminlte::page')
 @section('content_header')
+    <?php $user = Auth::user()->id; ?>
+    @foreach ($contactos as $contacto)
+        @if ($contacto->id_users == $user)
+            @foreach ($clientes as $cliente)
+                @if ($contacto->id_cliente == $cliente->id)
+                    <?php $id_cliente = $cliente->id; ?>
+                @endif
+            @endforeach
+        @endif
+    @endforeach
+
     <br>
     <div class="app-title">
         <div>
             <h1>
                 <a href="{{ route('cargas.mostrar') }}" class="btn btn-primary "
-                    style="background:#777;border-color:#777">Lista de Cargas</a>
+                    style="background:#777;border-color:#777">Lista de Equipos</a>
                 <a href="{{ route('cliente.contactos.mostrar') }}" class="btn btn-primary "
                     style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
+                <a href="{{ route('cliente.editar_cliente', $id_cliente) }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Agregar/Modificar Datos</a>
             </h1>
 
         </div><br>
@@ -15,8 +28,8 @@
         <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-            <li class="breadcrumb-item"><a href=""></a>Mis Cargas</li>
-            <li class="breadcrumb-item"><a href=""></a>Cargas</li>
+            <li class="breadcrumb-item"><a href=""></a>Empresa</li>
+            <li class="breadcrumb-item"><a href=""></a>Equipos</li>
         </ul>
     </div>
 @stop
@@ -31,7 +44,7 @@
     </div>
     Cargando...
 </div>
-<h1 style="text-align: center">Lista de Cargas</h1>
+<h1 style="text-align: center">Lista de Equipos</h1>
 <br>
 @include('notificacion')
 <div class="col-md-8" style="max-width:100%">
@@ -44,15 +57,13 @@
     font-size:14px;background:#ECDCC2;border-color:#777">
                 <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <a class="btn btn-primary" onclick="Eliminar();" id="eliminar" style="margin-rigth:auto;width:140px;yo
-    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
-                <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <a class="btn btn-primary" onclick="Editar();" id="editar" style="margin-rigth:auto;width:140px;display:block;
-    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
-                <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
-            {{-- <a class="btn btn-primary btn-sm" href="{{route('clientes.formulario.agregar')}}" style="margin-left:auto;width:120px;font-size:14px">
-                <i class="fas fa-plus-square" aria-hidden="true"></i> Agregar </a> --}}
+
+
+
+
+            <a class="btn btn-primary btn-sm" href="{{ route('cliente.editar_cliente', $id_cliente) }}"
+                style="margin-left:auto;width:140px;font-size:14px">
+                Agregar/Modificar </a>
         </div><br>
         <div class="tile-body">
             <div class="table-responsive">
@@ -82,12 +93,10 @@
                                     data-column="1" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
                                     data-column="1" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                    data-column="1" /></td>
+
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
                                     data-column="1" /></td>
 
-                            <td></td>
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
@@ -96,13 +105,11 @@
                             <th>Marca</th>
                             <th>Modelo</th>
                             <th>Placa</th>
-                            <th>Dimensiones</th>
-                            <th>Peso</th>
-                            <th>Medida</th>
+                            <th>Dimensiones (Largo x Ancho x Alto) Metros</th>
+                            <th>Peso (TN)</th>
                             <th>Ubicacion</th>
                             <th>Fecha de<br>Creacion</th>
                             <th>Fecha de<br>Modificacion</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,7 +122,7 @@
     </div>
 </div>
 
-<?php $user = Auth::user()->id; ?>
+
 </div>
 
 <script>
@@ -146,9 +153,6 @@
                     data: 'peso'
                 },
                 {
-                    data: 'unidad_medida_peso'
-                },
-                {
                     data: 'ubicacion'
                 },
                 {
@@ -156,9 +160,6 @@
                 },
                 {
                     data: 'updated_at'
-                },
-                {
-                    data: 'btn_editar_carga'
                 },
 
             ],

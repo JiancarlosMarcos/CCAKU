@@ -27,36 +27,39 @@ class DasboardController extends Controller
         // $administradores1 = $administradores->name;
 
         $vehiculos = VistaVehiculo::all();
-        $camabajas = count(VistaVehiculo::where('tipo','Camabaja')->get());
-        $camacunas = count(VistaVehiculo::where('tipo','Camacuna')->get());
-        $tractos = count(VistaVehiculo::where('tipo','Tracto')->get());
-        $cam_plataforma = count(VistaVehiculo::where('tipo','Camion Plataforma')->get());
-        $cam_rebatibles = count(VistaVehiculo::where('tipo','Camion Rebatible')->get());
-        $cam_normal = count(VistaVehiculo::where('tipo','Camion Normal')->get());
-        $cam_modular = count(VistaVehiculo::where('tipo','Modulares')->get());
 
-        $jairo = count(VistaTransportista::where('responsable_registro','Jairo Espinoza Quispe')->get());
-        $jose_armacanqui = count(VistaTransportista::where('responsable_registro','Jose Armacanqui')->get());
-        $brandon = count(VistaTransportista::where('responsable_registro','Brandon')->get());
-        $sarah = count(VistaTransportista::where('responsable_registro','Sarah')->get());
-        $chistofer = count(VistaTransportista::where('responsable_registro','Christopher')->get());
-        $gean = count(VistaTransportista::where('responsable_registro','Gean Carlos Armacanqui Mitma')->get());
+        $camabajas = count(VistaVehiculo::where('tipo', 'Camabaja')->get());
+        $camacunas = count(VistaVehiculo::where('tipo', 'Camacuna')->get());
+        $tractos = count(VistaVehiculo::where('tipo', 'Tracto')->get());
+        $cam_plataforma = count(VistaVehiculo::where('tipo', 'Camion Plataforma')->get());
+        $cam_rebatibles = count(VistaVehiculo::where('tipo', 'Camion Rebatible')->get());
+        $cam_normal = count(VistaVehiculo::where('tipo', 'Camion Normal')->get());
+        $cam_modular = count(VistaVehiculo::where('tipo', 'Modulares')->get());
 
-        $jairo_v = count(VistaVehiculo::where('responsable_registro','Jairo Espinoza Quispe')->get());
-        $jose_armacanqui_v = count(VistaVehiculo::where('responsable_registro','Jose Armacanqui')->get());
-        $brandon_v = count(VistaVehiculo::where('responsable_registro','Brandon')->get());
-        $sarah_v = count(VistaVehiculo::where('responsable_registro','Sarah')->get());
-        $chistofer_v = count(VistaVehiculo::where('responsable_registro','Christopher')->get());
-        $gean_v = count(VistaVehiculo::where('responsable_registro','Gean Carlos Armacanqui Mitma')->get());
+        $jairo = count(VistaTransportista::where('responsable_registro', 'Jairo Espinoza Quispe')->get());
+        $jose_armacanqui = count(VistaTransportista::where('responsable_registro', 'Jose Armacanqui')->get());
+        $brandon = count(VistaTransportista::where('responsable_registro', 'Brandon')->get());
+        $sarah = count(VistaTransportista::where('responsable_registro', 'Sarah')->get());
+        $chistofer = count(VistaTransportista::where('responsable_registro', 'Christopher')->get());
+        $gean = count(VistaTransportista::where('responsable_registro', 'Gean Carlos Armacanqui Mitma')->get());
+
+        $jairo_v = count(VistaVehiculo::where('responsable_registro', 'Jairo Espinoza Quispe')->get());
+        $jose_armacanqui_v = count(VistaVehiculo::where('responsable_registro', 'Jose Armacanqui')->get());
+        $brandon_v = count(VistaVehiculo::where('responsable_registro', 'Brandon')->get());
+        $sarah_v = count(VistaVehiculo::where('responsable_registro', 'Sarah')->get());
+        $chistofer_v = count(VistaVehiculo::where('responsable_registro', 'Christopher')->get());
+        $gean_v = count(VistaVehiculo::where('responsable_registro', 'Gean Carlos Armacanqui Mitma')->get());
 
         $clientes = VistaUser::all()->map(
-            function($client){
+            function ($client) {
                 return $client->name;
-            });
+            }
+        );
 
         $total_clientes = count($clientes);
         $total_transportistas = count(VistaTransportista::all());
-        $total_vehiculos= count($vehiculos);
+        $total_vehiculos = count($vehiculos);
+
 
         return view('dashboard', compact(
             'total_clientes',

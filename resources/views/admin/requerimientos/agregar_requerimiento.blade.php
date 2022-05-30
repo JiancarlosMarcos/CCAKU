@@ -264,13 +264,6 @@
             return;
         }
 
-
-        if (count_transportes == 0) {
-            alert('No has agregado ningun transporte');
-            evt.preventDefault();
-            return;
-        }
-
         $('#onload').fadeIn();
         $('.contenido').addClass('hidden');
 

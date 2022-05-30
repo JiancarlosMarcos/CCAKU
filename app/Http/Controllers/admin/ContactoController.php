@@ -58,20 +58,10 @@ class ContactoController extends Controller
     public function vista_transportistas_contactos(Request $request)
     {
 
-        return DataTables::of(Vista_Transportistas_Contactos::select(
-            'id',
-            'dni',
-            'nombre',
-            'cargo',
-            'celular',
-            'correo',
-            'empresa',
-            'created_at',
-            'updated_at',
-        ))
-            // ->editColumn('created_at', function (ContactoCliente $prueba) {
-            //     return $prueba->created_at->format('d/m/Y');
-            // })
+        return DataTables::of(Vista_Transportistas_Contactos::all())
+            ->editColumn('created_at', function (Vista_Transportistas_Contactos $prueba) {
+                return $prueba->created_at->format('d/m/Y');
+            })
             ->addColumn('btn_transportistas_contactos', 'admin.botones.btn_transportistas_contactos')
             ->rawColumns(['btn_transportistas_contactos'])
             ->toJson();
@@ -141,6 +131,7 @@ class ContactoController extends Controller
         $contacto->cargo = $request->cargo_contacto_editar;
         $contacto->celular = $request->celular_contacto_editar;
         $contacto->correo = $request->correo_contacto_editar;
+        $contacto->responsable_actualizacion = $request->usuario;
         $empresa = $request->id_empresa;
         if ($empresa == "") {
         } else {

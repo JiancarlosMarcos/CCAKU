@@ -1,13 +1,16 @@
 @extends('adminlte::page')
 @section('content_header')
+
     <br>
     <div class="app-title">
         <div>
             <h1>
                 <a href="{{ route('cargas.mostrar') }}" class="btn btn-primary "
-                    style="color:#777;background:#fff;border-color:#777">Lista de Cargas</a>
+                    style="color:#777;background:#fff;border-color:#777">Lista de Equipos</a>
                 <a href="{{ route('cliente.contactos.mostrar') }}" class="btn btn-primary "
                     style="color:#777;background:#fff;border-color:#777">Lista de Contactos</a>
+                <a href="{{ route('cliente.editar_cliente', $empresa->id) }}" class="btn btn-primary "
+                    style="background:#777;border-color:#777">Agregar/Modificar Equipos</a>
             </h1>
 
         </div><br>
@@ -15,7 +18,7 @@
         <input type="hidden" name="usuario" id="usuario" value="{{ auth()->user()->id }}">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-            <li class="breadcrumb-item"><a href=""></a>Mis Cargas</li>
+            <li class="breadcrumb-item"><a href=""></a>Empresa</li>
             <li class="breadcrumb-item"><a href=""></a>Editar</li>
         </ul>
     </div>
@@ -126,12 +129,15 @@
             </td>
 
             <td>
-                <input type="text" name="dni[]" autocomplete="off" class="form-control" style="background:#77777710"
+                <input type="number" name="dni[]" autocomplete="off" class="form-control" style="background:#77777710"
+                    maxlength="8"
+                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                     value="{{ $contactos[$i]->dni }}">
             </td>
 
             <td>
-                <input type="text" name="celular[]" autocomplete="off" class="form-control"
+                <input type="number" name="celular[]" autocomplete="off" class="form-control" maxlength="9"
+                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                     style="background:#77777710" value="{{ $contactos[$i]->celular }}">
             </td>
 
@@ -167,9 +173,10 @@
                     <td style="width:10%">Marca</td>
                     <td style="width:12%">Modelo</td>
                     <td style="width:8%">Placa</td>
-                    <td style="width:8%">Dimensiones<br>(Largo x Ancho x Alto)</td>
+                    <td style="width:8%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
                     <td style="width:12%">Peso</td>
                     <td style="width:12%">Ubicacion</td>
+                    <td>Estado</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -215,7 +222,8 @@
                         style="background:#77777710" style="text-transform:uppercase;"
                         onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->volumen }}">
                 </td>
-                <td style="display: flex;flex-direction:row,align-items: center;">
+
+                <td style="display: flex; flex-direction: row; align-items: stretch;height:100%">
                     <input type="text" name="peso_c[]" autocomplete="off" class="form-control"
                         style="background:#77777710" style="text-transform:uppercase;"
                         onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{ $cargas[$j]->peso }}">
@@ -223,10 +231,8 @@
                 </td>
 
 
-
-
                 <td>
-                    <select name="id_ubicacion_c[]" class="form-control " style="background:#77777710">
+                    <select name="id_ubicacion_c[]" class="form-control " style="background:#77777710" required>
                         @foreach ($ubicaciones as $ubicacion)
                             @if ($ubicacion->id == $cargas[$j]->id_ubicacion)
                                 <option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}
@@ -238,11 +244,21 @@
                         @endforeach
                     </select>
                 </td>
-
-
                 <td>
-                    <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_c">X</button>
+                    <select name="estado_c[]" id="estado_c{{ $j }}"
+                        onchange="mostrar_detalles({{ $j }})" class="form-control">
+                        <option value="{{ $cargas[$j]->estado }}">{{ $cargas[$j]->estado }}</option>
+                        <option value="OPERATIVO">OPERATIVO</option>
+                        <option value="DADO DE BAJA">DADO DE BAJA</option>
+                    </select>
+                    <label id="label{{ $j }}" hidden>Motivo:</label>
+                    <input type="text" id="input{{ $j }}" name="observaciones_c[]" class="form-control"
+                        style="background-color: #ec3939;color:white" hidden>
+                </td>
 
+                <td style="text-align:center">
+                    <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_c"
+                        disabled>X</button>
                 </td>
             </tr>
             <?php }?>
@@ -277,13 +293,13 @@
 </script>
 <script>
     $(document).on('click', '.btn_remove_data_c', function() {
-        if (!confirm("¿Estas seguro de eliminar esta carga?")) return;
+        if (!confirm("No puede eliminar un equipo, solo darle de baja")) return;
 
         var id_c = $(this).attr('id');
         var data_id_c = $('#id_carga' + id_c).val();
-        lista_eliminados_c(data_id_c);
-        $('#carga' + id_c).remove();
-        document.getElementById("contador_c").value--;
+        // lista_eliminados_c(data_id_c);
+        // $('#carga' + id_c).remove();
+        // document.getElementById("contador_c").value--;
     });
 </script>
 
@@ -303,12 +319,12 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="dni[]" ' +
+                '<input type="number"  name="dni[]" ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
-                '<input type="text"  name="celular[]" ' +
+                '<input type="number"  name="celular[]" ' +
                 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
@@ -392,12 +408,17 @@
                 '</td>' +
 
                 '<td>' +
-                '<select name="id_ubicacion_c[]" " class="form-control " >' +
+                '<select name="id_ubicacion_c[]" " class="form-control " required>' +
                 '<option value="" selected disabled>Seleccionar Ubicacion</option>' +
                 @foreach ($ubicaciones as $ubicacion)
                     '<option value="{{ $ubicacion->id }}">{{ $ubicacion->departamento }}</option>' +
                 @endforeach
                 '</select>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text"  name="estado_c[]" ' +
+                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" value="OPERATIVO" readonly class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
 
@@ -422,6 +443,19 @@
         $('#carga' + id).remove();
         document.getElementById("contador_c").value--;
 
+    }
+</script>
+<script>
+    function mostrar_detalles(j) {
+        var estado = document.getElementById("estado_c" + j).value;
+        console.log(estado);
+        if (estado == "DADO DE BAJA") {
+            $('#label' + j).attr('hidden', false);
+            $('#input' + j).attr('hidden', false);
+        } else {
+            $('#label' + j).attr('hidden', true);
+            $('#input' + j).attr('hidden', true);
+        }
     }
 </script>
 <script>
