@@ -2,7 +2,19 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
+    <br>
 
+    <div class="app-title">
+        <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-primary"
+                style="background:#777;border-color:#777">Dashboards</a>
+            <a href="{{ route('videos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Videos</a>
+
+
+            <p></p>
+        </div>
+    </div>
 @stop
 
 @section('content')

@@ -15,12 +15,14 @@ use App\Http\Controllers\admin\CotizacionController;
 use App\Http\Controllers\admin\CrearUsuarioController;
 use App\Http\Controllers\admin\ConsultasController;
 use App\Http\Controllers\admin\DasboardController;
+use App\Http\Controllers\admin\VideosController;
 
 Route::get('', [HomeController::class, 'index'])->name('admin');
 //BUSCADOR
 Route::get('/buscador', [BuscadorController::class, 'mostrar_buscador_admin'])->name('buscador.mostrar');
 
-
+//VIDEOS
+Route::get('/videos', [VideosController::class, 'mostrar_videos'])->name('videos');
 
 //RUTAS DE MAPA DE TRANSPORTES
 Route::get('/mapa', [MapaAdminController::class, 'ubicacion_todos_admin'])->name('mapa_todos_admin');

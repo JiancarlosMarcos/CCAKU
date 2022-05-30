@@ -90,9 +90,6 @@
             }
             reader.readAsDataURL(e.target.files['0']);
         });
-
-
-
     }
 </script>
 <div class="centrado" id="onload">
@@ -276,9 +273,8 @@
                         value="{{ $transportes[$j]->tipo }}"> --}}
 
 
-                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>"
-                        autocomplete="off" class="form-control" style="background:#77777710"
-                        value="{{ $transportes[$j]->id }}">
+                    <input type="text" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
+                        class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
 
                     <select name="tipo_t[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710"
                         required>
@@ -292,12 +288,12 @@
                         <option value="Tracto">Tracto</option>
                         <option value="Modulares">Modulares</option>
                     </select>
-                    {{-- <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
-                            class="fa-solid fa-image"></i></a> --}}
+                    <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
+                            class="fa-solid fa-image"></i></a>
                     <div id="myModal<?php echo $j; ?>" class="modalContainer">
                         <div class="modal-content">
                             <span class="close">×</span>
-                            <h2>Imagenes de {{ $transportes[$j]->tipo }}: {{ $transportes[$j]->id }} </h2>
+                            <h2>Imagenes de {{ $transportes[$j]->tipo }}:</h2>
                             <div id="imagenes{{ $j }}" class="imagenes{{ $j }}">
 
                                 <?php $img = 0; ?>
@@ -359,8 +355,7 @@
                                                 onclick="agregar_imagen({{ $j }},{{ $img }});"
                                                 name="add_imagen" id="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;
                                     font-size:13px;background:#F1CF98;border-color:#777">
-                                                <i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen
-                                                ++</a>
+                                                <i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen</a>
                                         </div>
                                     </div>
                                 </div>
@@ -368,8 +363,8 @@
 
 
                             </div>
-                            <input type="text" id="contador_imagenes" name="contador_imagenes"
-                                value="{{ $img }}">
+                            <input type="text" id="contador_imagenes{{ $j }}"
+                                name="contador_imagenes{{ $j }}" value="{{ $img }}">
 
 
                         </div>
@@ -871,7 +866,7 @@
         img++;
         //$imagen.addEventListener("change", () => {
 
-        document.getElementById("contador_imagenes").value++;
+        document.getElementById("contador_imagenes" + j).value++;
         //});
 
 
