@@ -50,7 +50,15 @@ class DasboardController extends Controller
         $chistofer_v = count(VistaVehiculo::where('responsable_registro', 'Christopher')->get());
         $gean_v = count(VistaVehiculo::where('responsable_registro', 'Gean Carlos Armacanqui Mitma')->get());
 
-        $clientes = VistaUser::all()->map(
+        $jairo_c = count(Cliente::where('responsable_registro', 1)->get());
+        $jose_armacanqui_c = count(Cliente::where('responsable_registro', 2)->get());
+        $brandon_c = count(Cliente::where('responsable_registro', 8)->get());
+        $sarah_c = count(Cliente::where('responsable_registro', 9)->get());
+        $chistofer_c = count(Cliente::where('responsable_registro', 10)->get());
+        $jiancarlos_c = count(Cliente::where('responsable_registro', 5)->get());
+        $gean_c = count(Cliente::where('responsable_registro', 12)->get());
+
+        $clientes = VistaCliente::all()->map(
             function ($client) {
                 return $client->name;
             }
@@ -87,7 +95,14 @@ class DasboardController extends Controller
             'brandon_v',
             'sarah_v',
             'chistofer_v',
-            'gean_v'
+            'gean_v',
+            'jairo_c',
+            'jose_armacanqui_c',
+            'brandon_c',
+            'sarah_c',
+            'chistofer_c',
+            'gean_c',
+            'jiancarlos_c'
         ));
     }
 
