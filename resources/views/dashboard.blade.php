@@ -11,9 +11,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <div class="container">
-        @php
-        @endphp
-
         <div class="grid grid-cols-3 gap-4 pt-4 mb-3">
             <div class="">
                 <div class="bg-white w-full rounded-xl shadow-sm flex items-center justify-around p-2">
@@ -343,7 +340,7 @@
         const myChart6 = new Chart(ctx6, {
             type: 'doughnut',
             data: {
-                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui', 'Sarah', 'Christopher',
+                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui','Brandon', 'Sarah', 'Christopher',
                     'Gean Carlos Armacanqui Mitma'
                 ],
                 datasets: [{
@@ -392,7 +389,7 @@
         const myChart61 = new Chart(ctx61, {
             type: 'pie',
             data: {
-                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui', 'Sarah', 'Christopher',
+                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui','Brandon', 'Sarah', 'Christopher',
                     'Gean Carlos Armacanqui Mitma'
                 ],
                 datasets: [{
@@ -441,13 +438,13 @@
         const myChart62 = new Chart(ctx62, {
             type: 'doughnut',
             data: {
-                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui', 'Sarah', 'Christopher',
+                labels: ['Jairo Espinoza Quispe', 'Jiancarlos', 'Jose Armacanqui','Brandon', 'Sarah', 'Christopher',
                     'Gean Carlos Armacanqui Mitma'
                 ],
                 datasets: [{
                     label: 'Datos generales',
-                    data: [{{ $jairo }}, {{ $jose_armacanqui }}, {{ $brandon }},
-                        {{ $sarah }}, {{ $chistofer }}, {{ $gean }}
+                    data: [{{ $jairo_c }}, {{$jiancarlos_c}}, {{ $jose_armacanqui_c }}, {{ $brandon_c }},
+                        {{ $sarah_c }}, {{ $chistofer_c }}, {{ $gean_c }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.9)',
@@ -455,7 +452,8 @@
                         'rgba(255, 206, 86, 0.9)',
                         'rgba(75, 192, 192, 0.9)',
                         'rgba(153, 102, 255, 0.9)',
-                        'rgba(255, 159, 64, 0.9)'
+                        'rgba(255, 159, 64, 0.9)',
+                        'rgba(255, 206, 86, 0.9)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -463,7 +461,8 @@
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
                         'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 206, 86, 0.9)'
                     ],
                     borderWidth: 1
                 }]
@@ -472,6 +471,16 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Registro de Clientes por Usuario'
                     }
                 }
             }
