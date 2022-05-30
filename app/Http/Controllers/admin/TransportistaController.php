@@ -24,23 +24,10 @@ class TransportistaController extends Controller
     public function vista_transportistas(Request $request)
     {
         $transportistas = VistaTransportista::all();
-        return DataTables::of(VistaTransportista::select(
-            'id',
-            'nombre',
-            'dni_ruc',
-            'tipo_transportista',
-            'direccion',
-            'pagina_web',
-            'responsable_registro',
-            'created_at',
-            'updated_at',
-            'nro_contactos',
-            'nro_equipos'
-
-        ))
-            // ->editColumn('created_at', function (Transportista $prueba) {
-            //     return $prueba->created_at->format('d/m/Y');
-            // })
+        return DataTables::of(VistaTransportista::all())
+            ->editColumn('created_at', function (VistaTransportista $prueba) {
+                return $prueba->created_at->format('d/m/Y');
+            })
             ->addColumn('btn_transportistas', 'admin.botones.btn_transportistas')
             ->rawColumns(['btn_transportistas'])
             ->toJson();
@@ -311,7 +298,7 @@ class TransportistaController extends Controller
             // }
         }
         $notification = array(
-            'mensaje' => 'Transportista actualizado correctamente!' . $contador_imagenes,
+            'mensaje' => 'Transportista actualizado correctamente!',
             'tipo' => 'success'
         );
         return Redirect()->back()->with($notification);

@@ -1,5 +1,25 @@
 @extends('adminlte::page')
+@section('content_header')
+    <br>
+    <div class="app-title centrar-title">
+        <div>
+            <a href="{{ route('transportistas') }}" class="btn btn-primary"
+                style="color:#777;background:#fff;border-color:#777">Transportistas</a>
+            <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
+            <a href="{{ route('vehiculos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Transportes</a>
 
+
+            <p></p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="{{ route('vehiculos') }}">Transportistas</a></li>
+            <li class="breadcrumb-item"><a href=""> Editar Transportista</a></li>
+        </ul>
+    </div>
+@stop
 @section('content')
 @section('titulo', 'Editar Transportista')
 <style>
@@ -75,25 +95,14 @@
 
     }
 </script>
-<br>
-<br>
-<div class="app-title centrar-title">
-    <div>
-        <a href="{{ route('transportistas') }}" class="btn btn-primary"
-            style="background:#777;border-color:#777;color:#fff">Transportistas</a>
-        <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-        <a href="{{ route('vehiculos') }}" class="btn btn-primary "
-            style="color:#777;background:#fff;border-color:#777">Transportes</a>
-
-
-        <p></p>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a href="{{ route('vehiculos') }}">Transportistas</a></li>
-        <li class="breadcrumb-item"><a href=""> Editar Transportista</a></li>
-    </ul>
+    Cargando...
 </div>
 <!---->
 <form method="POST" action="{{ route('actualizar_transportista') }}" class="centrar-form"
@@ -168,9 +177,9 @@
 
         <thead>
             <tr>
-                <td>Nombres</td>
+                <td>Nombres<b style="color:#B61A1A;outline:none">(*)</b></td>
                 <td>Dni</td>
-                <td>Celular</td>
+                <td>Celular<b style="color:#B61A1A;outline:none">(*)</b></td>
                 <td>Cargo</td>
                 <td>Correo</td>
                 <td style="text-align:center">Eliminar</td>
@@ -185,7 +194,8 @@
             <td>
                 <input type="text" name="nombre_contacto[]" id="nombre_contacto'+i+'" autocomplete="off"
                     style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}">
+                    class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}"
+                    required>
 
                 <input type="hidden" name="id_contacto[]" id="id_contacto<?php echo $i; ?>" autocomplete="off"
                     class="form-control" style="background:#77777710" value="{{ $contactos[$i]->id }}">
@@ -199,9 +209,8 @@
             </td>
 
             <td>
-                <input type="number" name="celular[]" autocomplete="off" class="form-control" maxlength="9"
-                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                    style="background:#77777710" value="{{ $contactos[$i]->celular }}">
+                <input type="number" name="celular[]" autocomplete="off" class="form-control"
+                    style="background:#77777710" value="{{ $contactos[$i]->celular }}" required>
             </td>
 
             <td>
@@ -241,17 +250,17 @@
 
             <thead>
                 <tr>
-                    <td style="width:10%">Tipo Transporte</td>
-                    <td style="width:8%">Marca</td>
-                    <td style="width:8%">Modelo</td>
-                    <td style="width:7%">Placa</td>
+                    <td style="width:10%">Tipo Transporte<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:8%">Marca<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:8%">Modelo<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:7%">Placa<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:4%">Cant. Ejes</td>
                     <td style="width:8%">Capacidad</td>
                     <td style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
                     <td style="width:5%">Año</td>
-                    <td style="width:12%">Ubicacion</td>
-                    <td style="width:10%">Estado</td>
-                    <td style="width:10%">Propio/Subarrendado</td>
+                    <td style="width:12%">Ubicacion<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:10%">Estado<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:10%">Propio/Subarrendado<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -267,8 +276,9 @@
                         value="{{ $transportes[$j]->tipo }}"> --}}
 
 
-                    <input type="text" name="id_transporte[]" id="id_transporte<?php echo $j; ?>" autocomplete="off"
-                        class="form-control" style="background:#77777710" value="{{ $transportes[$j]->id }}">
+                    <input type="hidden" name="id_transporte[]" id="id_transporte<?php echo $j; ?>"
+                        autocomplete="off" class="form-control" style="background:#77777710"
+                        value="{{ $transportes[$j]->id }}">
 
                     <select name="tipo_t[]" class="form-control " id="tipo_t'+i+'" style="background:#77777710"
                         required>
@@ -282,8 +292,8 @@
                         <option value="Tracto">Tracto</option>
                         <option value="Modulares">Modulares</option>
                     </select>
-                    <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
-                            class="fa-solid fa-image"></i></a>
+                    {{-- <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
+                            class="fa-solid fa-image"></i></a> --}}
                     <div id="myModal<?php echo $j; ?>" class="modalContainer">
                         <div class="modal-content">
                             <span class="close">×</span>
@@ -369,13 +379,13 @@
                 <td>
                     <input type="text" name="marca_t[]" autocomplete="off" class="form-control"
                         style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        style="background:#77777710" value="{{ $transportes[$j]->marca }}">
+                        style="background:#77777710" value="{{ $transportes[$j]->marca }}" required>
                 </td>
 
                 <td>
                     <input type="text" name="modelo_t[]" autocomplete="off" class="form-control"
                         style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                        style="background:#77777710" value="{{ $transportes[$j]->modelo }}">
+                        style="background:#77777710" value="{{ $transportes[$j]->modelo }}" required>
                 </td>
 
                 <td>
@@ -384,7 +394,7 @@
                         maxlength="6"
                         oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         onkeyup="validar_transporte({{ $j }});javascript:this.value=this.value.toUpperCase();"
-                        value="{{ $transportes[$j]->placa }}">
+                        value="{{ $transportes[$j]->placa }}" required>
                     <input type="text" disabled value="" class="validar_placa" id="valida_placa{{ $j }}">
                 </td>
 
@@ -518,8 +528,8 @@
                 '</td>' +
 
                 '<td>' +
-                '<input type="number"  name="celular[]" ' +
-                'autocomplete="off" maxlength="9" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" style="background:#77777710" >' +
+                '<input type="number" required  name="celular[]" ' +
+                'autocomplete="off"  class="form-control" style="background:#77777710" >' +
                 '</td>' +
 
                 '<td>' +
@@ -762,6 +772,12 @@
 </script>
 
 
+<script>
+    window.onload = function() {
+        $('#onload').fadeOut();
+        $('.contenido').removeClass('hidden');
+    }
+</script>
 
 <script type="text/javascript">
     function vista_previa(j, img) {

@@ -1,32 +1,38 @@
 @extends('adminlte::page')
+@section('content_header')
+    <br>
 
+    <div class="app-title">
+        <div>
+            <h1>
+                <a href="{{ route('transportistas') }}" class="btn btn-primary"
+                    style="background:#777;border-color:#777">Transportistas</a>
+                <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
+                <a href="{{ route('vehiculos') }}" class="btn btn-primary "
+                    style="color:#777;background:#fff;border-color:#777">Transportes</a>
+
+            </h1>
+
+        </div><br>
+
+
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
+            <li class="breadcrumb-item"><a href=""></a>Transportistas</li>
+        </ul>
+    </div>
+@stop
 @section('content')
 @section('titulo', 'Transportistas')
-
-
-
-<br>
-<br>
-
-<div class="app-title">
-    <div>
-        <h1>
-            <a href="{{ route('transportistas') }}" class="btn btn-primary"
-                style="background:#777;border-color:#777">Transportistas</a>
-            <a href="{{ route('transportistas.contactos.mostrar') }}" class="btn btn-primary "
-                style="color:#777;background:#fff;border-color:#777">Contactos de Transportistas</a>
-            <a href="{{ route('vehiculos') }}" class="btn btn-primary "
-                style="color:#777;background:#fff;border-color:#777">Transportes</a>
-
-        </h1>
-
-    </div><br>
-
-
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home"></i></li>
-        <li class="breadcrumb-item"><a href=""></a>Transportistas</li>
-    </ul>
+<div class="centrado" id="onload">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    Cargando...
 </div>
 @include('notificacion')
 <div class="col-md-8" style="max-width:100%">
@@ -85,15 +91,15 @@
 
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                            <th>Nombre</th>
-                            <th>DNI/RUC</th>
+                            <th>Razon Social</th>
+                            <th>RUC</th>
                             <th>Tipo de<br>Transportista</th>
                             <th>Direccion</th>
                             <th>Pagina Web</th>
                             <th>Contactos</th>
                             <th>Equipos</th>
                             <th>Responsable<br>de Registro</th>
-                            <th>Fecha de<br>Creacion</th>
+                            <th>Fecha de Registro</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -148,7 +154,9 @@
                 },
 
             ],
-
+            "order": [
+                [8, "desc"]
+            ],
             "pageLength": 10,
             "lengthMenu": [10, 50],
 

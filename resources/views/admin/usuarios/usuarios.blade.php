@@ -53,14 +53,14 @@
             <div class="botones" style="display:flex">
                 <div class="botones2">
                     <a class="btn btn-primary " onclick="LimpiarFiltros();" style="margin-rigth:auto;width:140px;
-                                                    font-size:14px;background:#ECDCC2;border-color:#777">
+                                                        font-size:14px;background:#ECDCC2;border-color:#777">
                         <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                     <a class="btn btn-primary" onclick="Eliminar();" id="eliminar" style="margin-rigth:auto;width:140px;yo
-                                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                        font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                         <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
 
                     <a class="btn btn-primary" onclick="Editar();" id="editar" style="margin-rigth:auto;width:140px;display:block;
-                                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                        font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                         <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
                 </div>
                 <div>
@@ -159,7 +159,9 @@
                     },
 
                 ],
-
+                "order": [
+                    [5, "desc"]
+                ],
                 "pageLength": 10,
                 "lengthMenu": [10, 50],
 

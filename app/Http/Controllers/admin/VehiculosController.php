@@ -38,29 +38,11 @@ class VehiculosController extends Controller
 
         return DataTables::of(
             VistaVehiculo::all()
-            // select(
-            //     'id',
-            //     'id_transportista',
-            //     'empresa',
-            //     'tipo',
-            //     'marca',
-            //     'placa',
-            //     'volumen',
-            //     'largo',
-            //     'ancho',
-            //     'altura',
-            //     'capacidad',
-            //     'estado',
-            //     'departamento',
-            //     'modelo',
-            //     'anio',
-            //     'responsable_registro',
-            //     'guia_remision',
-            // )
+
         )
-            // ->editColumn('created_at', function (Cliente $prueba) {
-            //     return $prueba->created_at->format('d/m/Y');
-            // })
+            ->editColumn('created_at', function (VistaVehiculo $prueba) {
+                return $prueba->created_at->format('d/m/Y');
+            })
             ->addColumn('btn_transportes', 'admin.botones.btn_transportes')
             ->rawColumns(['btn_transportes'])
             ->toJson();
