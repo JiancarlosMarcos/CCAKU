@@ -47,12 +47,13 @@ return [
     |
     */
 
-    'logo' => '<b>MDN-</b>PT',
-    'logo_img' => 'image/favicon.png',
+    // 'logo' => '&nbsp;&nbsp;<img style="width:4rem;" src="../image/Logotipo-Transparente-copia.png"></img>',
+    'logo' => '&nbsp;&nbsp;<b style="color:#A73931">APAY</b>',
+    'logo_img' => 'image/isotipo-Transparente.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'MDN-PT',
+    'logo_img_alt' => 'APAY',
 
     /*
     |--------------------------------------------------------------------------

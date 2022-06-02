@@ -41,17 +41,17 @@
 
                 <a class="btn btn-primary " onclick="LimpiarFiltros();"
                     style="margin-rigth:auto;width:140px;
-                                                                                    font-size:14px;background:#ECDCC2;border-color:#777">
+                                                                                                                        font-size:14px;background:#ECDCC2;border-color:#777">
                     <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Eliminar();" id="eliminar"
                     style="margin-rigth:auto;width:140px;yo
-                                                                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                                                        font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Editar();" id="editar"
                     style="margin-rigth:auto;width:140px;display:block;
-                                                                                    font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                                                        font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
 
@@ -61,33 +61,31 @@
                     <table class="table table-bordered display" id="sampleTable">
                         <thead>
                             <tr>
-                                <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
-                                        data-column="0" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                        id="nombre_contacto" data-column="1" /></td>
-                                <td><input autocomplete="off" type="text" class="form-control filter-input" id="cargo"
-                                        data-column="2" /></td>
+                                        id="nombre_contacto" data-column="0" /></td>
+                                <td><input autocomplete="off" type="text" class="form-control filter-input" id="dni_ruc"
+                                        data-column="1" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input" id="celuar"
-                                        data-column="3" /></td>
+                                        data-column="2" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input" id="correo"
-                                        data-column="4" /></td>
+                                        data-column="3" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input" id="empresa"
-                                        data-column="5" /></td>
+                                        data-column="4" /></td>
+                                <td><input autocomplete="off" type="text" class="form-control filter-input"
+                                        id="responsable_registro" data-column="5" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input"
                                         id="fecha_creacion" data-column="6" /></td>
-                                <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                        id="fecha_modificacion" data-column="7" /></td>
+
                                 <td></td>
                             </tr>
                             <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                                <th>DNI</th>
                                 <th>Nombre</th>
-                                <th>Cargo</th>
+                                <th>DNI</th>
                                 <th>Celular</th>
                                 <th>Correo</th>
                                 <th>Empresa</th>
-                                <th>Fecha<br>de Creacion</th>
-                                <th>Fecha<br>de Actualizacion</th>
+                                <th>Responsable<br>Registro</th>
+                                <th>Fecha<br>de Registro</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -112,14 +110,12 @@
                 serverSider: true,
                 ajax: '{{ route('lista_clientes_contactos') }}',
                 columns: [{
-                        data: 'dni'
-                    },
-                    {
                         data: 'nombre'
                     },
                     {
-                        data: 'cargo'
+                        data: 'dni'
                     },
+
                     {
                         data: 'celular'
                     },
@@ -130,16 +126,18 @@
                         data: 'empresa'
                     },
                     {
-                        data: 'created_at'
+                        data: 'responsable_registro'
                     },
                     {
-                        data: 'updated_at'
+                        data: 'created_at'
                     },
                     {
                         data: 'btn_clientes_contactos'
                     }
                 ],
-
+                "order": [
+                    [6, "desc"]
+                ],
                 "pageLength": 10,
                 "lengthMenu": [10, 50],
                 "language": {
@@ -176,14 +174,14 @@
         function LimpiarFiltros() {
             var table = $('#sampleTable').DataTable();
             table.search('').columns().search('').draw();
-            document.getElementById("dni_ruc");
             document.getElementById("nombre_contacto").value = ' ';
-            document.getElementById("cargo").value = ' ';
+            document.getElementById("dni_ruc").value = ' '
             document.getElementById("celular").value = ' ';
             document.getElementById("correo").value = ' ';
             document.getElementById("empresa").value = ' ';
+            document.getElementById("responsable_registro").value = ' ';
             document.getElementById("fecha_creacion").value = ' ';
-            document.getElementById("fecha_modificacion").value = ' ';
+
         }
     </script>
 

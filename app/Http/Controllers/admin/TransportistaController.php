@@ -93,8 +93,24 @@ class TransportistaController extends Controller
             $equipos->id_ubicacion = $request->id_ubicacion_t[$j];
             $equipos->modelo = $request->modelo_t[$j];
             $equipos->cantidad_ejes = $request->ejes_t[$j];
-            $nombre_imagen_equipo = $request->tipo;
             $equipos->save();
+
+            $id_transporte = $equipos->id;
+
+            $contador_imagenes = $request->input("contador_imagenes" . $j);
+
+            for ($z = 0; $z < $contador_imagenes; $z++) {
+                $imagen = new ImagenesTransportes;
+                $imagen_nuevo = $request->file("imagen" . $j);
+                $filename = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_EXTENSION);
+                $nombre_original = $filename . "." . $extension;
+                Storage::disk('imagenes_transporte')->putFileAs("",  $imagen_nuevo[$z], $id_transporte . "-" . $nombre_original);
+
+                $imagen->id_transporte = $id_transporte;
+                $imagen->nombre = $nombre_original;
+                $imagen->save();
+            }
         }
         $notification = array(
             'mensaje' => 'Transportista ' . $nombre_empresa . ' registrado correctamente!',
@@ -197,7 +213,6 @@ class TransportistaController extends Controller
                 $contacto_nuevo->save();
             }
         }
-        $mensaje_error = "";
         for ($j = 0; $j < $contador_t; $j++) {
             if (isset($request->id_transporte[$j])) {
                 $equipos = Vehiculo::where('id', $request->id_transporte[$j])->first();
@@ -216,18 +231,11 @@ class TransportistaController extends Controller
                 $equipos->cantidad_ejes = $request->ejes_t[$j];
                 $equipos->save();
                 $id_transporte = $equipos->id;
-                //////////////////////////////
-                // if (isset($request->eliminar_imagen[$j]) == TRUE) {
-                //     if (($request->eliminar_imagen[$j]) == 'si') {
-                //         $imagen = ImagenesTransportes::findOrFail($request->id_imagen[$j]);
-                //         $imagen->delete();
-                //     }
-                // }
-                /////////////////////////////
+
                 $input_id_imagen = $request->input("id_imagen" . $j);
                 $eliminar_imagen = $request->input("eliminar_imagen" . $j);
 
-                $contador_imagenes = $request->contador_imagenes;
+                $contador_imagenes = $request->input("contador_imagenes" . $j);
 
                 for ($z = 0; $z < $contador_imagenes; $z++) {
                     if (isset($eliminar_imagen[$z]) == TRUE) {
@@ -248,9 +256,7 @@ class TransportistaController extends Controller
                             $imagen_nuevo = $request->file("imagen" . $j);
                             $filename = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_FILENAME);
                             $extension = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_EXTENSION);
-
                             $nombre_original = $filename . "." . $extension;
-
                             Storage::disk('imagenes_transporte')->putFileAs("",  $imagen_nuevo[$z], $id_transporte . "-" . $nombre_original);
                             $imagen = new ImagenesTransportes;
                             $imagen->id_transporte = $id_transporte;
@@ -276,26 +282,27 @@ class TransportistaController extends Controller
                 $equipos_nuevo->cantidad_ejes = $request->ejes_t[$j];
                 $equipos_nuevo->save();
                 $id_transporte = $equipos_nuevo->id;
+
+
+                $input_id_imagen = $request->input("id_imagen" . $j);
+                $eliminar_imagen = $request->input("eliminar_imagen" . $j);
+
+                $contador_imagenes = $request->input("contador_imagenes" . $j);
+
+                for ($z = 0; $z < $contador_imagenes; $z++) {
+
+
+                    $imagen_nuevo = $request->file("imagen" . $j);
+                    $filename = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = pathinfo($imagen_nuevo[$z]->getClientOriginalName(), PATHINFO_EXTENSION);
+                    $nombre_original = $filename . "." . $extension;
+                    Storage::disk('imagenes_transporte')->putFileAs("",  $imagen_nuevo[$z], $id_transporte . "-" . $nombre_original);
+                    $imagen = new ImagenesTransportes;
+                    $imagen->id_transporte = $id_transporte;
+                    $imagen->nombre = $nombre_original;
+                    $imagen->save();
+                }
             }
-
-
-            // $f = 1;
-            // $eq_valida = $request->file("imagen" . $f);
-            // if (is_array($eq_valida) || is_object($eq_valida)) {
-            //     foreach ($request->file("imagen" . $f) as $documento) {
-            //         $filename = pathinfo($documento->getClientOriginalName(), PATHINFO_FILENAME);
-            //         $extension = pathinfo($documento->getClientOriginalName(), PATHINFO_EXTENSION);
-
-            //         $nombre_original = $filename . "." . $extension;
-            //         Storage::disk('imagenes_transporte')->putFileAs("", $documento, $id_transporte . "-" . time() .  "-" . $nombre_original);
-            //         $imagen = new ImagenesTransportes;
-            //         $imagen->id_transporte = $id_transporte;
-            //         $imagen->nombre = $id_transporte . "-" . time() . "-" .  $nombre_original;
-            //         $imagen->ruta = "imagenes/transporte";
-            //         $imagen->save();
-            //         $f++;
-            //     }
-            // }
         }
         $notification = array(
             'mensaje' => 'Transportista actualizado correctamente!',

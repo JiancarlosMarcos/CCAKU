@@ -2,7 +2,21 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
+    <br>
 
+    <div class="app-title">
+        <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-primary"
+                style="background:#777;border-color:#777">Dashboards</a>
+            <a href="{{ route('videos') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Videos</a>
+            <a href="{{ route('registros') }}" class="btn btn-primary "
+                style="color:#777;background:#fff;border-color:#777">Mis
+                Registros</a>
+
+            <p></p>
+        </div>
+    </div>
 @stop
 
 @section('content')
@@ -340,7 +354,7 @@
         const myChart6 = new Chart(ctx6, {
             type: 'doughnut',
             data: {
-                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui','Brandon', 'Sarah', 'Christopher',
+                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui', 'Brandon', 'Sarah', 'Christopher',
                     'Gean Carlos Armacanqui Mitma'
                 ],
                 datasets: [{
@@ -389,7 +403,7 @@
         const myChart61 = new Chart(ctx61, {
             type: 'pie',
             data: {
-                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui','Brandon', 'Sarah', 'Christopher',
+                labels: ['Jairo Espinoza Quispe', 'Jose Armacanqui', 'Brandon', 'Sarah', 'Christopher',
                     'Gean Carlos Armacanqui Mitma'
                 ],
                 datasets: [{
@@ -438,12 +452,14 @@
         const myChart62 = new Chart(ctx62, {
             type: 'doughnut',
             data: {
-                labels: ['Jairo Espinoza Quispe', 'Jiancarlos', 'Jose Armacanqui','Brandon', 'Sarah', 'Christopher',
+                labels: ['Jairo Espinoza Quispe', 'Jiancarlos', 'Jose Armacanqui', 'Brandon', 'Sarah',
+                    'Christopher',
                     'Gean Carlos Armacanqui Mitma'
                 ],
                 datasets: [{
                     label: 'Datos generales',
-                    data: [{{ $jairo_c }}, {{$jiancarlos_c}}, {{ $jose_armacanqui_c }}, {{ $brandon_c }},
+                    data: [{{ $jairo_c }}, {{ $jiancarlos_c }}, {{ $jose_armacanqui_c }},
+                        {{ $brandon_c }},
                         {{ $sarah_c }}, {{ $chistofer_c }}, {{ $gean_c }}
                     ],
                     backgroundColor: [

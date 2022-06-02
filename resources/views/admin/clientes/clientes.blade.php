@@ -42,17 +42,17 @@
 
                 <a class="btn btn-primary " onclick="LimpiarFiltros();"
                     style="margin-rigth:auto;width:140px;
-                                                                                font-size:14px;background:#ECDCC2;border-color:#777">
+                                                                                                                                                font-size:14px;background:#ECDCC2;border-color:#777">
                     <i class="fas fa-filter" aria-hidden="true"></i> Limpiar Filtros </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Eliminar();" id="eliminar"
                     style="margin-rigth:auto;width:140px;yo
-                                                                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                                                                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-trash" aria-hidden="true"></i> Eliminar </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="btn btn-primary" onclick="Editar();" id="editar"
                     style="margin-rigth:auto;width:140px;display:block;
-                                                                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
+                                                                                                                                                font-size:14px;background:#ECDCC2;border-color:#777;color:#777">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editar </a>
 
                 <a class="btn btn-primary btn-sm" href="{{ route('clientes.formulario.agregar') }}"
@@ -80,22 +80,24 @@
                                 <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web"
                                         data-column="4" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                        id="fecha_creacion" data-column="5" /></td>
+                                        id="responsable_registro" data-column="5" /></td>
                                 <td><input autocomplete="off" type="text" class="form-control filter-input"
-                                        id="fecha_modificacion" data-column="6" /></td>
+                                        id="fecha_creacion" data-column="6" /></td>
+
+
 
                                 <td></td>
 
                             </tr>
                             <tr style="background:#00000099;color:#fff;border:3px solid #fff">
 
-                                <th>Nombre</th>
-                                <th>DNI/RUC</th>
-                                <th>Tipo de<br>Cliente</th>
+                                <th>Razon Social</th>
+                                <th>RUC</th>
+                                <th>Tipo</th>
                                 <th>Direccion</th>
                                 <th>Pagina Web</th>
-                                <th>Fecha de<br>Creacion</th>
-                                <th>Fecha de<br>Modificacion</th>
+                                <th>Responsable Registro</th>
+                                <th>Fecha de<br>Registro</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -133,17 +135,19 @@
                         data: 'pagina_web'
                     },
                     {
-                        data: 'created_at'
+                        data: 'responsable_registro'
                     },
                     {
-                        data: 'updated_at'
+                        data: 'created_at'
                     },
                     {
                         data: 'btn_clientes'
                     },
 
                 ],
-
+                "order": [
+                    [6, "desc"]
+                ],
                 "pageLength": 10,
                 "lengthMenu": [10, 50],
 
@@ -181,8 +185,8 @@
             document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
             document.getElementById("direccion").value = ' ';
             document.getElementById("pagina_web").value = ' ';
+            document.getElementById("responsable_registro").value = ' ';
             document.getElementById("fecha_creacion").value = ' ';
-            document.getElementById("fecha_modificacion").value = ' ';
         }
     </script>
 

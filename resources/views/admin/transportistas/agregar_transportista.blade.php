@@ -32,6 +32,57 @@
         margin-top: -50px
     }
 
+    .tooltip.top .tiptext {
+        margin-left: -60px;
+        bottom: 150%;
+        left: 50%;
+    }
+
+    .tooltip.top .tiptext::after {
+        margin-left: -5px;
+        top: 100%;
+        left: 50%;
+        border-color: #2E2E2E transparent transparent transparent;
+    }
+
+    .modalContainer {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modalContainer .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid lightgray;
+        border-top: 10px solid #cf8d13;
+        height: 90%;
+        width: 60%;
+    }
+
+    .modalContainer .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .modalContainer .close:hover,
+    .modalContainer .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
 </style>
 <div class="centrado" id="onload">
     <div class="lds-ring">
@@ -43,7 +94,7 @@
     Cargando...
 </div>
 <!---->
-<form method="POST" action="{{ route('agregar_transportista') }}">
+<form method="POST" action="{{ route('agregar_transportista') }}" enctype="multipart/form-data">
     @csrf
     @include('notificacion')
     <div class="form-card" style="color:#000">
@@ -153,13 +204,14 @@
                     <td style="width:8%">Marca<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:8%">Modelo<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:7%">Placa<b style="color:#B61A1A;outline:none">(*)</b></td>
-                    <td style="width:4%">Cant. Ejes</td>
+                    {{-- <td style="width:4%">Cant. Ejes</td>
                     <td style="width:8%">Capacidad</td>
                     <td style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
-                    <td style="width:5%">Año</td>
+                    <td style="width:5%">Año</td> --}}
                     <td style="width:12%">Ubicacion<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:12%">Estado<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:8%">Propio/Subarrendado<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td style="width:5%">Imagenes</td>
                     <td style="text-align:center;width:6%">Eliminar</td>
                 </tr>
             </thead>
@@ -186,7 +238,7 @@
 <script>
     $(document).ready(function() {
         var j = $(".transportes").length;
-
+        var img = 0;
         $('#add_transporte').click(function() {
 
             $('#tabla_transporte').append(
@@ -205,8 +257,6 @@
                 '<option value="Tracto">Tracto</option>' +
                 '<option value="Modulares">Modulares</option>' +
                 '</select>' +
-
-
 
                 '</td>' +
 
@@ -230,25 +280,25 @@
 
                 '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="ejes_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="ejes_t[]" ' +
+                // 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="capacidad_t[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="capacidad_t[]" ' +
+                // 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="volumen_t[]" ' +
-                'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="volumen_t[]" ' +
+                // 'autocomplete="off" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="anio_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="anio_t[]" ' +
+                // 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
                 '<td>' +
                 '<select name="id_ubicacion_t[]" " class="form-control " required>' +
@@ -276,6 +326,49 @@
                 '</select>' +
                 '</td>' +
 
+                '<td style="text-align:center">' +
+                '<a id="btnModal" onclick="abrirModal(' + j +
+                ')" href="#"><i style="font-size: 2rem" class="fa-solid fa-image"></i></a>' +
+                '<div id="myModal' + j + '" class="modalContainer">' +
+                '<div class="modal-content">' +
+                '<span class="close">×</span>' +
+                '<div class="row">' +
+                '<div class="col-md-3">' +
+                ' <label class="control-label">Cant. Ejes</label>' +
+                '<input type="text" name="ejes_t[]" autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<label class="control-label">Capacidad(TN)</label>' +
+                '<input type="text" name="capacidad_t[]" autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<label class="control-label">Dimensiones</label>' +
+                '<input type="text" name="volumen_t[]" autocomplete="off" class="form-control" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" style="background:#77777710" >' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<label class="control-label">Año</label>' +
+                '<input type="text" name="anio_t[]" autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</div>' +
+                ' </div>' +
+                '<br>' +
+                '<h2>Imagenes:</h2>' +
+                '<div id="imagenes' + j + '" class="imagenes' + j +
+                '" style="overflow-y: scroll;	display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center;align-items: center;align-content: stretch;">' +
+                '</div>' +
+                '<br>' +
+                '<div class="row">' +
+                '<div class="col-md-12" style="display: flex;justify-content: center;">' +
+                '<br>' +
+                '<a class="btn btn-primary" onclick="agregar_imagen(' + j + ',' + img +
+                ');" name="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;font-size:13px;background:#F1CF98;border-color:#777">' +
+                '<i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen</a>' +
+                '</div>' +
+                '</div>' +
+                '<input type="hidden" id="contador_imagenes' + j + '" name="contador_imagenes' + j +
+                '" value="' + img + '">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
 
                 '<td style="text-align:center">' +
                 '<button type="button" onclick="eliminar_fila(' + j +
@@ -435,6 +528,147 @@
         $('.contenido').removeClass('hidden');
     }
 </script>
+<script>
+    function abrirModal(j) {
+        // vista_previa(j);
+        var modal = document.getElementById("myModal" + j);
+        var span = document.getElementsByClassName("close")[j];
+        var body = document.getElementsByTagName("body")[0];
+
+
+        modal.style.display = "block";
+        body.style.position = "static";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
+
+        span.onclick = function() {
+            modal.style.display = "none";
+            body.style.position = "inherit";
+            body.style.height = "auto";
+            body.style.overflow = "visible";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+
+                body.style.position = "inherit";
+                body.style.height = "auto";
+                body.style.overflow = "visible";
+            }
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function vista_previa(j, img) {
+        $('#image' + j + img).change(function(e) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#showImage' + j + img).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(e.target.files['0']);
+        });
+
+
+
+    }
+</script>
+
+<script>
+    /*const $imagen1 = document.querySelector("#image1");
+    $imagen1.addEventListener("change", () => {
+
+        document.getElementById("contador_imagenes").value++;
+    });
+    */
+    function remover1(j, img) {
+        if (!confirm("¿Estas seguro de eliminar esta imagen?")) return;
+        document.getElementById("eliminar_imagen" + j + img).value = "si";
+        const imagen = document.getElementById("image" + j + img);
+
+        document.getElementById("image" + j + img).value = "";
+        document.getElementById("showImage" + j + img).src = "{{ asset('image/imagendefault.png') }}";
+        // $('.contenedor-imagen' + img).addClass('hidden');
+    }
+
+    function remover2(j, img) {
+
+        $('.contenedor-imagen' + img).remove();
+
+        $('#contador_imagenes' + j).val(parseInt($('#contador_imagenes' + j).val()) - 1);
+        // console.log(val);
+    }
+
+    function editar1(j, img) {
+        document.getElementById("eliminar_imagen" + j + img).value = "editar";
+        const imagen = document.getElementById("image" + j + img);
+
+        document.getElementById("image" + j + img).value = "";
+        document.getElementById("showImage" + j + img).src = "{{ asset('image/imagendefault.png') }}";
+    }
+</script>
+<script>
+    function agregar_imagen(j, i) {
+
+
+
+        var img = $('#contador_imagenes' + j).val();
+        vista_previa(j, img);
+        //var cantidad_imagenes=img-1;
+        var nro = parseInt(img) + 1;
+
+        $('#imagenes' + j).append(
+            '<div class="contenedor-imagen' + img + '">' +
+            '<h6><b>Imagen Nro.' + nro + '</b></h6>' +
+            '<div class ="row">' +
+            '<div class="col-md-6">' +
+            '<label class="fieldlabels">Cargar imagen:</label>' +
+            '<input type="file" name="imagen' + j + '[]" accept="image/*" id="image' + j + img +
+            '"/>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class ="row">' +
+            '<div class="col-md-12">' +
+            '<label class="fieldlabels">Vista Previa:</label>' +
+            '<div class="form-group">' +
+            '<img id="showImage' + j + img +
+            '" class="ix1" src="{{ asset('image/imagendefault.png') }}" alt="" style="width:300px; height:150px; border-radius:20px">' +
+            '<a class="btn btn-danger icon-btn btn_remove_image" onclick="remover2(' + j + ',' + img +
+            ')" style="color:#dc3545;background:transparent">' +
+            '<i class="fas fa-trash"></i>' +
+            '</a>' +
+            '<input type="hidden" id="eliminar_imagen' + j + img + '"  name="eliminar_imagen' + j +
+            '[]" value="nuevo">' +
+            '</div>' +
+            '</div>' +
+
+
+            '</div>'
+
+        );
+
+        vista_previa(j, img);
+        const $imagen = document.querySelector("#image" + j + img);
+        img++;
+        //$imagen.addEventListener("change", () => {
+
+        document.getElementById("contador_imagenes" + j).value++;
+        //});
+
+
+        // $(document).on('click', '.btn_remove_image', function() {
+
+        //     document.getElementById("contador_imagenes" + j).value--;
+
+
+        // });
+    }
+</script>
+
+
+
 @endsection
 
 @section('css')

@@ -57,7 +57,7 @@ class TransportistaVehiculosController extends Controller
         );
         $dni_ruc = $request->dni_ruc;
 
-        if (strlen($dni_ruc) == '11') {
+        if (strlen($dni_ruc) == '11' and substr($dni_ruc, 0, 2) == "20") {
             $tipo_empresa = '1';
         } else {
             $tipo_empresa = '2';

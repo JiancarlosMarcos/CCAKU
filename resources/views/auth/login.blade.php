@@ -21,8 +21,8 @@
         <p class="subtitle" style="color:#7f7f7f"><b>Inicia sesión</b></p>
         <x-slot name="logo">
             <figure class="avatar" style="padding: 0">
-                <img style="width: 130px; height:124px; background:#7f7f7f39; border-color:#d9d9d9;border-width:3px;border-style:solid"
-                    src="{{ url('/image/logo-cuadrado.jpg') }}">
+                <img style="width: 200px; height:200px;padding:1rem;border-radius:1rem; background-color: rgb(46, 46, 46); border-color:#d9d9d9;border-width:3px;border-style:solid"
+                    src="{{ url('/image/logo-apay-copia.png') }}">
             </figure>
         </x-slot>
 

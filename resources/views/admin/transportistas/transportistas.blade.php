@@ -75,8 +75,7 @@
                             </td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="direccion"
                                     data-column="3" /></td>
-                            <td><input autocomplete="off" type="text" class="form-control filter-input" id="pagina_web"
-                                    data-column="4" /></td>
+
                             <td><input autocomplete="off" type="text" class="form-control filter-input"
                                     id="nro_contactos" data-column="5" /></td>
                             <td><input autocomplete="off" type="text" class="form-control filter-input" id="nro_equipos"
@@ -93,9 +92,8 @@
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
                             <th>Razon Social</th>
                             <th>RUC</th>
-                            <th>Tipo de<br>Transportista</th>
+                            <th>Tipo</th>
                             <th>Direccion</th>
-                            <th>Pagina Web</th>
                             <th>Contactos</th>
                             <th>Equipos</th>
                             <th>Responsable<br>de Registro</th>
@@ -135,9 +133,6 @@
                     data: 'direccion'
                 },
                 {
-                    data: 'pagina_web'
-                },
-                {
                     data: 'nro_contactos'
                 },
                 {
@@ -155,7 +150,7 @@
 
             ],
             "order": [
-                [8, "desc"]
+                [7, "desc"]
             ],
             "pageLength": 10,
             "lengthMenu": [10, 50],
@@ -194,7 +189,6 @@
         document.getElementById("dni_ruc").value = ' ';
         document.getElementById("select_tipo_empresa").options.item(0).selected = 'selected';
         document.getElementById("direccion").value = ' ';
-        document.getElementById("pagina_web").value = ' ';
         document.getElementById("nro_contactos").value = ' ';
         document.getElementById("nro_equipos").value = ' ';
         document.getElementById("responsable_registro").value = ' ';
