@@ -6,6 +6,23 @@
 @stop
 
 @section('content')
+    <style>
+        #lista::-webkit-scrollbar {
+            width: 10px;
+            background-color: #F5F5F5;
+        }
+
+        #lista::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+        }
+
+        #lista::-webkit-scrollbar-thumb {
+            background-color: #F90;
+            background-image: -webkit-linear-gradient(90deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
+        }
+
+    </style>
     <div class="botones">
         <a class="boton" href="{{ route('mapa_todos_transportes_admin') }}">Transportes</a>
         <a class="boton" href="{{ route('mapa_requerimientos_admin') }}">Requerimientos</a>
@@ -14,7 +31,7 @@
     </div>
     <a class="mostrar-lista" id="mostrar-lista" onclick="mostrar_lista()"><i class="fa-solid fa-caret-down"></i></a>
     <a class="ocultar-lista hidden" id="ocultar-lista" onclick="ocultar_lista()"><i class="fa-solid fa-caret-up"></i></a>
-    <div id="lista" class="encontrados hidden">
+    <div id="lista" style="overflow: auto;direction: rtl; height:80vh" class="encontrados hidden">
         @if ($transportes != null)
             <ul class="lista-encontrados">
                 @foreach ($transportes as $transporte)

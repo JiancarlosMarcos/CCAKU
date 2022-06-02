@@ -23,27 +23,10 @@ class CargasController extends Controller
     public function vista_cargas(Request $request)
     {
 
-        return DataTables::of(VistaCarga::select(
-            'id',
-            'id_cliente',
-            'empresa',
-            'tipo',
-            'marca',
-            'modelo',
-            'placa',
-            'volumen',
-            'largo',
-            'ancho',
-            'altura',
-            'peso',
-            'unidad_medida_peso',
-            'ubicacion',
-            'created_at',
-            'updated_at'
-        ))
-            // ->editColumn('created_at', function (VistaCarga $prueba) {
-            //     return $prueba->created_at->format('d/m/Y');
-            // })
+        return DataTables::of(VistaCarga::all())
+            ->editColumn('created_at', function (VistaCarga $prueba) {
+                return $prueba->created_at->format('d/m/Y');
+            })
             ->addColumn('btn_cargas', 'admin.botones.btn_cargas')
             ->rawColumns(['btn_cargas'])
             ->toJson();

@@ -151,8 +151,8 @@
                             <th>Dimensiones<br>(Largo x Ancho x Alto) Metros</th>
                             <th>Peso</th>
                             <th>Ubicacion</th>
-                            <th>Fecha de<br>Creacion</th>
-                            <th>Fecha de<br>Modificacion</th>
+                            <th>Responsable<br>Registro</th>
+                            <th>Fecha de<br>Registro</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -201,10 +201,10 @@
                     data: 'ubicacion'
                 },
                 {
-                    data: 'created_at'
+                    data: 'responsable_registro'
                 },
                 {
-                    data: 'updated_at'
+                    data: 'created_at'
                 },
                 {
                     data: 'btn_cargas'

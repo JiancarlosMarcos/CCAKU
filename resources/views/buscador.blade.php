@@ -68,7 +68,7 @@
         <center style="margin-top:-17px;margin-left:-450px">
             <img class="logo"
                 style="position:absolute;z-index:-1;margin-top:-54px;width:750px;margin-left:-131px"
-                src='{{ url('/image/fondo_buscador.png') }}'>
+                src="{{ url('/image/logo-apay-copia.png') }}">>
         </center>
 
         <center style="margin-top:-17px"> <a href="https://www.mdnperu.com"><img class="logo"

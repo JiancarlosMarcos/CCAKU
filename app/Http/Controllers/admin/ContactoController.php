@@ -33,22 +33,15 @@ class ContactoController extends Controller
     public function vista_clientes_contactos(Request $request)
     {
 
-        return DataTables::of(Vista_Clientes_Contactos::select(
-            'id',
-            'dni',
-            'nombre',
-            'cargo',
-            'celular',
-            'correo',
-            'empresa',
-            'created_at',
-            'updated_at',
-        ))
+        return DataTables::of(Vista_Clientes_Contactos::all())
             ->editColumn('created_at', function (Vista_Clientes_Contactos $prueba) {
                 return $prueba->created_at->format('d/m/Y');
-            })
-            ->editColumn('updated_at', function (Vista_Clientes_Contactos $prueba) {
-                return $prueba->updated_at->format('d/m/Y');
+            })->editColumn('responsable_registro', function (Vista_Clientes_Contactos $prueba) {
+                if ($prueba->responsable_registro == null) {
+                    return "Registro Propio";
+                } else {
+                    return $prueba->responsable_registro;
+                }
             })
             ->addColumn('btn_clientes_contactos', 'admin.botones.btn_clientes_contactos')
             ->rawColumns(['btn_clientes_contactos'])

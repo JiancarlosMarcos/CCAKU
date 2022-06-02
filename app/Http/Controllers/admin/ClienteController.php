@@ -24,9 +24,16 @@ class ClienteController extends Controller
     {
         $clientes = VistaCliente::all();
         return DataTables::of($clientes)
-            // ->editColumn('created_at', function (Cliente $prueba) {
-            //     return $prueba->created_at->format('d/m/Y');
-            // })
+            ->editColumn('created_at', function (VistaCliente $prueba) {
+                return $prueba->created_at->format('d/m/Y');
+            })
+            ->editColumn('responsable_registro', function (VistaCliente $prueba) {
+                if ($prueba->responsable_registro == null) {
+                    return "Sistema";
+                } else {
+                    return $prueba->responsable_registro;
+                }
+            })
             ->addColumn('btn_clientes', 'admin.botones.btn_clientes')
             ->rawColumns(['btn_clientes'])
             ->toJson();
@@ -45,7 +52,7 @@ class ClienteController extends Controller
         );
         $dni_ruc = $request->dni_ruc;
 
-        if (strlen($dni_ruc) == '11') {
+        if (strlen($dni_ruc) == '11' and substr($dni_ruc, 0, 2) == "20") {
             $tipo_empresa = '1';
         } else {
             $tipo_empresa = '2';
@@ -125,7 +132,7 @@ class ClienteController extends Controller
         );
         $dni_ruc = $request->dni_ruc;
 
-        if (strlen($dni_ruc) == '11') {
+        if (strlen($dni_ruc) == '11' and substr($dni_ruc, 0, 2) == "20") {
             $tipo_empresa = '1';
         } else {
             $tipo_empresa = '2';
@@ -191,7 +198,7 @@ class ClienteController extends Controller
                 $contacto_nuevo->cargo = $request->cargo[$i];
                 $contacto_nuevo->correo = $request->correo[$i];
                 $contacto_nuevo->id_cliente = $id;
-                // $contacto_nuevo->responsable_registro = $usuario;
+                $contacto_nuevo->responsable_registro = $usuario;
                 $contacto_nuevo->save();
             }
         }

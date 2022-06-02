@@ -85,12 +85,12 @@
                             <td></td>
                         </tr>
                         <tr style="background:#00000099;color:#fff;border:3px solid #fff">
-                            <th>DNI</th>
                             <th>Nombre</th>
-                            <th>Cargo</th>
+                            <th>DNI</th>
                             <th>Celular</th>
                             <th>Correo</th>
                             <th>Empresa</th>
+                            <th>Responsable<br>Registro</th>
                             <th>Fecha<br>de Registro</th>
                             <th>Acciones</th>
                         </tr>
@@ -116,13 +116,10 @@
             serverSider: true,
             ajax: '{{ route('lista_transportistas_contactos') }}',
             columns: [{
-                    data: 'dni'
-                },
-                {
                     data: 'nombre'
                 },
                 {
-                    data: 'cargo'
+                    data: 'dni'
                 },
                 {
                     data: 'celular'
@@ -134,9 +131,11 @@
                     data: 'empresa'
                 },
                 {
+                    data: 'responsable_registro'
+                },
+                {
                     data: 'created_at'
                 },
-
                 {
                     data: 'btn_transportistas_contactos'
                 }

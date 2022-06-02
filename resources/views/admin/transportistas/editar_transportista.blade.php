@@ -63,6 +63,7 @@
         padding: 20px;
         border: 1px solid lightgray;
         border-top: 10px solid #cf8d13;
+        height: 90%;
         width: 60%;
     }
 
@@ -167,69 +168,70 @@
         <!---->
     </div>
 
+    <div class="row" style="overflow-x: auto; overflow-y: hidden;">
 
+        <input type="hidden" name="ids_eliminar" id="ids_eliminar">
+        <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
 
-    <input type="hidden" name="ids_eliminar" id="ids_eliminar">
-    <table class="table table-bordered" id="dynamic_field" style="border: 1px solid #123;background:#fff">
-
-        <thead>
-            <tr>
-                <td>Nombres<b style="color:#B61A1A;outline:none">(*)</b></td>
-                <td>Dni</td>
-                <td>Celular<b style="color:#B61A1A;outline:none">(*)</b></td>
-                <td>Cargo</td>
-                <td>Correo</td>
-                <td style="text-align:center">Eliminar</td>
-            </tr>
-        </thead>
-        <?php 
+            <thead>
+                <tr>
+                    <td>Nombres<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td>Dni</td>
+                    <td>Celular<b style="color:#B61A1A;outline:none">(*)</b></td>
+                    <td>Cargo</td>
+                    <td>Correo</td>
+                    <td style="text-align:center">Eliminar</td>
+                </tr>
+            </thead>
+            <?php 
 
 
         for($i=0;$i<$contador;$i++){
      ?>
-        <tr id="row<?php echo $i; ?>" class="contactos">
-            <td>
-                <input type="text" name="nombre_contacto[]" id="nombre_contacto'+i+'" autocomplete="off"
-                    style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}"
-                    required>
+            <tr id="row<?php echo $i; ?>" class="contactos">
+                <td>
+                    <input type="text" name="nombre_contacto[]" id="nombre_contacto'+i+'" autocomplete="off"
+                        style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                        class="form-control" style="background:#77777710" value="{{ $contactos[$i]->nombre }}"
+                        required>
 
-                <input type="hidden" name="id_contacto[]" id="id_contacto<?php echo $i; ?>" autocomplete="off"
-                    class="form-control" style="background:#77777710" value="{{ $contactos[$i]->id }}">
-            </td>
+                    <input type="hidden" name="id_contacto[]" id="id_contacto<?php echo $i; ?>" autocomplete="off"
+                        class="form-control" style="background:#77777710" value="{{ $contactos[$i]->id }}">
+                </td>
 
-            <td>
-                <input type="number" name="dni[]" autocomplete="off" class="form-control" style="background:#77777710"
-                    maxlength="8"
-                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                    value="{{ $contactos[$i]->dni }}">
-            </td>
+                <td>
+                    <input type="number" name="dni[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" maxlength="8"
+                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        value="{{ $contactos[$i]->dni }}">
+                </td>
 
-            <td>
-                <input type="number" name="celular[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $contactos[$i]->celular }}" required>
-            </td>
+                <td>
+                    <input type="number" name="celular[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $contactos[$i]->celular }}" required>
+                </td>
 
-            <td>
-                <input type="text" name="cargo[]" autocomplete="off" class="form-control" style="background:#77777710"
-                    style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    value="{{ $contactos[$i]->cargo }}">
-            </td>
+                <td>
+                    <input type="text" name="cargo[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" style="text-transform:uppercase;"
+                        onkeyup="javascript:this.value=this.value.toUpperCase();"
+                        value="{{ $contactos[$i]->cargo }}">
+                </td>
 
-            <td>
-                <input type="text" name="correo[]" autocomplete="off" class="form-control"
-                    style="background:#77777710" value="{{ $contactos[$i]->correo }}">
-            </td>
+                <td>
+                    <input type="text" name="correo[]" autocomplete="off" class="form-control"
+                        style="background:#77777710" value="{{ $contactos[$i]->correo }}">
+                </td>
 
-            <td style="text-align:center">
-                <button type="button" id="{{ $i }}" class="btn btn-danger btn_remove_data">X</button>
-            </td>
-        </tr>
-        <?php }?>
+                <td style="text-align:center">
+                    <button type="button" id="{{ $i }}" class="btn btn-danger btn_remove_data">X</button>
+                </td>
+            </tr>
+            <?php }?>
 
 
-    </table>
-
+        </table>
+    </div>
 
     <div class="col-md-3">
         <div class="form-group">
@@ -241,24 +243,27 @@
 
     <!--TABLA EQUIPOS DE TRANSPORTE--><br>
     <h4>Datos de Transporte</h4>
-    <div class="row">
+    <div class="row" style="overflow-x: auto; overflow-y: hidden;">
         <input type="hidden" name="ids_eliminar_t" id="ids_eliminar_t">
-        <table class="table table-bordered" id="tabla_transporte" style="border: 1px solid #123;background:#fff">
+        <table class="table table-bordered" id="tabla_transporte" style="border: 1px solid #123;background:#fff;">
 
             <thead>
                 <tr>
                     <td style="width:10%">Tipo Transporte<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:8%">Marca<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:8%">Modelo<b style="color:#B61A1A;outline:none">(*)</b></td>
-                    <td style="width:7%">Placa<b style="color:#B61A1A;outline:none">(*)</b></td>
-                    <td style="width:4%">Cant. Ejes</td>
+                    <td style="width:7%">Placa<b style="color:#B61A1A;outline:none">(*)</b> <i
+                            class="fa-solid fa-circle-question" data-toggle="tooltip"
+                            data-original-title="Escribir placa sin guion (-)"></i></td>
+                    {{-- <td style="width:4%">Cant. Ejes</td>
                     <td style="width:8%">Capacidad</td>
                     <td style="width:12%">Dimensiones<br>(Largo x Ancho x Alto) Metros</td>
-                    <td style="width:5%">Año</td>
+                    <td style="width:5%">Año</td> --}}
                     <td style="width:12%">Ubicacion<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:10%">Estado<b style="color:#B61A1A;outline:none">(*)</b></td>
                     <td style="width:10%">Propio/Subarrendado<b style="color:#B61A1A;outline:none">(*)</b></td>
-                    <td style="text-align:center;width:6%">Eliminar</td>
+                    <td style="width:5%">Imagenes</td>
+                    <td style="text-align:center;width:4%">Eliminar</td>
                 </tr>
             </thead>
             <?php 
@@ -289,86 +294,6 @@
                         <option value="Tracto">Tracto</option>
                         <option value="Modulares">Modulares</option>
                     </select>
-                    {{-- <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
-                            class="fa-solid fa-image"></i></a> --}}
-                    <div id="myModal<?php echo $j; ?>" class="modalContainer">
-                        <div class="modal-content">
-                            <span class="close">×</span>
-                            <h2>Imagenes de {{ $transportes[$j]->tipo }}:</h2>
-                            <div id="imagenes{{ $j }}" class="imagenes{{ $j }}">
-
-                                <?php $img = 0; ?>
-                                @foreach ($imagenes as $imagen)
-                                    @if ($imagen->id_transporte == $transportes[$j]->id)
-                                        <h6><b>Imagen Nro.{{ $img }}</b></h6>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label class="fieldlabels">Cargar imagen:</label>
-                                                <input type="file" name="imagen{{ $j }}[]" accept="image/*"
-                                                    onclick="editar1({{ $j }},{{ $img }})"
-                                                    id="image{{ $j . $img }}" />
-                                                <!--image01 - image02 - image11 - image 12-->
-                                            </div>
-                                        </div>
-                                        <?php
-                                        $nombre_imagen_final = $transportes[$j]->id . '-' . $imagen->nombre;
-                                        ?>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label class="fieldlabels">Vista Previa:</label>
-                                                <div class="form-group">
-                                                    <img id="showImage{{ $j . $img }}" class="ix1"
-                                                        src="{{ route('descargar_vehiculo_imagen', $nombre_imagen_final) }}"
-                                                        alt="" style="width:300px; height:150px;">
-                                                    <a class="btn btn-danger icon-btn btn_remove_image"
-                                                        onclick="remover1({{ $j }},{{ $img }})"
-                                                        style="color:#dc3545;background:transparent">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-
-                                                    <input type="text" value="{{ $imagen->nombre }}"
-                                                        name="nombre_imagen[]">
-                                                    <input type="text" value="{{ $imagen->id_transporte }}"
-                                                        name="id_transporte_imagen[]">
-                                                    <input type="text" value="{{ $imagen->id }}"
-                                                        name="id_imagen{{ $j }}[]">
-                                                    <input type="text" id="eliminar_imagen{{ $j . $img }}"
-                                                        name="eliminar_imagen{{ $j }}[]">
-                                                    <input type="text"
-                                                        name="array_contador_imagenes{{ $j }}[]">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php
-                                        echo '<script>';
-                                        echo 'vista_previa(' . $j . ',' . $img . ');';
-                                        echo '</script>';
-                                        $img++;
-                                        
-                                        ?>
-                                    @endif
-                                @endforeach
-
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <a class="btn btn-primary"
-                                                onclick="agregar_imagen({{ $j }},{{ $img }});"
-                                                name="add_imagen" id="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;
-                                    font-size:13px;background:#F1CF98;border-color:#777">
-                                                <i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                            <input type="text" id="contador_imagenes{{ $j }}"
-                                name="contador_imagenes{{ $j }}" value="{{ $img }}">
-
-
-                        </div>
 
                 </td>
 
@@ -394,7 +319,7 @@
                     <input type="text" disabled value="" class="validar_placa" id="valida_placa{{ $j }}">
                 </td>
 
-                <td>
+                {{-- <td>
                     <input type="text" name="ejes_t[]" autocomplete="off" class="form-control"
                         style="background:#77777710" value="{{ $transportes[$j]->cantidad_ejes }}">
                 </td>
@@ -412,7 +337,7 @@
                 <td>
                     <input type="text" name="anio_t[]" autocomplete="off" class="form-control"
                         style="background:#77777710" value="{{ $transportes[$j]->anio }}">
-                </td>
+                </td> --}}
 
                 <td>
                     <select name="id_ubicacion_t[]" class="form-control " style="background:#77777710">
@@ -450,9 +375,123 @@
 
                     </select>
                 </td>
+                <td style="text-align: center">
+                    <a id="btnModal" onclick="abrirModal({{ $j }})" href="#"><i style="font-size: 2rem"
+                            class="fa-solid fa-image"></i></a>
+                    <div id="myModal<?php echo $j; ?>" class="modalContainer">
+                        <div class="modal-content">
+                            <span class="close">×</span>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="control-label">Cant. Ejes</label>
+                                    <input type="text" name="ejes_t[]" autocomplete="off" class="form-control"
+                                        value="{{ $transportes[$j]->cantidad_ejes }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Capacidad(TN)</label>
+                                    <input type="text" name="capacidad_t[]" autocomplete="off" class="form-control"
+                                        value="{{ $transportes[$j]->capacidad }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Dimensiones &nbsp;(M) &nbsp;<i
+                                            class="fa-solid fa-circle-question" data-toggle="tooltip"
+                                            data-original-title="Largo X Ancho X Alto "></i></label>
+                                    <input type="text" name="volumen_t[]" autocomplete="off" class="form-control"
+                                        style="text-transform:uppercase;"
+                                        onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                        value="{{ $transportes[$j]->volumen }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Año</label>
+                                    <input type="text" name="anio_t[]" autocomplete="off" class="form-control"
+                                        value="{{ $transportes[$j]->anio }}">
+                                </div>
+                            </div>
+
+                            <br>
+                            <h2>Imagenes de {{ $transportes[$j]->tipo }}:</h2>
+                            <div id="imagenes{{ $j }}" class="imagenes{{ $j }}"
+                                style="overflow-y: scroll;	display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center;align-items: center;align-content: stretch;">
+
+                                <?php $img = 0; ?>
 
 
-                <td>
+
+                                @foreach ($imagenes as $imagen)
+                                    @if ($imagen->id_transporte == $transportes[$j]->id)
+                                        <div class="contenedor-imagen"
+                                            style="display:flex;flex-direction:column;margin:5px;">
+                                            <h6><b>Imagen Nro.{{ $img + 1 }}</b></h6>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="file" name="imagen{{ $j }}[]"
+                                                        accept="image/*"
+                                                        onclick="editar1({{ $j }},{{ $img }})"
+                                                        id="image{{ $j . $img }}" />
+                                                </div>
+                                            </div>
+                                            <?php
+                                            $nombre_imagen_final = $transportes[$j]->id . '-' . $imagen->nombre;
+                                            ?>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <br>
+                                                    <div class="form-group">
+                                                        <img id="showImage{{ $j . $img }}" class="ix1"
+                                                            src="{{ route('descargar_vehiculo_imagen', $nombre_imagen_final) }}"
+                                                            style="width:300px; height:150px;border-radius:20px;border:2px solid black">
+                                                        <a class="btn btn-danger icon-btn btn_remove_image"
+                                                            onclick="remover1({{ $j }},{{ $img }})"
+                                                            style="color:#dc3545;background:transparent">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+
+                                                        <input type="hidden" value="{{ $imagen->nombre }}"
+                                                            name="nombre_imagen[]">
+                                                        <input type="hidden" value="{{ $imagen->id_transporte }}"
+                                                            name="id_transporte_imagen[]">
+                                                        <input type="hidden" value="{{ $imagen->id }}"
+                                                            name="id_imagen{{ $j }}[]">
+                                                        <input type="hidden" id="eliminar_imagen{{ $j . $img }}"
+                                                            name="eliminar_imagen{{ $j }}[]">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <?php
+                                        echo '<script>';
+                                        echo 'vista_previa(' . $j . ',' . $img . ');';
+                                        echo '</script>';
+                                        $img++;
+                                        
+                                        ?>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12" style="display: flex;justify-content: center;">
+                                    <br>
+                                    <a class="btn btn-primary"
+                                        onclick="agregar_imagen({{ $j }},{{ $img }});"
+                                        name="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;
+            font-size:13px;background:#F1CF98;border-color:#777">
+                                        <i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen</a>
+                                </div>
+                            </div>
+                            <input type="hidden" id="contador_imagenes{{ $j }}"
+                                name="contador_imagenes{{ $j }}" value="{{ $img }}">
+
+                        </div>
+
+
+
+                    </div>
+                </td>
+
+                <td style="text-align: center">
                     <button type="button" id="{{ $j }}" class="btn btn-danger btn_remove_data_t">X</button>
 
                 </td>
@@ -460,15 +499,15 @@
             <?php }?>
         </table>
 
-        <div class="col-md-2">
-            <div class="form-group">
-                <a class="btn btn-primary" name="add_transporte" id="add_transporte" style="margin-rigth:auto;width:100%;font-weight:700;
-     font-size:14px;background:#ECDCC2;border-color:#777">
-                    ++ Agregar Equipo de Transporte </a>
-            </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <a class="btn btn-primary" name="add_transporte" id="add_transporte" style="margin-rigth:auto;width:100%;font-weight:700;
+ font-size:14px;background:#ECDCC2;border-color:#777">
+                ++ Agregar Equipo de Transporte </a>
         </div>
     </div>
-
 
     <div class="col-md-12" style="text-align:center">
         <div class="form-group">
@@ -572,7 +611,7 @@
 <script>
     $(document).ready(function() {
         var j = $(".transportes").length;
-
+        var img = 0;
         $('#add_transporte').click(function() {
 
             $('#tabla_transporte').append(
@@ -591,6 +630,8 @@
                 '<option value="Tracto">Tracto</option>' +
                 '<option value="Modulares">Modulares</option>' +
                 '</select>' +
+
+
                 '</td>' +
 
                 '<td>' +
@@ -611,25 +652,25 @@
                 '<input type="text" disabled value="" class="validar_placa" id="valida_placa' + j +
                 '" required>' +
 
-                '<td>' +
-                '<input type="text"  name="ejes_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="ejes_t[]" ' +
+                // 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="capacidad_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="capacidad_t[]" ' +
+                // 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="volumen_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="volumen_t[]" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"' +
+                // 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
-                '<td>' +
-                '<input type="text"  name="anio_t[]" ' +
-                'autocomplete="off" class="form-control" style="background:#77777710" >' +
-                '</td>' +
+                // '<td>' +
+                // '<input type="text"  name="anio_t[]" ' +
+                // 'autocomplete="off" class="form-control" style="background:#77777710" >' +
+                // '</td>' +
 
                 '<td>' +
                 '<select name="id_ubicacion_t[]" required  class="form-control " >' +
@@ -655,6 +696,50 @@
                 '<option value="PROPIO">PROPIO</option>' +
                 '<option value="SUBARRENDADO">SUBARRENADO</option>' +
                 '</select>' +
+                '</td>' +
+
+                '<td style="text-align:center">' +
+                '<a id="btnModal" onclick="abrirModal(' + j +
+                ')" href="#"><i style="font-size: 2rem" class="fa-solid fa-image"></i></a>' +
+                '<div id="myModal' + j + '" class="modalContainer">' +
+                '<div class="modal-content">' +
+                '<span class="close">×</span>' +
+                '<div class="row">' +
+                '<div class="col-md-3">' +
+                ' <label class="control-label">Cant. Ejes</label>' +
+                '<input type="text" name="ejes_t[]" autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<label class="control-label">Capacidad(TN)</label>' +
+                '<input type="text" name="capacidad_t[]" autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<label class="control-label">Dimensiones</label>' +
+                '<input type="text" name="volumen_t[]" autocomplete="off" class="form-control" style="text-transform:uppercase;"  onkeyup="javascript:this.value=this.value.toUpperCase();" style="background:#77777710" >' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<label class="control-label">Año</label>' +
+                '<input type="text" name="anio_t[]" autocomplete="off" class="form-control" style="background:#77777710" >' +
+                '</div>' +
+                ' </div>' +
+                '<br>' +
+                '<h2>Imagenes:</h2>' +
+                '<div id="imagenes' + j + '" class="imagenes' + j +
+                '" style="overflow-y: scroll;	display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center;align-items: center;align-content: stretch;">' +
+                '</div>' +
+                '<br>' +
+                '<div class="row">' +
+                '<div class="col-md-12" style="display: flex;justify-content: center;">' +
+                '<br>' +
+                '<a class="btn btn-primary" onclick="agregar_imagen(' + j + ',' + img +
+                ');" name="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;font-size:13px;background:#F1CF98;border-color:#777">' +
+                '<i class="fa fa-image" style="font-size:18px"></i> Agregar Imagen</a>' +
+                '</div>' +
+                '</div>' +
+                '<input type="hidden" id="contador_imagenes' + j + '" name="contador_imagenes' + j +
+                '" value="' + img + '">' +
+                '</div>' +
+                '</div>' +
                 '</td>' +
 
                 '<td style="text-align:center">' +
@@ -798,11 +883,21 @@
     });
     */
     function remover1(j, img) {
+        if (!confirm("¿Estas seguro de eliminar esta imagen?")) return;
         document.getElementById("eliminar_imagen" + j + img).value = "si";
         const imagen = document.getElementById("image" + j + img);
 
         document.getElementById("image" + j + img).value = "";
         document.getElementById("showImage" + j + img).src = "{{ asset('image/imagendefault.png') }}";
+        // $('.contenedor-imagen' + img).addClass('hidden');
+    }
+
+    function remover2(j, img) {
+
+        $('.contenedor-imagen' + img).remove();
+
+        $('#contador_imagenes' + j).val(parseInt($('#contador_imagenes' + j).val()) - 1);
+        // console.log(val);
     }
 
     function editar1(j, img) {
@@ -814,19 +909,20 @@
     }
 </script>
 <script>
-    function agregar_imagen(j, img) {
-        //j=0
+    function agregar_imagen(j, i) {
+
+
+
+        var img = $('#contador_imagenes' + j).val();
         vista_previa(j, img);
-
         //var cantidad_imagenes=img-1;
-
-
+        var nro = parseInt(img) + 1;
 
         $('#imagenes' + j).append(
-            '<center><h6><b>Imagen Nro.' + img + '</b></h6></center>' +
+            '<div class="contenedor-imagen' + img + '" >' +
+            '<h6><b>Imagen Nro.' + nro + '</b></h6>' +
             '<div class ="row">' +
             '<div class="col-md-6">' +
-            '<label class="fieldlabels">Cargar imagen:</label>' +
             '<input type="file" name="imagen' + j + '[]" accept="image/*" id="image' + j + img +
             '"/>' +
             '</div>' +
@@ -834,31 +930,21 @@
 
             '<div class ="row">' +
             '<div class="col-md-12">' +
-            '<label class="fieldlabels">Vista Previa:</label>' +
+            '<br>' +
             '<div class="form-group">' +
             '<img id="showImage' + j + img +
-            '" class="ix1" src="{{ asset('image/imagendefault.png') }}" alt="" style="width:300px; height:150px;">' +
-            '<a class="btn btn-danger icon-btn btn_remove_image" onclick="remover1(' + j + img +
+            '" class="ix1" src="{{ asset('image/imagendefault.png') }}" alt="" style="width:300px; height:150px; border-radius:20px">' +
+            '<a class="btn btn-danger icon-btn btn_remove_image" onclick="remover2(' + j + ',' + img +
             ')" style="color:#dc3545;background:transparent">' +
             '<i class="fas fa-trash"></i>' +
             '</a>' +
-            '<input type="text" id="eliminar_imagen' + j + img + '"  name="eliminar_imagen' + j +
+            '<input type="hidden" id="eliminar_imagen' + j + img + '"  name="eliminar_imagen' + j +
             '[]" value="nuevo">' +
             '</div>' +
             '</div>' +
 
-            '<div class="row">' +
-            '<div class="col-md-3">' +
-            '<div class="form-group">' +
-            '<a class="btn btn-primary"' +
-            'onclick="agregar_imagen(' + j + ',' + (img + 1) + ');"' +
-            ' name="add_imagen" id="add_imagen" style="margin-rigth:auto;width:220px;font-weight:700;' +
-            ' font -size: 13 px; background: #F1CF98; border - color: #777">' +
-            ' <i class= "fa fa-image" style = "font-size:18px" > </i> Agregar Imagen++ </a>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
 
+            '</div>'
 
         );
 
@@ -871,20 +957,15 @@
         //});
 
 
-        $(document).on('click', '.btn_remove_image', function() {
+        // $(document).on('click', '.btn_remove_image', function() {
+
+        //     document.getElementById("contador_imagenes" + j).value--;
 
 
-            if (!confirm("¿Estas seguro de eliminar esta imagen?")) return;
-
-
-        });
+        // });
     }
 </script>
-<script>
-    function cambiar_id($img) {
 
-    }
-</script>
 @endsection
 @section('css')
 @include('admin.datatable')

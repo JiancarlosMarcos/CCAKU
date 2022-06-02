@@ -146,6 +146,7 @@ class ClienteCargasController extends Controller
                 $equipos_nuevo->marca = $request->marca_c[$j];
                 $equipos_nuevo->modelo = $request->modelo_c[$j];
                 $equipos_nuevo->placa = $request->placa_c[$j];
+                $equipos_nuevo->responsable_registro = $usuario;
                 $equipos_nuevo->estado = "OPERATIVO";
                 $equipos_nuevo->unidad_medida_peso = "TN";
                 $equipos_nuevo->save();

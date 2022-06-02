@@ -9,42 +9,15 @@
     <div id="app" class="container">
         <br><br><br><br>
 
-        <center>
-            <a href="{{ route('mapa_transportes', 'camabaja') }}">
-                <img class="logo" style="margin-left:-300px;width:35px;height:35px"
-                    src='{{ url('/image/icono_1.png') }}'>
-            </a>
-        </center>
 
-        <center style="margin-top:-28px;position:relative;">
-            <a href="{{ route('mapa_transportes', 'tracto') }}">
-                <img class="logo" style="margin-left:365px;width:35px;height:35px"
-                    src='{{ url('/image/icono_3.png') }}'>
-            </a>
-        </center>
-        <!--fondo de buscador-->
-        <center style="margin-top:-17px;margin-left:-450px">
-            <img class="logo" style="position:absolute;z-index:-1;margin-top:-54px;width:750px;margin-left:-131px"
-                src='{{ url('/image/fondo_buscador.png') }}'>
-        </center>
+
+
+
 
         <center style="margin-top:-17px"> <a href="https://www.mdnperu.com"><img class="logo"
-                    style="max-height: 93px;margin-top:-26px" src='{{ url('/image/sin-fondo.png') }}'></a>
+                    style="width:200px;height: 200px;margin-top:-26px" src="{{ url('/image/logo-apay-copia.png') }}"></a>
         </center>
 
-        <center style="margin-top:-21px">
-            <a href="{{ route('mapa_transportes', 'camion%20plataforma') }}">
-                <img class="logo" style="margin-left:310px;width:35px;height:35px"
-                    src='{{ url('/image/icono_4.png') }}'>
-            </a>
-        </center>
-
-        <center style="margin-top:-45px">
-            <a href="{{ route('mapa_transportes', 'camacuna') }}">
-                <img class="logo" style=" margin-left:-330px;width:35px;height:35px"
-                    src='{{ url('/image/icono_2.png') }}'>
-            </a>
-        </center>
 
         <br><br>
 
